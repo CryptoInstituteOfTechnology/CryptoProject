@@ -1,7 +1,7 @@
 // coinNames has the data in the way its suppposed to be fetched from the api
 //getting api key from env
 
-API_KEY = meta.env.VITE_COIN_GECKO_MARKET_DATA_API_KEY
+const API_KEY = meta.env.VITE_COIN_GECKO_MARKET_DATA_API_KEY
 
 
 
