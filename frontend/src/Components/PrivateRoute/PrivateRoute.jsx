@@ -5,9 +5,7 @@ import { Navigate } from "react-router-dom";
 const PrivateRoute = ({children}) =>{
     //navigates users to singup if they arent in a session(not logged in) they cant access protected routes
     const {session} = UserAuth
-    if (session === undefined){
-        return <p> Loading..</p>
-    }
+   
 
     return(
 
