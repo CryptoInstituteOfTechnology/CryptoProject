@@ -3,7 +3,6 @@
 import './App.css'
 import Signup from './Pages/Signup/Signup'
 //import { BrowserRouter, Routes, Route } from "react-router-dom"
-//import Home from './Pages/Home/Home.jsx'
 //import AssetView from './Pages/AssetView/AssetView.jsx'
 //import AllTickers from './Pages/AllTickers/AllTickers.jsx'
 //import News from './Pages/News/News.jsx'
