@@ -28,6 +28,44 @@ export const AuthContextProvider = ({ children }) => {
         return { success: true, data } //return that data was processed
     }
 
+    //sign out function
+    const signOut = () => {
+        //extract error if issues
+        const { error } = supabase.auth.signOut()
+        if (error) {
+            console.error(error)
+        }
+
+    }
+
+
+    //login / signin function
+
+    const logInUser = async ({ email, password }) => {
+        try {
+            const [data, error] = await supabase.auth.signInWithPassword({
+                email: email,
+                password: password,
+            })
+
+            if (error) {
+                console.error('sign in error occured', error)
+                return {success: false, error: error.message}
+            }
+
+            //for debug, return true if works
+            console.log("login success", data)
+            return {success: true, data}
+
+
+        } catch (error) {
+            console.error("error occured", error)
+        }
+
+    }
+
+
+
     //listen  for state change, only run once when page is loaded, loads what type of session user is in
     useEffect(() => {
         superbase.auth.getSession().then(({ data: { session } }) => {
@@ -40,19 +78,11 @@ export const AuthContextProvider = ({ children }) => {
         })
     }, [])
 
-    const signOut = () => {
-        //extract error if issues
-        const { error } = supabase.auth.signOut()
-        if (error) {
-            console.error(error)
-        }
 
-    }
 
-    //login function
 
     return (
-        <AuthContext.Provider value={{ session, signUpNewUser, signOut}}>
+        <AuthContext.Provider value={{ session, signUpNewUser, signOut }}>
             {children}
         </AuthContext.Provider>
     )

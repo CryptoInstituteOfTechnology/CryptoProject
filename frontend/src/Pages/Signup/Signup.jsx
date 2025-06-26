@@ -9,7 +9,7 @@ const Signup = () => {
     const [error, setError] = useState("")
     const [loading, setLoading] = useState("")
 
-    const {session, signUpNewUser} = UserAuth()
+    const {session, signUpNewUser, signOut} = UserAuth()
 
 
 
