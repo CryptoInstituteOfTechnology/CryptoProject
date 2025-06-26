@@ -9,7 +9,7 @@ const Login = () => {
     const [error, setError] = useState("")
     const [loading, setLoading] = useState("")
 
-    const { session, LogInUser } = UserAuth()
+    const { session, logInUser } = UserAuth()
     const navigate = useNavigate()
     //copied form signup page same logic, chnage var names
 
@@ -17,7 +17,7 @@ const Login = () => {
         e.preventDefault();
         setLoading(true);
         try {
-            const result = await  LogInUser(email, password);
+            const result = await logInUser(email, password);
 
             if (result.success) {
                 console.log(session)
