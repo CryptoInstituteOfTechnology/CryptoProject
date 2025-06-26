@@ -13,10 +13,10 @@ export const AuthContextProvider = ({ children }) => {
 
     //signup function
     //async dont want to wait for user to be processed befoe continuing
-    const signUpNewUser = async () => {
+    const signUpNewUser = async (email, password) => {
 
         // send supabase a new user to sign up
-        const [data, error] = await supabase.auth.signUp({
+        const { data, error } = await supabase.auth.signUp({
             email: email,
             password: password,
         })
@@ -25,8 +25,44 @@ export const AuthContextProvider = ({ children }) => {
             console.error("there was a problem signing up", error)
             return ({ success: false, error })
         }
+
         return { success: true, data } //return that data was processed
     }
+
+    const logInUser = async ({ email, password }) => {
+        try {
+            const { data, error } = await supabase.auth.signInWithPassword({
+                email: email,
+                password: password,
+            })
+
+            if (error) {
+                console.error('sign in error occured', error)
+                return { success: false, error: error.message }
+            }
+
+            //for debug, return true if works
+            console.log("login success", data)
+            return { success: true, data }
+
+
+        } catch (error) {
+            console.error("error occured", error)
+        }
+
+    }
+    //listen  for state change, only run once when page is loaded, loads what type of session user is in
+
+    useEffect(() => {
+        supabase.auth.getSession().then(({ data: { session } }) => {
+            setSession(session)
+        })
+
+        // _event because its ignored, we just need one because obj expects one
+        supabase.auth.onAuthStateChange((_event, session) => {
+            setSession(session)
+        })
+    }, [])
 
     //sign out function
     const signOut = () => {
@@ -39,50 +75,10 @@ export const AuthContextProvider = ({ children }) => {
     }
 
 
-    //login / signin function
-
-    const logInUser = async ({ email, password }) => {
-        try {
-            const [data, error] = await supabase.auth.signInWithPassword({
-                email: email,
-                password: password,
-            })
-
-            if (error) {
-                console.error('sign in error occured', error)
-                return {success: false, error: error.message}
-            }
-
-            //for debug, return true if works
-            console.log("login success", data)
-            return {success: true, data}
-
-
-        } catch (error) {
-            console.error("error occured", error)
-        }
-
-    }
-
-
-
-    //listen  for state change, only run once when page is loaded, loads what type of session user is in
-    useEffect(() => {
-        superbase.auth.getSession().then(({ data: { session } }) => {
-            setSession(session)
-        })
-
-        // _event because its ignored, we just need one because obj expects one
-        supabase.auth.onAuthStateChange((_event, session) => {
-            setSession(session)
-        })
-    }, [])
-
-
 
 
     return (
-        <AuthContext.Provider value={{ session, signUpNewUser, signOut }}>
+        <AuthContext.Provider value={{signUpNewUser, signOut,session,logInUser }}>
             {children}
         </AuthContext.Provider>
     )
