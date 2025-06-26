@@ -40,14 +40,19 @@ export const AuthContextProvider = ({ children }) => {
         })
     }, [])
 
-    const signOut = () =>{
+    const signOut = () => {
+        //extract error if issues
+        const { error } = supabase.auth.signOut()
+        if (error) {
+            console.error(error)
+        }
 
     }
 
     //login function
 
     return (
-        <AuthContext.Provider value={{ session, signUpNewUser }}>
+        <AuthContext.Provider value={{ session, signUpNewUser, signOut}}>
             {children}
         </AuthContext.Provider>
     )
