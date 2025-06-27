@@ -9,16 +9,16 @@ const COIN_GECKO_API_KEY = import.meta.env.VITE_COIN_GECKO_MARKET_DATA_API_KEY;
 const NEWS_API_KEY = import.meta.env.VITE_NEWS_DATA_NEWS_API_KEY;
 const baseUrlCoinGecko = 'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids='
 const coins = CoinNames
-const urlToCoinData = baseUrlCoinGecko + coins.ids.join('%2C') // json file of all cryptos, match then up for url
+const urlToCoinData = baseUrlCoinGecko + coins.ids.join('%2C') // json file of all cryptos, match then up for url, because we return we have to replace the old ones
 
 
 
 
 
 export default WebFetchContextProvider = ({ children }) => {
-    const [coinApiData, setCoinApiData] = useState({})
-    const [newsApiData, setNewsApiData] = useState({})
-    const [websocketData, setwebsocketData] = useState({})
+    const [coinApiData, setCoinApiData] = useState([])
+    const [newsApiData, setNewsApiData] = useState([])
+    const [websocketData, setWebsocketData] = useState([]) // have to look how this comes in prod, may have to handle diff
 
 
 
@@ -32,6 +32,7 @@ export default WebFetchContextProvider = ({ children }) => {
                     method: 'GET',
                     headers: {
                         'Accept': 'application/json',
+                        'x-cg-demo-api-key': COIN_GECKO_API_KEY,
                     },
                 }
             );
@@ -49,12 +50,16 @@ export default WebFetchContextProvider = ({ children }) => {
     };
 
     const fetchNewsData = async () => {
-        try{
-
-        }catch(error){
-            
+        try {
+            const response = await fetch(`https://newsdata.io/api/1/latest?apikey=${NEWS_API_KEY}`);
+            if (!response.ok) throw new Error(`NewsData API error: ${response.status}`);
+            const data = await response.json();
+            setNewsApiData(data);
+        } catch (error) {
+            console.error("NewsData fetch failed:", error);
         }
-    }
+    };
+
 
 
     //run when called upon, webstream is constant so doesnt matter
