@@ -6,6 +6,8 @@ import { router } from './Components/Router/router.jsx'
 import NavBar from './Components/NavBar/NavBar.jsx'
 import Footer from './Components/Footer/Footer.jsx'
 import { AuthContextProvider } from './context/AuthContext.jsx'
+import { WebFetchContextProvider } from './context/Webfetching/WebFetchContext.jsx'
+
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -15,7 +17,9 @@ createRoot(document.getElementById('root')).render(
         Hi Guys
       </h1>
       <AuthContextProvider>
-        <RouterProvider router={router} />
+        <WebFetchContextProvider>
+          <RouterProvider router={router} />
+        </WebFetchContextProvider>
       </AuthContextProvider>
       <Footer />
     </>
