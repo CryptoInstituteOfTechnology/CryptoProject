@@ -3,7 +3,14 @@
 
 const API_KEY = meta.env.VITE_COIN_GECKO_MARKET_DATA_API_KEY
 
-
+function getCoinData(){
+  fetch('./coinNames.json')
+  .then(data =>{
+    data =>{
+      
+    }
+  })
+}
 
 //have to use httpie
 // http GET 'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=%20' \
