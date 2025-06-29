@@ -16,7 +16,7 @@ export default function fetchPrices(dataCallback) {
         return () => { }; // return empty cleanup function
     }
 
-    fetch('./tickers.json')
+    fetch('./data/tickers.json')
         .then(response => response.json())
         .then(data => {
             const baseUrl = 'wss://fstream.binance.com/stream?streams=';

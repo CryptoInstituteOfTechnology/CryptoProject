@@ -1,21 +1,29 @@
 import { createContext, useState, useEffect } from "react";
-import CoinNames from "./coinNames.json"
+import CoinNames from "./data/coinNames.json"
 import fetchPrices from "./websocketStream"
+import { apiCaching } from "./apiCaching"; // function that uses local storage and refetches on a certain time base
 
-const webFetchedContext = createContext()
+
+const webFetchedContext = createContext()//global object for data we can use across compoenents
+const COIN_GECKO_API_KEY = import.meta.env.VITE_COIN_GECKO_MARKET_DATA_API_KEY; //api key to coingeck
+const NEWS_API_KEY = import.meta.env.VITE_NEWS_DATA_NEWS_API_KEY; // api key to news
 
 
-const COIN_GECKO_API_KEY = import.meta.env.VITE_COIN_GECKO_MARKET_DATA_API_KEY;
-const NEWS_API_KEY = import.meta.env.VITE_NEWS_DATA_NEWS_API_KEY;
+// url logic to coin website, have a json file wiht coinnames to build url
 const baseUrlCoinGecko = 'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids='
 const coins = CoinNames
 const urlToCoinData = baseUrlCoinGecko + coins.ids.join('%2C') // json file of all cryptos, match then up for url, because we return we have to replace the old ones
 
 
 
+//
 
+// stream coinprices live using website
+// use local storage for coinmetadata and news api, we dont need to fetch them everytime so store on users browser and update once a day
 
 export default WebFetchContextProvider = ({ children }) => {
+
+
     const [coinApiData, setCoinApiData] = useState([])
     const [newsApiData, setNewsApiData] = useState([])
     const [websocketData, setWebsocketData] = useState([]) // have to look how this comes in prod, may have to handle diff
@@ -23,40 +31,29 @@ export default WebFetchContextProvider = ({ children }) => {
 
 
 
-
+    //fetches new coin data every hour and uses local storage, have 10k api calls ax
     const fetchCoinData = async () => {
-        try {
-            const response = await fetch(
-                urlToCoinData,
-                {
-                    method: 'GET',
-                    headers: {
-                        'Accept': 'application/json',
-                        'x-cg-demo-api-key': COIN_GECKO_API_KEY,
-                    },
-                }
-            );
+        const data = await useCachedAPI({
 
-            if (!response.ok) {
-                throw new Error(`error ${response.status}`);
-            }
 
-            const data = await response.json(); // wait for data payload
-            setCoinApiData(data) //set coindata
+        })
 
-        } catch (error) {
-            console.error('Fetch error:', error); // error throw
+
+        if (data) {
+            setCoinApiData(data)
         }
     };
 
+
+    //fetches new news every day, only have 200 api calls a month
     const fetchNewsData = async () => {
-        try {
-            const response = await fetch(`https://newsdata.io/api/1/latest?apikey=${NEWS_API_KEY}`);
-            if (!response.ok) throw new Error(`NewsData API error: ${response.status}`);
-            const data = await response.json();
-            setNewsApiData(data);
-        } catch (error) {
-            console.error("NewsData fetch failed:", error);
+        const data = await useCachedAPI({
+
+        })
+
+
+        if (data) {
+            setNewsApiData(data)
         }
     };
 
@@ -86,11 +83,8 @@ export default WebFetchContextProvider = ({ children }) => {
             {children}
         </webFetchedContext.Provider>
     )
-
-
-
-
 }
+
 
 
 
