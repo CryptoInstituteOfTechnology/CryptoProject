@@ -14,20 +14,20 @@
         "qtum",
         "iota",
         "neo",
-        "ethereum-classic",
+        "arbitrum",
         "vechain",
         "ontology",
-        "basic-attention-token",
         "chainlink",
         "tezos",
         "ravencoin",
         "dogecoin",
-        "polygon",
         "solana",
         "polkadot",
-        "avalanche-2",
-        "terra-luna",
         "fantom",
-        "the-sandbox"
+        "stellar",
+        "aptos",
+        "optimism",
+        "blur",
+        "kaspa"
     ]
 }

@@ -50,6 +50,7 @@ const WebFetchContextProvider = ({ children }) => {
 
         if (data) {
             setCoinApiData(data)
+            console.log(data)
         }
     };
 
@@ -64,6 +65,7 @@ const WebFetchContextProvider = ({ children }) => {
 
         if (data) {
             setNewsApiData(data)
+            console.log(data)
         }
     };
 
