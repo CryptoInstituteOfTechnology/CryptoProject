@@ -13,9 +13,6 @@ createRoot(document.getElementById('root')).render(
   <StrictMode>
     <>
       <NavBar />
-      <h1>
-        Hi Guys
-      </h1>
       <AuthContextProvider>
         <WebFetchContextProvider>
           <RouterProvider router={router} />
