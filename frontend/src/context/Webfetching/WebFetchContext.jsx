@@ -50,7 +50,7 @@ const WebFetchContextProvider = ({ children }) => {
 
         if (data) {
 
-            console.log(data)
+
             setCoinApiData(data)
         }
     };
