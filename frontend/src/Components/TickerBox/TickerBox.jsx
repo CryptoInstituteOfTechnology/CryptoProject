@@ -1,5 +1,8 @@
 
 import { useState, useEffect } from 'react'
+import { TableCell } from '../ui/table'
+
+
 //data is passed down from each box to TickerBox
 
 
@@ -35,10 +38,13 @@ export default function TickerBox({ coinData, livePrice }) {
     return (
         <div className="ticker-container">
 
-            <h1>{coinData.symbol.toUpperCase()}</h1>
-            <h2> {livePrice}</h2>
+            <TableCell>{coinData.symbol.toUpperCase()}</TableCell>
+            <TableCell> {livePrice}</TableCell>
+            <TableCell>
             <button onClick={addToWatchlist}> Add to Watchlist</button>
+            </TableCell>
             {/* Form to add shares to portfolio */}
+           <TableCell> 
             <form onSubmit={addToPortfolio}>
                 <input
                     type="number"
@@ -48,6 +54,7 @@ export default function TickerBox({ coinData, livePrice }) {
                 />
                 <button type="submit">Add to Portfolio</button>
             </form>
+            </TableCell>
         </div>
     )
 }
