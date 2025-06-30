@@ -5,8 +5,7 @@ import { useState } from 'react'
 
 // when star is clicked, add to watchlist
 // when add to portoflio clicked, call to add to portfolio
-
-
+// optional amount for portfolio amonut
 export default function TickerBox({ dataStreamed, dataFetched }) {
 
     //need a last price variable so you can turn red or green later

@@ -1,0 +1,33 @@
+{
+    "ids": [
+        "bitcoin",
+        "ethereum",
+        "binancecoin",
+        "litecoin",
+        "ripple",
+        "eos",
+        "tron",
+        "cardano",
+        "monero",
+        "dash",
+        "zcash",
+        "qtum",
+        "iota",
+        "neo",
+        "arbitrum",
+        "vechain",
+        "ontology",
+        "chainlink",
+        "tezos",
+        "ravencoin",
+        "dogecoin",
+        "solana",
+        "polkadot",
+        "fantom",
+        "stellar",
+        "sui",
+        "near",
+        "bch",
+        "etc"
+    ]
+}
