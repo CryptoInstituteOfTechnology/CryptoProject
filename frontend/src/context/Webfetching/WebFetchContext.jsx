@@ -74,7 +74,7 @@ const WebFetchContextProvider = ({ children }) => {
     useEffect(() => {
         fetchCoinData()
         fetchNewsData()
-
+        
 
         const cleanup = fetchPrices((liveData) => {
             setWebsocketData(liveData);
