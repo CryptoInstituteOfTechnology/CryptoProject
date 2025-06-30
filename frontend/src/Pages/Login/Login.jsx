@@ -2,6 +2,9 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { UserAuth } from "../../context/AuthContext";
+import { Button } from "../../Components/ui/button";
+import { Input } from "../../Components/ui/input"
+import { Card, CardTitle, CardContent, CardAction } from "../../Components/ui/card"
 const Login = () => {
 
     const [email, setEmail] = useState("")
@@ -36,33 +39,46 @@ const Login = () => {
 
 
     return (
-        <div>
-            <form onSubmit={handleLogin} className="login-box">
-                <h2>Login</h2>
-                <p>
-                    No Account? Create one! <Link to='/'>Sign Up!</Link>
-                </p>
-                <div className="email-pass-box">
-                    <input
-                        placeholder="Email Address"
-                        type="email"
-                        id="email-input"
-                        onChange={(e) => setEmail(e.target.value)}
-                    />
+        <div className="max-w-md mx-auto p-4 md:p-6 lg:p-8">
+            <Card className="bg-white rounded-lg shadow-md">
+                <CardTitle>
+                    <CardContent>
+                        <form onSubmit={handleLogin} className="flex flex-col gap-6 login-box">
+                            <h2 className="text-3xl font-bold text-gray-900">Login</h2>
+                            <p className="text-sm text-gray-600">
+                                No Account? Create one! <Link to="/" className="text-blue-500 hover:text-blue-700">Sign Up!</Link>
+                            </p>
+                            <div className="grid gap-6 email-pass-box">
+                                <input
+                                    placeholder="Email Address"
+                                    type="email"
+                                    id="email-input"
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    className="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                                />
 
-                    <input
-                        placeholder="Password"
-                        type="password"
-                        id="password-input"
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
+                                <input
+                                    placeholder="Password"
+                                    type="password"
+                                    id="password-input"
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    className="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                                />
 
-                    <button className="login-button" disabled={loading}>Login</button>
-                    {error && <p>{error}</p>}
-                </div>
-            </form>
+                                <button
+                                    className="login-button w-full py-2 px-4 bg-blue-500 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-400 disabled:hover:bg-gray-400"
+                                    disabled={loading}
+                                >
+                                    Login
+                                </button>
+                                {error && <p className="text-red-500 text-sm">{error}</p>}
+                            </div>
+                        </form>
+                    </CardContent>
+                </CardTitle>
+            </Card>
         </div>
-    )
+    );
 }
 
 export default Login
