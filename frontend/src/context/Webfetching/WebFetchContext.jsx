@@ -49,6 +49,8 @@ const WebFetchContextProvider = ({ children }) => {
 
 
         if (data) {
+
+
             setCoinApiData(data)
         }
     };
@@ -75,7 +77,6 @@ const WebFetchContextProvider = ({ children }) => {
         fetchCoinData()
         fetchNewsData()
         const cleanup = fetchPrices((liveData) => {
-            console.log("live update",liveData)
             setWebsocketData(liveData);
         });
 
@@ -95,7 +96,7 @@ const WebFetchContextProvider = ({ children }) => {
 }
 
 
-
+export {webFetchedContext}
 export default WebFetchContextProvider
 
 

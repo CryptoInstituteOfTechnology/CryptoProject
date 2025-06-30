@@ -1,5 +1,12 @@
 import React from 'react';
+import AllTickersView from '../../Components/AllTickersView/AllTickersView';
 
-export default function AllTickers() {
-    return <div>Hi, I'm AllTickers</div>;
+const AllTickers = () => {
+
+    return(
+        <AllTickersView/>
+    )
 }
+
+
+export default AllTickers

@@ -1,7 +1,7 @@
 import React from "react";
 import { UserAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
-//import AllTickersView from "../../Components/AllTickersView/AllTickersView"
+import AllTickersView from "../../Components/AllTickersView/AllTickersView"
 //import NewsView from "../../Components/NewsView/NewsView"
 
 const Dashboard = () => {
@@ -29,6 +29,7 @@ const Dashboard = () => {
                     onClick={handleSignOut}
                     className="sign-out">Sign Out
                 </p>
+                <AllTickersView/>
             </div>
         </div>
     )
