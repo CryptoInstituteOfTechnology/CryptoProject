@@ -11,11 +11,11 @@ const AllTickersView = () => {
             {coinApiData.map((coin) => {
                 const websocketPrice = websocketData[coin.id.toLowerCase()]
                 return (
-                    <TickerBox>
+                    <TickerBox
                         key = {coin.id}
                         coinData ={coin}
                         livePrice = {websocketPrice}
-                    </TickerBox>
+                    />
                 )
             })
 

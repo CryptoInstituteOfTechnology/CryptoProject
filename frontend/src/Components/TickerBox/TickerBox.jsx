@@ -14,20 +14,20 @@ export default function TickerBox({ coinData, livePrice }) {
 
 
     //function called add to watchlist, makes API call to backend to add to wathclist
-    // const addToWatchlist = (e) =>{
-    //     console.log(`added ${dataStreamed.s} to watch list`)
-    //     //api call to add
-    // }
+    const addToWatchlist = (e) => {
+        console.log(`added ${dataStreamed.s} to watch list`)
+        //     //api call to add
+    }
 
     //have to have logic to check if in watchlist alrready
 
 
 
     // //function called addtoPortoflio, makes api call to add to portfolio thing on backend
-    // const addToPortfolio =  (e) =>{
-    //     console.log(`just bought ${dataStreamed.s} at ${dataStreamed.p} with ${quantity} dshares!`)
-    //     //add to portfolio in tuple way (Name, Price)
-    // }
+    const addToPortfolio = (e) => {
+        console.log(`just bought ${dataStreamed.s} at ${dataStreamed.p} with ${quantity} dshares!`)
+        //     //add to portfolio in tuple way (Name, Price)
+    }
     // //need logic to check if in portfolio alr and if it is add more shares
 
 
