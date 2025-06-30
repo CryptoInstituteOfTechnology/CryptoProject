@@ -1,3 +1,33 @@
 {
-    "ids": "bitcoin, ethereum, binancecoin, litecoin, ripple, eos, tron, cardano, monero, dash, zcash, qtum, iota, neo, ethereum classic, vechain, ontology, batcoin, chainlink, tezos, ravencoin, dogecoin, polygon, solana, polkadot, avalanche, terra, fantom, sand"
+    "ids": [
+        "bitcoin",
+        "ethereum",
+        "binancecoin",
+        "litecoin",
+        "ripple",
+        "eos",
+        "tron",
+        "cardano",
+        "monero",
+        "dash",
+        "zcash",
+        "qtum",
+        "iota",
+        "neo",
+        "ethereum classic",
+        "vechain",
+        "ontology",
+        "batcoin",
+        "chainlink",
+        "tezos",
+        "ravencoin",
+        "dogecoin",
+        "polygon",
+        "solana",
+        "polkadot",
+        "avalanche",
+        "terra",
+        "fantom",
+        "sand"
+    ]
 }

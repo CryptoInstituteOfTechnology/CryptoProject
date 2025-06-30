@@ -27,7 +27,12 @@ export async function apiCaching({ url, timeBeforeNextFetch, cachingKey, methodT
             console.log(`error fetching data${response.status}`) // if error fetching 
         }
 
+        const data = await response.json()
 
+        localStorage.setItem(cachingKey,JSON.stringify(data)) //stack overflow
+        localStorage.setItem(`${cachingKey}_timestamp`, timeNow.toString()) // save timestamp
+
+        return data
 
     } catch (error) {
         if (cachedData) {
