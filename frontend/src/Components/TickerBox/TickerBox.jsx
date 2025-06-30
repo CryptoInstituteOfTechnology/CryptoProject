@@ -1,4 +1,4 @@
-import './TickerBox.css'
+
 import { useState } from 'react'
 //data is passed down from each box to TickerBox
 
@@ -6,42 +6,37 @@ import { useState } from 'react'
 // when star is clicked, add to watchlist
 // when add to portoflio clicked, call to add to portfolio
 // optional amount for portfolio amonut
-export default function TickerBox({ dataStreamed, dataFetched }) {
-
+export default function TickerBox({ coinData, livePrice }) {
+    if (!coinData) return <div>Loading...</div>;
+    
     //need a last price variable so you can turn red or green later
     //qauantity variable as well
     const [quantity, setQuantity] = useState(0)
 
-
-
     //function called add to watchlist, makes API call to backend to add to wathclist
-    const addToWatchlist = (e) =>{
-        console.log(`added ${dataStreamed.s} to watch list`)
-        //api call to add
-    }
+    // const addToWatchlist = (e) =>{
+    //     console.log(`added ${dataStreamed.s} to watch list`)
+    //     //api call to add
+    // }
 
     //have to have logic to check if in watchlist alrready
 
 
 
-    //function called addtoPortoflio, makes api call to add to portfolio thing on backend
-    const addToPortfolio =  (e) =>{
-        console.log(`just bought ${dataStreamed.s} at ${dataStreamed.p} with ${quantity} dshares!`)
-        //add to portfolio in tuple way (Name, Price)
-    }
-    //need logic to check if in portfolio alr and if it is add more shares
+    // //function called addtoPortoflio, makes api call to add to portfolio thing on backend
+    // const addToPortfolio =  (e) =>{
+    //     console.log(`just bought ${dataStreamed.s} at ${dataStreamed.p} with ${quantity} dshares!`)
+    //     //add to portfolio in tuple way (Name, Price)
+    // }
+    // //need logic to check if in portfolio alr and if it is add more shares
 
 
 
     return (
         <div className="ticker-container">
-            <h2>{dataStreamed.p}</h2>
-            <p>Price: ${dataStreamed.p}</p>
-            <p>Open: ${dataFetched.o}</p>
-            <p>Low: ${dataFetched.l}</p>
-            <p>High: ${dataFetched.h}</p>
-            <p>Close: ${dataFetched.c}</p>
-            <p>Total Volume Traded: {data.v}</p>
+            
+            <h1>{coinData.symbol.toUpperCase()}</h1>
+            <h2> {livePrice}</h2>
             <button onClick={addToWatchlist}> Add to Watchlist</button>
             {/* Form to add shares to portfolio */}
             <form onSubmit={addToPortfolio}>
