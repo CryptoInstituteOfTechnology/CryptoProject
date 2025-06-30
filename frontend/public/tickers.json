@@ -26,6 +26,6 @@
     "ftmusdt@markPrice",
     "xlmusdt@markPrice",
     "suiusdt@markPrice",
-    "nearusdt@markPrice",
+    "nearusdt@markPrice"
   ]
 }

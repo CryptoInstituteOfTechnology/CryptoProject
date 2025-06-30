@@ -8,6 +8,8 @@
 // websocketstream.js
 
 let socket = null;
+import { binancetoCoingecko } from "./binancetoCoingecko"; // mapping dict for prices
+let livePrices = {} // map for mapping
 
 export default function fetchPrices(dataCallback) {
     //socket is already open, don't open again, fixes unmounting
@@ -27,8 +29,14 @@ export default function fetchPrices(dataCallback) {
 
             socket.onmessage = (event) => {
                 const parsed = JSON.parse(event.data);
-                console.log(parsed)
-                dataCallback(parsed);
+                const symbol = parsed?.data?.s?.toLowerCase() // symbol lowercased from websocket bitcoin is btcusdt
+                const matchingCoin = binancetoCoingecko[symbol]
+
+
+                if (matchingCoin && parsed?.data?.p ){// if we have a match and theres a price add it to the call back array
+                    livePrices[matchingCoin] = parseFloat(parsed.data.p) // set to price in dictionary
+                    dataCallback({...livePrices});
+                }
             };
 
             socket.onping = () => {
