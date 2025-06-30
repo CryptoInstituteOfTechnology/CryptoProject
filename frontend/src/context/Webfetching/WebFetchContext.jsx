@@ -65,7 +65,6 @@ const WebFetchContextProvider = ({ children }) => {
 
         if (data) {
             setNewsApiData(data)
-            console.log(data)
         }
     };
 

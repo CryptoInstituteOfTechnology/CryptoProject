@@ -25,9 +25,9 @@
         "polkadot",
         "fantom",
         "stellar",
-        "aptos",
-        "optimism",
-        "blur",
-        "kaspa"
+        "sui",
+        "near",
+        "bch",
+        "etc"
     ]
 }

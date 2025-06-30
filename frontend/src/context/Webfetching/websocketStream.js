@@ -27,7 +27,7 @@ export default function fetchPrices(dataCallback) {
 
             socket.onmessage = (event) => {
                 const parsed = JSON.parse(event.data);
-          
+                console.log(parsed)
                 dataCallback(parsed);
             };
 
