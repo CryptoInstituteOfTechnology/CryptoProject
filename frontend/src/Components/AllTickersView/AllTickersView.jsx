@@ -10,23 +10,25 @@ const AllTickersView = () => {
     return (
         <Table>
             <TableCaption>All Crypto Assets</TableCaption>
-            {coinApiData.map((coin) => {
-                const websocketPrice = websocketData[coin.id.toLowerCase()]
-                return (
+            <TableBody>
+                {coinApiData.map((coin) => {
+                    const websocketPrice = websocketData[coin.id.toLowerCase()]
+                    return (
 
-                    <TableRow>
-                        <TableBody>
+                        <TableRow>
+
                             <TickerBox
                                 key={coin.id}
                                 coinData={coin}
                                 livePrice={websocketPrice}
                             />
-                        </TableBody>
-                    </TableRow>
-                )
-            })
 
-            }
+                        </TableRow>
+                    )
+                })
+
+                }
+            </TableBody>
 
         </Table>
     )
