@@ -1,5 +1,5 @@
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 //data is passed down from each box to TickerBox
 
 
@@ -7,11 +7,11 @@ import { useState } from 'react'
 // when add to portoflio clicked, call to add to portfolio
 // optional amount for portfolio amonut
 export default function TickerBox({ coinData, livePrice }) {
-    if (!coinData) return <div>Loading...</div>;
-    
+
     //need a last price variable so you can turn red or green later
     //qauantity variable as well
     const [quantity, setQuantity] = useState(0)
+
 
     //function called add to watchlist, makes API call to backend to add to wathclist
     // const addToWatchlist = (e) =>{
@@ -34,7 +34,7 @@ export default function TickerBox({ coinData, livePrice }) {
 
     return (
         <div className="ticker-container">
-            
+
             <h1>{coinData.symbol.toUpperCase()}</h1>
             <h2> {livePrice}</h2>
             <button onClick={addToWatchlist}> Add to Watchlist</button>
@@ -43,7 +43,7 @@ export default function TickerBox({ coinData, livePrice }) {
                 <input
                     type="number"
                     value={quantity}
-                    onChange= {(event) => setQuantity(event.target.valueAsNumber)} // Check that is a postiive number 
+                    onChange={(event) => setQuantity(event.target.valueAsNumber)} // Check that is a postiive number 
                     placeholder="Enter quantity"
                 />
                 <button type="submit">Add to Portfolio</button>
