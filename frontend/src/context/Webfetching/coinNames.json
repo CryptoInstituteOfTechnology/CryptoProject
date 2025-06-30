@@ -14,10 +14,10 @@
         "qtum",
         "iota",
         "neo",
-        "ethereum classic",
+        "ethereum-classic",
         "vechain",
         "ontology",
-        "batcoin",
+        "basic-attention-token",
         "chainlink",
         "tezos",
         "ravencoin",
@@ -25,9 +25,9 @@
         "polygon",
         "solana",
         "polkadot",
-        "avalanche",
-        "terra",
+        "avalanche-2",
+        "terra-luna",
         "fantom",
-        "sand"
+        "the-sandbox"
     ]
 }

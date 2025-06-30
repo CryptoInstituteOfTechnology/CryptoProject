@@ -1,5 +1,5 @@
 import { createContext, useState, useEffect } from "react";
-import CoinNames from "./data/coinNames.json"
+import CoinNames from "./coinNames.json"
 import fetchPrices from "./websocketStream"
 import { apiCaching } from "./apiCaching"; // function that uses local storage and refetches on a certain time base
 
@@ -59,7 +59,7 @@ const WebFetchContextProvider = ({ children }) => {
         const data = await apiCaching({
             url: newsUrl,
             timeBeforeNextFetch: 1000 * 60 * 60 * 24, // once a day
-            cachingKey: "catchedNewsData"
+            cachingKey: "cachedNewsData"
         })
 
         if (data) {
@@ -74,8 +74,6 @@ const WebFetchContextProvider = ({ children }) => {
     useEffect(() => {
         fetchCoinData()
         fetchNewsData()
-        
-
         const cleanup = fetchPrices((liveData) => {
             setWebsocketData(liveData);
         });
