@@ -2,6 +2,9 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { UserAuth } from "../../context/AuthContext";
+import { Button } from "../../Components/ui/button";
+import { Input } from "../../Components/ui/input"
+import { Card,CardTitle, CardContent, CardAction } from "../../Components/ui/card"
 const Signup = () => {
 
     const [email, setEmail] = useState("")
@@ -37,30 +40,34 @@ const Signup = () => {
 
     return (
         <div>
-            <form onSubmit={handleSignUp} className="signup-box">
-                <h2>Sign Up</h2>
-                <p>
-                    Already have an account? <Link to='/login'>Sign in!</Link>
-                </p>
-                <div className="email-pass-box">
-                    <input
-                        placeholder="Email Address"
-                        type="email"
-                        id="email-input"
-                        onChange={(e) => setEmail(e.target.value)}
-                    />
+            <Card>
+                <CardContent>
+                    <form onSubmit={handleSignUp} className="flex flex-col gap-6">
+                        <CardTitle>Sign Up</CardTitle>
+                        <CardAction>
+                            Already have an account? <Link to='/login'>Sign in!</Link>
+                        </CardAction>
+                        <div className="grid gap-6">
+                            <Input
+                                placeholder="Email Address"
+                                type="email"
+                                id="email-input"
+                                onChange={(e) => setEmail(e.target.value)}
+                            />
 
-                    <input
-                        placeholder="Password"
-                        type="password"
-                        id="password-input"
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
+                            <Input
+                                placeholder="Password"
+                                type="password"
+                                id="password-input"
+                                onChange={(e) => setPassword(e.target.value)}
+                            />
 
-                    <button className="sign-up-button" disabled={loading}>Sign Up</button>
-                    {error && <p>{error}</p>}
-                </div>
-            </form>
+                            <Button className="sign-up-button" disabled={loading}>Sign Up</Button>
+                            {error && <p>{error}</p>}
+                        </div>
+                    </form>
+                </CardContent>
+            </Card>
         </div>
     )
 }
