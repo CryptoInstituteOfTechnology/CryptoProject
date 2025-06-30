@@ -27,7 +27,5 @@
     "xlmusdt@markPrice",
     "suiusdt@markPrice",
     "nearusdt@markPrice",
-    "bchusdt@markPrice",
-    "etcusdt@markPrice"
   ]
 }

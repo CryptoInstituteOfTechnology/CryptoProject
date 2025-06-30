@@ -26,8 +26,6 @@
         "fantom",
         "stellar",
         "sui",
-        "near",
-        "bch",
-        "etc"
+        "near"
     ]
 }
