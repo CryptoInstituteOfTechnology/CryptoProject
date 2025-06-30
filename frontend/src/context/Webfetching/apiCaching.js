@@ -14,8 +14,7 @@ export async function apiCaching({ url, timeBeforeNextFetch, cachingKey, methodT
     if (cachedData && lastTimeFetched && timeNow - parseInt(lastTimeFetched) < timeBeforeNextFetch) {// have to use parseint bc lasttimefetched is a string
 
 
-        console.log("using fetched data") //debugging,will remove later
-        console.log(cachedData)
+        
         return JSON.parse(cachedData)
     }
 
@@ -32,7 +31,6 @@ export async function apiCaching({ url, timeBeforeNextFetch, cachingKey, methodT
 
         const data = await response.json()
 
-        console.log("data returned", data)
 
         localStorage.setItem(cachingKey,JSON.stringify(data)) //stack overflow
         localStorage.setItem(`${cachingKey}_timestamp`, timeNow.toString()) // save timestamp
