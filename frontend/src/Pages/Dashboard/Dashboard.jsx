@@ -2,6 +2,10 @@ import React from "react";
 import { UserAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import AllTickersView from "../../Components/AllTickersView/AllTickersView"
+import { Button } from "../../Components/ui/button";
+import { Input } from "../../Components/ui/input"
+import { Card, CardTitle, CardContent, CardAction } from "../../Components/ui/card"
+//import AllTickersView from "../../Components/AllTickersView/AllTickersView"
 //import NewsView from "../../Components/NewsView/NewsView"
 
 const Dashboard = () => {
