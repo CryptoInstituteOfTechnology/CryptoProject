@@ -16,10 +16,7 @@ const NewsCard = ({ news }) => {
                 <TableCell className="p-4">
                     <img src={news.IMAGE_URL} alt="image of news" className="w-24 h-auto" />
                 </TableCell>
-                <TableCell className="text-lg font-bold">{news.TITLE}</TableCell>
-                <TableCell className="text-sm text-gray-600">
-                    {new Date(news.PUBLISHED_ON * 1000).toLocaleDateString()}
-                </TableCell>
+                <TableCell className="text-lg font-bold">{new Date(news.PUBLISHED_ON * 1000).toLocaleDateString()} : {news.TITLE}</TableCell>
             </TableRow>
         </a>
     );
