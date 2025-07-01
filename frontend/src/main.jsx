@@ -12,13 +12,12 @@ import WebFetchContextProvider from './context/Webfetching/WebFetchContext.jsx'
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <div>
-      <NavBar />
       <AuthContextProvider>
         <WebFetchContextProvider>
-          <RouterProvider router={router} />
+          <RouterProvider router={router}/>
         </WebFetchContextProvider>
       </AuthContextProvider>
-      <Footer />
-      </div>
+
+    </div>
   </StrictMode>,
 )
