@@ -17,8 +17,6 @@ export async function apiCaching({ url, timeBeforeNextFetch, cachingKey, methodT
         
         return JSON.parse(cachedData)
     }
-
-
     // if first time fetching or time to late
 
     try {

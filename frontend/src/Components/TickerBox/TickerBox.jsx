@@ -13,7 +13,7 @@ export default function TickerBox({ coinData, livePrice }) {
 
     //need a last price variable so you can turn red or green later
     //qauantity variable as well
-   
+
     const [priceColor, setPriceColor] = useState('text-white') // track what color text will be
     const previousPrice = useRef(null) // useref so we dont lost the value when reloaded
 
@@ -47,26 +47,34 @@ export default function TickerBox({ coinData, livePrice }) {
 
 
     return (
-        <TableRow className = "border-4 border-black">
-            <TableCell>
-                <img src= {coinData.image} alt = {coinData.symbol}  style={{ width: '50px', height: 'auto' }} />
+        <TableRow className="border-4 border-black hover:bg-gray-100 transition-colors">
+            <TableCell className="p-4">
+                <img src={coinData.image} alt={coinData.symbol} className="w-12 h-auto" />
             </TableCell>
 
-            <TableCell>{coinData.symbol.toUpperCase()}</TableCell>
-            <TableCell className={priceColor}> {livePrice}</TableCell>
+            <TableCell className="text-lg font-bold">{coinData.symbol.toUpperCase()}</TableCell>
+            <TableCell className={`${priceColor} text-lg font-bold`}>{livePrice}</TableCell>
 
-            <TableCell>Volume:{coinData.total_volume}</TableCell>
-            <TableCell>High: {coinData.high_24h}</TableCell>
-            <TableCell>Low: {coinData.low_24h}</TableCell>
+            <TableCell className="text-sm">Volume: {coinData.total_volume}</TableCell>
+            <TableCell className="text-sm">High: {coinData.high_24h}</TableCell>
+            <TableCell className="text-sm">Low: {coinData.low_24h}</TableCell>
             <TableCell>
-                <button onClick={addToWatchlist} className='flex items-center gap-1 hover:bg-yellow-300  transition duration-300 ease-in-out rounded-lg'> 
-                    <h2>Add to Watchlist </h2>
-                    <h2 className="text-yellow-600">★</h2>
+                <button
+                    onClick={addToWatchlist}
+                    className="flex items-center gap-1 bg-yellow-200 hover:bg-yellow-400 transition duration-300 ease-in-out rounded-lg py-2 px-4"
+                >
+                    <h2 className="text-lg font-bold">Add to Watchlist</h2>
+                    <h2 className="text-yellow-600 text-2xl">★</h2>
                 </button>
             </TableCell>
-            <TableCell className="text-right">         
-                    <button className='hover:bg-yellow-300 rounded-lg transition duration-300 ease-in-out' type="submit">Add to Portfolio</button>
+            <TableCell className="text-right">
+                <button
+                    className="bg-yellow-200 hover:bg-yellow-400 rounded-lg transition duration-300 ease-in-out py-2 px-4"
+                    type="submit"
+                >
+                    Add to Portfolio
+                </button>
             </TableCell>
         </TableRow>
-    )
+    );
 }

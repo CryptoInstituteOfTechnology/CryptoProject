@@ -6,7 +6,7 @@ import { Button } from "../../Components/ui/button";
 import { Input } from "../../Components/ui/input"
 import { Card, CardTitle, CardContent, CardAction } from "../../Components/ui/card"
 //import AllTickersView from "../../Components/AllTickersView/AllTickersView"
-//import NewsView from "../../Components/NewsView/NewsView"
+import NewsView from "../../Components/NewsView/NewsView"
 
 const Dashboard = () => {
 
@@ -33,7 +33,14 @@ const Dashboard = () => {
                     onClick={handleSignOut}
                     className="sign-out">Sign Out
                 </p>
-                <AllTickersView/>
+                <div className="flex justify-between gap-4">
+                    <div className="w-1/2 shrink">
+                        <AllTickersView />
+                    </div>
+                    <div className="w-1/2 shrink">
+                        <NewsView />
+                    </div>
+                </div>
             </div>
         </div>
     )
