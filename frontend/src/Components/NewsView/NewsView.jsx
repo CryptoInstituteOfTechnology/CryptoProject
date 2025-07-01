@@ -15,7 +15,7 @@ const NewsView = () => {
 
     // same layout as tickers
     return (
-        <ScrollArea className="h-[600px]  rounded-md border p-4">
+        <ScrollArea className="h-[600px]  rounded-md border p-4  h-screen overflow-y-scroll">
             <Table className="border-4 border-black">
 
                 <TableCaption>News</TableCaption>

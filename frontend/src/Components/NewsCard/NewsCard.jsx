@@ -8,25 +8,21 @@ const NewsCard = ({ news }) => {
     return (
         <a
             href={news.URL}
-            target="_blank"//*Opens to new browser
+            target="_blank"
             rel="noopener noreferrer"
-            className="hover:bg-muted transition-colors block"
-
+            className="hover:bg-gray-100 transition-colors block"
         >
-            <TableRow>
-                <TableCell>
-                    <img src={news.IMAGE_URL} alt="image of news" />
+            <TableRow className="border-4 border-black hover:shadow-md transition-shadow">
+                <TableCell className="p-4">
+                    <img src={news.IMAGE_URL} alt="image of news" className="w-24 h-auto" />
                 </TableCell>
-                <TableCell>
-                    {news.TITLE}
-                </TableCell>
-                <TableCell>
+                <TableCell className="text-lg font-bold">{news.TITLE}</TableCell>
+                <TableCell className="text-sm text-gray-600">
                     {new Date(news.PUBLISHED_ON * 1000).toLocaleDateString()}
                 </TableCell>
-
             </TableRow>
         </a>
-    )
+    );
 
 }
 

@@ -1,6 +1,6 @@
 import React from "react";
 import { NavigationMenu, NavigationMenuList, NavigationMenuItem, NavigationMenuLink } from "../ui/navigation-menu"
-import { Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 export default function NavBar() {
 
 
@@ -8,68 +8,75 @@ export default function NavBar() {
     // bunch of links to other views
     //later add in logic for asset view when searching!
     return (
-        <div className="justify-center container mx-auto p-4">
-            <NavigationMenu className="bg-blue-500  border-4 rounded-md w-full max-w-7xl font-bold flex-shrink ">
-                <NavigationMenuList >
-
-                    <NavigationMenuItem>
-                        <NavigationMenuLink asChild>
-                            <Link to="/dashboard">DashBoard</Link>
-                        </NavigationMenuLink>
-                    </NavigationMenuItem>
-
-                    <NavigationMenuItem>
-                        <NavigationMenuLink asChild>
-                            <Link to="/alltickers">All Tickers</Link>
-                        </NavigationMenuLink>
-                    </NavigationMenuItem>
-
-                    <NavigationMenuItem>
-                        <NavigationMenuLink asChild>
-                            <Link to="/news">News</Link>
-                        </NavigationMenuLink>
-                    </NavigationMenuItem>
-
-                    <NavigationMenuItem className="border-4 rounded-md border-black text-black bg-white">
-                        <form>
-                            <input className="text-black placeholder:text-xs " type="search" placeholder="Search Ticker(ex: BTC)" />
-                            <button type="submit">Search</button>
-                        </form>
-                    </NavigationMenuItem>
-
-                    <NavigationMenuItem>
-                        <NavigationMenuLink asChild>
-                            <Link to="/watchlist">Watchlist</Link>
-                        </NavigationMenuLink>
-                    </NavigationMenuItem>
-
-                    <NavigationMenuItem>
-                        <NavigationMenuLink asChild>
-                            <Link to="/portfolio">Portfolio</Link>
-                        </NavigationMenuLink>
-                    </NavigationMenuItem>
-
-                    <NavigationMenuItem>
-                        <NavigationMenuLink asChild>
-                            <Link to="/recommendations">Recommendations</Link>
-                        </NavigationMenuLink>
-                    </NavigationMenuItem>
-
-                    <NavigationMenuItem>
-                        <NavigationMenuLink asChild>
-                            <Link to="/login">Login</Link>
-                        </NavigationMenuLink>
-                    </NavigationMenuItem>
-
-
-                    <NavigationMenuItem>
-                        <NavigationMenuLink asChild>
-                            <Link to="/signup">Signup</Link>
-                        </NavigationMenuLink>
-                    </NavigationMenuItem>
-
+        <div className="container mx-auto p-4 flex flex-shrink">
+            <NavigationMenu className="bg-blue-500 border-4 rounded-md w-full max-w-7xl font-bold flex-shrink justify-center">
+                <NavigationMenuList className="flex items-center gap-4">
+                    <div className="flex flex-shrink">
+                        <NavigationMenuItem>
+                            <NavigationMenuLink asChild>
+                                <Link to="/dashboard" className="text-white hover:text-gray-200 transition-colors">Dashboard</Link>
+                            </NavigationMenuLink>
+                        </NavigationMenuItem>
+                    </div>
+                    <div className="flex flex-shrink">
+                        <NavigationMenuItem>
+                            <NavigationMenuLink asChild>
+                                <Link to="/alltickers" className="text-white hover:text-gray-200 transition-colors">All Tickers</Link>
+                            </NavigationMenuLink>
+                        </NavigationMenuItem>
+                    </div>
+                    <div className="flex flex-shrink">
+                        <NavigationMenuItem>
+                            <NavigationMenuLink asChild>
+                                <Link to="/news" className="text-white hover:text-gray-200 transition-colors">News</Link>
+                            </NavigationMenuLink>
+                        </NavigationMenuItem>
+                    </div>
+                    <div className="flex flex-shrink">
+                        <NavigationMenuItem className="border-4 rounded-md border-black text-black bg-white flex items-center gap-2">
+                            <form>
+                                <input className="text-black placeholder:text-xs w-48" type="search" placeholder="Search Ticker (ex: BTC)" />
+                                <button type="submit" className="bg-blue-500 text-white py-1 px-2 rounded-md">Search</button>
+                            </form>
+                        </NavigationMenuItem>
+                    </div>
+                    <div className="flex flex-shrink">
+                        <NavigationMenuItem>
+                            <NavigationMenuLink asChild>
+                                <Link to="/watchlist" className="text-white hover:text-gray-200 transition-colors">Watchlist</Link>
+                            </NavigationMenuLink>
+                        </NavigationMenuItem>
+                    </div>
+                    <div className="flex flex-shrink">
+                        <NavigationMenuItem>
+                            <NavigationMenuLink asChild>
+                                <Link to="/portfolio" className="text-white hover:text-gray-200 transition-colors">Portfolio</Link>
+                            </NavigationMenuLink>
+                        </NavigationMenuItem>
+                    </div>
+                    <div className="flex flex-shrink">
+                        <NavigationMenuItem>
+                            <NavigationMenuLink asChild>
+                                <Link to="/recommendations" className="text-white hover:text-gray-200 transition-colors">Recommendations</Link>
+                            </NavigationMenuLink>
+                        </NavigationMenuItem>
+                    </div>
+                    <div className="flex flex-shrink">
+                        <NavigationMenuItem>
+                            <NavigationMenuLink asChild>
+                                <Link to="/login" className="text-white hover:text-gray-200 transition-colors">Login</Link>
+                            </NavigationMenuLink>
+                        </NavigationMenuItem>
+                    </div>
+                    <div className="flex flex-shrink">
+                        <NavigationMenuItem>
+                            <NavigationMenuLink asChild>
+                                <Link to="/signup" className="text-white hover:text-gray-200 transition-colors">Signup</Link>
+                            </NavigationMenuLink>
+                        </NavigationMenuItem>
+                    </div>
                 </NavigationMenuList>
-            </NavigationMenu>
-        </div>
+            </NavigationMenu >
+        </div >
     )
 }
