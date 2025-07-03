@@ -14,8 +14,6 @@ import NavBar from "../NavBar/NavBar";
 import Footer from "../Footer/Footer";
 import { Outlet } from "react-router-dom";
 
-
-// had to do this because of routing issues, wasnt able to load nav bar with links without wrapping it like this in router
 const Layout = () => (
     <>
         <NavBar />
@@ -23,8 +21,6 @@ const Layout = () => (
         <Footer />
     </>
 );
-
-
 export const router = createBrowserRouter([
     {
         element: <Layout />,  // NavBar + Footer + Outlet
@@ -32,7 +28,6 @@ export const router = createBrowserRouter([
             { path: "/", element: <App /> },
             { path: "/signup", element: <Signup /> },
             { path: "/login", element: <Login /> },
-
             // Protected routes
             { path: "/dashboard", element: <PrivateRoute><Dashboard /></PrivateRoute> },
             { path: "/alltickers", element: <PrivateRoute><AllTickers /></PrivateRoute> },

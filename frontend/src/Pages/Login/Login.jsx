@@ -4,15 +4,12 @@ import { useState } from "react";
 import { UserAuth } from "../../context/AuthContext";
 import { Card, CardTitle, CardContent, CardAction } from "../../Components/ui/card"
 const Login = () => {
-
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [error, setError] = useState("")
     const [loading, setLoading] = useState("")
-
     const { session, logInUser } = UserAuth()
     const navigate = useNavigate()
-    //copied form signup page same logic, chnage var names
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -33,9 +30,6 @@ const Login = () => {
             setLoading(false);
         }
     };
-
-
-
     return (
         <div className="max-w-md mx-auto p-4 md:p-6 lg:p-8">
             <Card className="bg-white rounded-lg shadow-md">

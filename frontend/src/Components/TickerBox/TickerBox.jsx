@@ -2,29 +2,21 @@
 import { useState, useEffect, useRef } from 'react'
 import { TableCell, TableRow } from '../ui/table'
 
-
 //data is passed down from each box to TickerBox
-
-
 // when star is clicked, add to watchlist
 // when add to portoflio clicked, call to add to portfolio
 // optional amount for portfolio amonut
 export default function TickerBox({ coinData, livePrice }) {
 
-    //need a last price variable so you can turn red or green later
-    //qauantity variable as well
-
     const [priceColor, setPriceColor] = useState('text-white') // track what color text will be
     const previousPrice = useRef(null) // useref so we dont lost the value when reloaded
 
-    //use useeffect to set previous price, when live price changes
-
+    // set previous price, when live price changes
     useEffect(() => {
         if (previousPrice.current == null) {
             previousPrice.current = livePrice
             return
         }
-
         if (livePrice > previousPrice.current) {
             setPriceColor('text-red-600')
         } else if (livePrice < previousPrice.current) {
@@ -36,6 +28,7 @@ export default function TickerBox({ coinData, livePrice }) {
         previousPrice.current = livePrice
 
     }, [livePrice])
+
     //function called add to watchlist, makes API call to backend to add to wathclist
     const addToWatchlist = (e) => {
         console.log(`added ${dataStreamed.s} to watch list`)
@@ -43,18 +36,16 @@ export default function TickerBox({ coinData, livePrice }) {
     }
 
     //function to open a modal to trade stocks
-
-
-
+    const openModal = (e) =>{
+        console.log("modal openeed")
+    }
     return (
         <TableRow className="border-4 border-black hover:bg-gray-100 transition-colors">
             <TableCell className="p-4">
                 <img src={coinData.image} alt={coinData.symbol} className="w-12 h-auto" />
             </TableCell>
-
             <TableCell className="text-lg font-bold">{coinData.symbol.toUpperCase()}</TableCell>
-            <TableCell className={`${priceColor} text-lg font-bold`}>{livePrice}</TableCell>
-
+            <TableCell className={`${priceColor} text-lg font-bold`}>$ {livePrice}</TableCell>
             <TableCell className="text-sm">Volume: {coinData.total_volume}</TableCell>
             <TableCell className="text-sm">High: {coinData.high_24h}</TableCell>
             <TableCell className="text-sm">Low: {coinData.low_24h}</TableCell>

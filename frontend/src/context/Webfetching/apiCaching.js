@@ -3,46 +3,27 @@ import { cache } from "react"
 export async function apiCaching({ url, timeBeforeNextFetch, cachingKey, methodToFetch }) {
 
     const timeNow = Date.now()
-
     const cachedData = localStorage.getItem(cachingKey) // finds the storage of data - news or keys
     const lastTimeFetched = localStorage.getItem(`${cachingKey}_timestamp`) // we store the timestamp as a key value in our storage
-
-
-
-    // if theres data already, and theres a time we fectehd to avoid errors and it ahsnt beeen past the timebeofre next fetch we just use the cached data
-
-    if (cachedData && lastTimeFetched && timeNow - parseInt(lastTimeFetched) < timeBeforeNextFetch) {// have to use parseint bc lasttimefetched is a string
-
-
-        
+    // if theres data already or its not past time limit used pre fetched data
+    if (cachedData && lastTimeFetched && timeNow - parseInt(lastTimeFetched) < timeBeforeNextFetch) {
         return JSON.parse(cachedData)
     }
-    // if first time fetching or time to late
-
+    // if first time fetching or time set has passed
     try {
-
         const response = await fetch(url, methodToFetch)
-
         if (!response.ok){
-            console.log(`error fetching data${response.status}`) // if error fetching 
+            console.log(`error fetching data${response.status}`) // throw error
         }
-
         const data = await response.json()
-
-
-        localStorage.setItem(cachingKey,JSON.stringify(data)) //stack overflow
+        localStorage.setItem(cachingKey,JSON.stringify(data))// save the key and the data
         localStorage.setItem(`${cachingKey}_timestamp`, timeNow.toString()) // save timestamp
-
         return data
-
     } catch (error) {
         if (cachedData) {
-            console.log("using prev data because of error") // debugging stuff
+            console.log("using prev data because of error")
             return JSON.parse(cachedData)
         }
-
-        return null // if nothings wroking
+        return null 
     }
-
-
 }

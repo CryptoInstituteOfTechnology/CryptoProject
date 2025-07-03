@@ -17,9 +17,6 @@ const Dashboard = () => {
             console.error(err)
         }
     }
-
-    console.log(session)
-
     return (
         <div>
             <h1>Dashboard</h1>

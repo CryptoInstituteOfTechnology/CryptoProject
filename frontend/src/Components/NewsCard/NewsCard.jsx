@@ -1,12 +1,10 @@
 import React from "react"
 import { TableCell, TableRow } from '../ui/table'
 
-
-
 const NewsCard = ({ news }) => {
-    // turn whole card into link
+    
     return (
-        <a
+        <a // turns whole card into links that takes user to assetview for crypto
             href={news.URL}
             target="_blank"
             rel="noopener noreferrer"
@@ -20,8 +18,6 @@ const NewsCard = ({ news }) => {
             </TableRow>
         </a>
     );
-
 }
-
 
 export default NewsCard
