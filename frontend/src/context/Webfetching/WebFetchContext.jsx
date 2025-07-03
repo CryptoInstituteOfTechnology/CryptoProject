@@ -8,7 +8,7 @@ const webFetchedContext = createContext()//global object for data we can use acr
 const COIN_GECKO_API_KEY = import.meta.env.VITE_COIN_GECKO_MARKET_DATA_API_KEY; //api key to coingeck
 const NEWS_API_KEY = import.meta.env.VITE_COINDESK_NEWS_API_KEY // api key to news
 
-const newsUrl = `https://data-api.coindesk.com/news/v1/article/list?lang=EN&limit=10&api_key=${NEWS_API_KEY}`
+const newsUrl = `https://data-api.coindesk.com/news/v1/article/list?lang=EN&limit=50&api_key=${NEWS_API_KEY}`
 
 // url logic to coin website, have a json file wiht coinnames to build url
 const baseUrlCoinGecko = 'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids='
