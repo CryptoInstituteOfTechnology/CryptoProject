@@ -1,17 +1,12 @@
-
 import { useState, useEffect, useRef } from 'react'
 import { TableCell, TableRow } from '../ui/table'
 
-//data is passed down from each box to TickerBox
-// when star is clicked, add to watchlist
-// when add to portoflio clicked, call to add to portfolio
-// optional amount for portfolio amonut
 export default function TickerBox({ coinData, livePrice }) {
+    const [priceColor, setPriceColor] = useState('text-white')
+    const previousPrice = useRef(null) // reference to price before new price
+    
 
-    const [priceColor, setPriceColor] = useState('text-white') // track what color text will be
-    const previousPrice = useRef(null) // useref so we dont lost the value when reloaded
-
-    // set previous price, when live price changes
+    // sets color of price to green if higher than prev, red if lower, white if equal
     useEffect(() => {
         if (previousPrice.current == null) {
             previousPrice.current = livePrice
@@ -22,17 +17,14 @@ export default function TickerBox({ coinData, livePrice }) {
         } else if (livePrice < previousPrice.current) {
             setPriceColor('text-green-600')
         } else {
-            setPriceColor('text-black') // if they are equal, very unlikely
+            setPriceColor('text-black')
         }
-
         previousPrice.current = livePrice
-
     }, [livePrice])
 
-    //function called add to watchlist, makes API call to backend to add to wathclist
+    //future function for adding to watchlist
     const addToWatchlist = (e) => {
         console.log(`added ${dataStreamed.s} to watch list`)
-        //     //api call to add
     }
 
     //function to open a modal to trade stocks

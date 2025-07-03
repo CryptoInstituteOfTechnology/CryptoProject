@@ -13,7 +13,7 @@ export default function fetchPrices(dataCallback) {
     fetch('/tickers.json')
         .then(response => response.json())
         .then(data => {
-            //url to strsam from
+            //url to stream from
             const baseUrl = 'wss://fstream.binance.com/stream?streams=';
             const tickers = data.tickers; 
             const urlToBinance = baseUrl + tickers.join('/');

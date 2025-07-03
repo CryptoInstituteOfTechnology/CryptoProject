@@ -1,12 +1,12 @@
 import { createContext, useEffect, useState, useContext } from "react";
 import { supabase } from "../supabaseClient";
-
+// defines all signin , signout and login function
 const AuthContext = createContext()
 export const AuthContextProvider = ({ children }) => {
     const [session, setSession] = useState(undefined)
-    
+
+    // signup 
     const signUpNewUser = async (email, password) => {
-        // send supabase a new user to sign up
         const { data, error } = await supabase.auth.signUp({
             email: email,
             password: password,
@@ -17,8 +17,10 @@ export const AuthContextProvider = ({ children }) => {
             return ({ success: false, error })
         }
 
-        return { success: true, data } //return that data was processed
+        return { success: true, data }
     }
+
+    // login user 
     const logInUser = async ( email, password ) => {
         try {
             const { data, error } = await supabase.auth.signInWithPassword({
@@ -35,7 +37,8 @@ export const AuthContextProvider = ({ children }) => {
             console.error("error occured", error)
         }
     }
-    //listen  for state change, only run once when page is loaded, loads what type of session user is in
+
+    //listen  for state change, only run once when page is loaded, loads user in the session so they can access all routes
     useEffect(() => {
         supabase.auth.getSession().then(({ data: { session } }) => {
             setSession(session)
@@ -44,6 +47,7 @@ export const AuthContextProvider = ({ children }) => {
             setSession(session)
         })
     }, [])
+
     //sign out function
     const signOut = () => {
         //extract error if issues
@@ -52,6 +56,7 @@ export const AuthContextProvider = ({ children }) => {
             console.error(error)
         }
     }
+    
     return (
         <AuthContext.Provider value={{signUpNewUser, signOut,session,logInUser }}>
             {children}

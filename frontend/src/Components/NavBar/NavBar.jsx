@@ -2,9 +2,7 @@ import React from "react";
 import { NavigationMenu, NavigationMenuList, NavigationMenuItem, NavigationMenuLink } from "../ui/navigation-menu"
 import { Link } from "react-router-dom";
 export default function NavBar() {
-    //neeed to add redirecting for search for website that takes them to assetview
-    // bunch of links to other views
-    //later add in logic for asset view when searching!
+
     return (
         <div className="container mx-auto p-4 flex flex-shrink">
             <NavigationMenu className="bg-blue-500 border-4 rounded-md w-full max-w-7xl font-bold flex-shrink justify-center">

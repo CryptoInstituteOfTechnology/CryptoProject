@@ -12,8 +12,9 @@ import Recommendations from "../../Pages/Recommendations/Recommendations"
 import WatchList from "../../Pages/Watchlist/Watchlist"
 import NavBar from "../NavBar/NavBar";
 import Footer from "../Footer/Footer";
-import { Outlet } from "react-router-dom";
+import { Outlet } from "react-router-dom"; // placeholder to nest child routes, replaced when child routes are ran
 
+// have to build layout of application so that Navbar is wrapped and can access every private route
 const Layout = () => (
     <>
         <NavBar />
@@ -21,9 +22,10 @@ const Layout = () => (
         <Footer />
     </>
 );
+
 export const router = createBrowserRouter([
     {
-        element: <Layout />,  // NavBar + Footer + Outlet
+        element: <Layout />,
         children: [
             { path: "/", element: <App /> },
             { path: "/signup", element: <Signup /> },
