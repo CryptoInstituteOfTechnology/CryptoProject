@@ -3,9 +3,7 @@ import { UserAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import AllTickersView from "../../Components/AllTickersView/AllTickersView"
 import NewsView from "../../Components/NewsView/NewsView"
-
 const Dashboard = () => {
-
     const { session, signOut } = UserAuth()
     const navigate = useNavigate();
     const handleSignOut = async (e) => {
@@ -38,5 +36,4 @@ const Dashboard = () => {
         </div>
     )
 }
-
 export default Dashboard

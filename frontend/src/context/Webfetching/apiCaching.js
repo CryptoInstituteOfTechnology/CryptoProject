@@ -1,7 +1,6 @@
-import { cache } from "react"
-
+// handles fetching from URLS, caches and stores data in rbowser if already there or time limit hasnt been reached
 export async function apiCaching({ url, timeBeforeNextFetch, cachingKey, methodToFetch }) {
-
+    
     const timeNow = Date.now()
     const cachedData = localStorage.getItem(cachingKey) // finds the storage of data - news or keys
     const lastTimeFetched = localStorage.getItem(`${cachingKey}_timestamp`) // we store the timestamp as a key value in our storage
