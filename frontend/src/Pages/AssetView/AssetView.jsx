@@ -8,7 +8,7 @@ export default function AssetView() {
     const { coinApiData, websocketData } = useContext(webFetchedContext)
     const { symbol } = useParams()
     const coin = coinApiData.find(coin => coin.id.toLowerCase() === symbol.toLowerCase()) // find matching symbol in data
-    const livePrice = websocketData[symbol.toLowerCase]
+    const livePrice = websocketData[symbol.toLowerCase()]
 
     if (!coin) {
         return (
@@ -20,7 +20,7 @@ export default function AssetView() {
     return (
         <div>
             <h1>
-                {coin.symbol} + {livePrice}
+                {livePrice}
             </h1>
         </div>
     )

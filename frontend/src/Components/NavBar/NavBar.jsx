@@ -45,7 +45,7 @@ export default function NavBar() {
                                 <input
                                     className="text-black placeholder:text-xs w-48"
                                     type="search"
-                                    placeholder="Search Ticker (ex: BTC)" 
+                                    placeholder="Search Ticker (ex: Bitcoin)" 
                                     value={searchInput}
                                     onChange={(e) => setSearchInput(e.target.value)}
                                     />
