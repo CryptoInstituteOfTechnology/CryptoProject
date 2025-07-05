@@ -71,7 +71,6 @@ export default function AssetView() {
             <h1>{coin.atl}</h1>
             <h1>{coin.atl_change_percentage}</h1>
             <h1>{coin.atl_date}</h1>
-            <h1>{coin.roi}</h1>
             <h1>{coin.last_updated}</h1>
         </div>
     )
