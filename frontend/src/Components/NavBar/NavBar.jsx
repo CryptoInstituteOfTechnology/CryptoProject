@@ -1,8 +1,19 @@
 import React from "react";
 import { NavigationMenu, NavigationMenuList, NavigationMenuItem, NavigationMenuLink } from "../ui/navigation-menu"
 import { Link } from "react-router-dom";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 export default function NavBar() {
+    const navigate = useNavigate()
+    const [searchInput, setSearchInput] = useState("")
 
+    const handleSearch = (e) => {
+        e.preventDefault();
+        if (searchInput.trim() !== "") {
+            navigate(`/assetview/${searchInput.trim().toLowerCase()}`)
+            setSearchInput("")
+        }
+    }
     return (
         <div className="container mx-auto p-4 flex flex-shrink">
             <NavigationMenu className="bg-blue-500 border-4 rounded-md w-full max-w-7xl font-bold flex-shrink justify-center">
@@ -30,9 +41,19 @@ export default function NavBar() {
                     </div>
                     <div className="flex flex-shrink">
                         <NavigationMenuItem className="border-4 rounded-md border-black text-black bg-white flex items-center gap-2">
-                            <form>
-                                <input className="text-black placeholder:text-xs w-48" type="search" placeholder="Search Ticker (ex: BTC)" />
-                                <button type="submit" className="bg-blue-500 text-white py-1 px-2 rounded-md">Search</button>
+                            <form onSubmit={handleSearch}>
+                                <input
+                                    className="text-black placeholder:text-xs w-48"
+                                    type="search"
+                                    placeholder="Search Ticker (ex: Bitcoin)" 
+                                    value={searchInput}
+                                    onChange={(e) => setSearchInput(e.target.value)}
+                                    />
+                                <button
+                                    type="submit"
+                                    className="bg-blue-500 text-white py-1 px-2 rounded-md">
+                                    Search
+                                </button>
                             </form>
                         </NavigationMenuItem>
                     </div>
