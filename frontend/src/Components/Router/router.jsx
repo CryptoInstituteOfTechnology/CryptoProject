@@ -33,7 +33,7 @@ export const router = createBrowserRouter([
             // Protected routes
             { path: "/dashboard", element: <PrivateRoute><Dashboard /></PrivateRoute> },
             { path: "/alltickers", element: <PrivateRoute><AllTickers /></PrivateRoute> },
-            { path: "/assetview", element: <PrivateRoute><AssetView /></PrivateRoute> },
+            { path: "/assetview/:symbol", element: <PrivateRoute><AssetView /></PrivateRoute> },
             { path: "/news", element: <PrivateRoute><News /></PrivateRoute> },
             { path: "/watchlist", element: <PrivateRoute><WatchList /></PrivateRoute> },
             { path: "/portfolio", element: <PrivateRoute><Portfolio /></PrivateRoute> },
