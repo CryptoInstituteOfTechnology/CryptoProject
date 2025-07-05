@@ -45,8 +45,12 @@ export default function AssetView() {
         )
     }
     return (
-        <div>
-            <img src={coin.image} alt={coin.symbol} className="w-12 h-auto" />
+        <div className="max-w-screen-xl mx-auto px-6 py-8 text-white">
+            <div className='mb-4'>
+                <img src={coin.image} alt={coin.symbol} className="w-12 h-auto" />
+                <div className="text-3x font-bold">{coin.name} ({coin.symbol.toUpperCase()})</div>
+            </div>
+
             <h1></h1>
             <h1 className={`${priceColor} text-lg font-bold`} >
                 ${livePrice}
