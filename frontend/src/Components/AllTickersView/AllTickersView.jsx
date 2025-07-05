@@ -3,10 +3,12 @@ import { webFetchedContext } from "../../context/Webfetching/WebFetchContext";
 import { useContext } from 'react';
 import { Table, TableRow, TableCaption, TableBody } from "../ui/table"
 import { ScrollArea } from "../ui/scroll-area.jsx"
+import { useNavigate } from 'react-router-dom';
+
 const AllTickersView = () => {
     const { coinApiData, websocketData } = useContext(webFetchedContext) 
 
-    const navigate = useNavigate // routing for CryptoView
+    const navigate = useNavigate() // routing for CryptoView
 
     return (
         <ScrollArea className="h-[600px]  rounded-md border p-4 h-screen overflow-y-scroll">
