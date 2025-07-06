@@ -41,7 +41,7 @@ export default function TickerBox({ coinData, livePrice }) {
                 />
             </TableCell>
             <TableCell className="text-right">
-                <AddToPortfolio coinData={coinData}/>
+                <AddToPortfolio coinData={coinData} livePrice = {livePrice}/>
             </TableCell>
         </TableRow>
     );
