@@ -61,7 +61,7 @@ export default function AssetView() {
             {/*Buttons */}
             <div className="mb-6 flex gap-4 items-center">
                 <AddToWatchList coinData={coin} />
-                <AddToPortfolio coinData={coin} />
+                <AddToPortfolio coinData={coin} livePrice={livePrice} />
             </div>
             {/*Stats for Crypto */}
 

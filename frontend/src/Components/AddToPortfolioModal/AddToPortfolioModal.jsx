@@ -37,73 +37,65 @@ export default function AddToPortfolioModal({ coinData, livePrice, onExit }) {
 
     // need a box wit buy or sell option, quantity, then send order and have a live order and price symbol and name, and then basic modal stuff and  atotal button
     return (
-        <div
-            className="fixed inset-0 bg-black bg-opacity-60 z-50 flex justify-center items-center"
-            onClick={onExit}>
-            <div
-                className="bg-zinv-900 text-white w-full max-w-d p-6 rounded-lg"
-                onClick={(e) => e.stopPropagation()}
-            >
-                {/*Crypto Info Div */}
-                <div>
+        <div className= "fixed inset-0 bg-black bg-opacity-50 z-50 flex justify-center items-center" onClick={onExit}>
+            <div className="bg-zinc-900 text-white w-full max-w-md p-6 rounded-lg" onClick={(e) => e.stopPropagation()}>
+                {/* Crypto Info Div */}
+                <div className="flex flex-col items-center mb-6">
                     <img src={coinData.image} alt={coinData.symbol} className="w-12 h-auto" />
-                    <h1 className="text-3x font-bold"> ({coinData.symbol.toUpperCase()})</h1>
+                    <h1 className="text-3xl font-bold">{coinData.symbol.toUpperCase()}</h1>
                     <p className={`text-2xl mt-2 ${priceColor}`}>Live: {livePrice}</p>
                 </div>
-                {/*input form for buying and selling */}
+
+                {/* input form for buying and selling */}
                 <form onSubmit={handleSubmit}>
-                    {/*Buy and Sell buttons */}
-                    <div className="flex gap-4">
+                    {/* Buy and Sell buttons */}
+                    <div className="flex gap-4 mb-6">
                         <button
                             type="button"
                             onClick={() => setMode('buy')}
-                            className={` px-4 ${mode === 'buy' ? 'bg-green-500' : 'bg-gray-200'}`}
+                            className={`px-4 py-2 ${mode === 'buy' ? 'bg-green-500' : 'bg-gray-200'} rounded`}
                         >
                             Buy
                         </button>
                         <button
                             type="button"
                             onClick={() => setMode('sell')}
-                            className={` px-4 ${mode === 'sell' ? 'bg-red-500' : 'bg-gray-200'}`}
+                            className={`px-4 py-2 ${mode === 'sell' ? 'bg-red-500' : 'bg-gray-200'} rounded`}
                         >
                             Sell
                         </button>
                     </div>
 
-
-                    {/* Quantity Input and Total Cost*/}
+                    {/* Quantity Input and Total Cost */}
                     <input
                         type="number"
                         min="0"
-                        ste="1" // only can buy integer amounts for cryptos on this Website
+                        step="1"
                         value={quantity}
                         onChange={(e) =>
                             setQuantity(e.target.value)
                         }
+                        className="w-full p-2 mb-6 border border-gray-300 rounded"
                     />
 
-                    {/* Total Cost*/}
-                    <p>
-                        Total ${livePrice * Number(quantity)}
-                    </p>
+                    <p className="text-2xl mb-6">Total: {livePrice * Number(quantity)}</p>
 
-
-
-                    {/*Submit Button and Cancel Button */}
-                    <div>
+                    {/* Submit Button and Cancel Button */}
+                    <div className="flex gap-4">
                         <button
                             type="button"
                             onClick={onExit}
+                            className="px-4 py-2 bg-gray-200 rounded"
                         >
                             Cancel
                         </button>
                         <button
-                            type = "submit"
+                            type="submit"
+                            className="px-4 py-2 bg-green-500 rounded"
                         >
-                            ${mode === 'buy' ? 'Confirm Buy' : 'Confirm Sell'}
+                            {mode === 'buy' ? 'Confirm Buy' : 'Confirm Sell'}
                         </button>
                     </div>
-
                 </form>
             </div>
         </div>
