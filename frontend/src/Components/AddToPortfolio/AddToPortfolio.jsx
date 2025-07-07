@@ -13,7 +13,7 @@ export default function AddToPortfolio({ coinData, livePrice }) {
             <button
                 className="bg-yellow-200 hover:bg-yellow-400 rounded-lg transition duration-300 ease-in-out py-2 px-4"
                 type="submit"
-                onClick={() => setShowModal(prev => !prev)} // used this code from old kudosboard proj
+                onExit ={() => setShowModal(prev => !prev)} // used this code from old kudosboard proj
             >
                 <span className="font-bold">Add to Portfolio</span>
             </button>
