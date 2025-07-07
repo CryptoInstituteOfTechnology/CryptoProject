@@ -29,7 +29,7 @@ export default function AddToPortfolioModal({ coinData, livePrice, onExit }) {
         } else if (livePrice < previousPrice.current) {
             setPriceColor('text-green-600')
         } else {
-            setPriceColor('text-black')
+            setPriceColor('text-white')
         }
         previousPrice.current = livePrice
     }, [livePrice])
@@ -37,7 +37,7 @@ export default function AddToPortfolioModal({ coinData, livePrice, onExit }) {
 
     // need a box wit buy or sell option, quantity, then send order and have a live order and price symbol and name, and then basic modal stuff and  atotal button
     return (
-        <div className= "fixed inset-0 bg-black bg-opacity-50 z-50 flex justify-center items-center" onClick={onExit}>
+        <div className= "fixed inset-0 z-50 flex justify-center items-center" onClick={onExit}>
             <div className="bg-zinc-900 text-white w-full max-w-md p-6 rounded-lg" onClick={(e) => e.stopPropagation()}>
                 {/* Crypto Info Div */}
                 <div className="flex flex-col items-center mb-6">
@@ -53,14 +53,14 @@ export default function AddToPortfolioModal({ coinData, livePrice, onExit }) {
                         <button
                             type="button"
                             onClick={() => setMode('buy')}
-                            className={`px-4 py-2 ${mode === 'buy' ? 'bg-green-500' : 'bg-gray-200'} rounded`}
+                            className={`px-4 py-2 ${mode === 'buy' ? 'bg-green-500' : 'bg-gray-200'} text-black rounded`}
                         >
                             Buy
                         </button>
                         <button
                             type="button"
                             onClick={() => setMode('sell')}
-                            className={`px-4 py-2 ${mode === 'sell' ? 'bg-red-500' : 'bg-gray-200'} rounded`}
+                            className={`px-4 py-2 ${mode === 'sell' ? 'bg-red-500' : 'bg-gray-200'} text-black rounded`}
                         >
                             Sell
                         </button>
@@ -85,13 +85,13 @@ export default function AddToPortfolioModal({ coinData, livePrice, onExit }) {
                         <button
                             type="button"
                             onClick={onExit}
-                            className="px-4 py-2 bg-gray-200 rounded"
+                            className="px-4 py-2 bg-gray-200 text-black rounded"
                         >
                             Cancel
                         </button>
                         <button
                             type="submit"
-                            className="px-4 py-2 bg-green-500 rounded"
+                            className="px-4 py-2 bg-green-500 rounded text-black"
                         >
                             {mode === 'buy' ? 'Confirm Buy' : 'Confirm Sell'}
                         </button>
