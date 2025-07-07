@@ -22,6 +22,7 @@ model PortfolioEntry{
   avgPrice Float 
   updatedAt DateTime @updatedAt
   @@unique([userId,symbol]) // only should be one entry per coin - and you update that one
+  @@index([userId])
 }
 
 
@@ -33,6 +34,8 @@ model Transaction {
   price Float // price of coin
   type String // 'BUY' or 'SELL'
   createdAt DateTime @default(now())
+
+  @@index([userId])
 }
 
 model WatchlistItem{
@@ -42,4 +45,5 @@ model WatchlistItem{
   createdAt DateTime @default(now())
 
   @@unique([userId,symbol]) // no duplicate entries
+  @@index([userId]) // creates list of where it is at in DB for easier lookup
 }
