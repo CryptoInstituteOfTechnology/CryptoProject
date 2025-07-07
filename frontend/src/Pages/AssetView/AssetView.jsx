@@ -3,6 +3,8 @@ import { useParams } from 'react-router-dom';
 import { webFetchedContext } from "../../context/Webfetching/WebFetchContext";
 import { useContext } from 'react';
 import { useState, useRef, useEffect } from 'react';
+import AddToPortfolio from '../../Components/AddToPortfolio/AddToPortfolio';
+import AddToWatchList from '../../Components/AddToWatchList/AddToWatchList';
 
 export default function AssetView() {
     const { coinApiData, websocketData, newsApiData } = useContext(webFetchedContext)
@@ -57,45 +59,33 @@ export default function AssetView() {
             </div>
 
             {/*Buttons */}
-            <div className="mb-6 flex space-x-4 flex items-center">
-                <button
-                    onClick={addToWatchlist}
-                    className="flex items-center gap-1 bg-yellow-200 hover:bg-yellow-400 transition duration-300 ease-in-out rounded-lg py-2 px-4"
-                >
-                    <h2 className="text-lg font-bold">Add to Watchlist</h2>
-                    <h2 className="text-yellow-600 text-2xl">★</h2>
-                </button>
-
-                <button
-                    className="bg-yellow-200 hover:bg-yellow-400 rounded-lg transition duration-300 ease-in-out py-2 px-4"
-                    type="submit"
-                >
-                    Add to Portfolio
-                </button>
+            <div className="mb-6 flex gap-4 items-center">
+                <AddToWatchList coinData={coin} />
+                <AddToPortfolio coinData={coin} livePrice={livePrice} />
             </div>
             {/*Stats for Crypto */}
 
             <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 text-sm'>
-            <h1>Current Price: ${coin.current_price}</h1>
-            <h1>Market Cap: ${coin.market_cap}</h1>
-            <h1>Market Cap Rank: {coin.market_cap_rank}</h1>
-            <h1>Valuation: {coin.fully_diluted_valuation}</h1>
-            <h1>Total Daily Volume: {coin.total_volume}</h1>
-            <h1>High of Day: {coin.high_24h}</h1>
-            <h1>Low of Day: {coin.low_24h}</h1>
-            <h1>Daily Price Chnage: {coin.price_change_24h}</h1>
-            <h1>Price Change Percentage: {coin.price_change_percentage_24h}%</h1>
-            <h1>24 Hour Market Cap Change: {coin.market_cap_change_24h}</h1>
-            <h1>24 Hour Market Cap Change Percentage: {coin.market_cap_change_percentage_24h}%</h1>
-            <h1>Circulating Supply: {coin.circulating_supply}</h1>
-            <h1>Total Supply: {coin.total_supply}</h1>
-            <h1>Max Supply:{coin.max_supply}</h1>
-            <h1>All Time High: {coin.ath}</h1>
-            <h1>All Time High Change Percentage: {coin.ath_change_percentage}%</h1>
-            <h1>All Time High Date: {coin.ath_date}</h1>
-            <h1> All Time Low: {coin.atl}</h1>
-            <h1>All Time Low Change Percentage: {coin.atl_change_percentage}%</h1>
-            <h1>All Time Low Date:{coin.atl_date}</h1>
+                <h1>Current Price: ${coin.current_price}</h1>
+                <h1>Market Cap: ${coin.market_cap}</h1>
+                <h1>Market Cap Rank: {coin.market_cap_rank}</h1>
+                <h1>Valuation: {coin.fully_diluted_valuation}</h1>
+                <h1>Total Daily Volume: {coin.total_volume}</h1>
+                <h1>High of Day: {coin.high_24h}</h1>
+                <h1>Low of Day: {coin.low_24h}</h1>
+                <h1>Daily Price Chnage: {coin.price_change_24h}</h1>
+                <h1>Price Change Percentage: {coin.price_change_percentage_24h}%</h1>
+                <h1>24 Hour Market Cap Change: {coin.market_cap_change_24h}</h1>
+                <h1>24 Hour Market Cap Change Percentage: {coin.market_cap_change_percentage_24h}%</h1>
+                <h1>Circulating Supply: {coin.circulating_supply}</h1>
+                <h1>Total Supply: {coin.total_supply}</h1>
+                <h1>Max Supply:{coin.max_supply}</h1>
+                <h1>All Time High: {coin.ath}</h1>
+                <h1>All Time High Change Percentage: {coin.ath_change_percentage}%</h1>
+                <h1>All Time High Date: {coin.ath_date}</h1>
+                <h1> All Time Low: {coin.atl}</h1>
+                <h1>All Time Low Change Percentage: {coin.atl_change_percentage}%</h1>
+                <h1>All Time Low Date:{coin.atl_date}</h1>
             </div>
         </div>
     )
