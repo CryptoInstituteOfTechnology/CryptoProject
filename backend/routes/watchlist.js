@@ -1,59 +1,61 @@
-const express = require('express')
-const router = express.Router()
-const { PrismaClient } = require('@prisma/client')
-const prisma = new PrismaClient()
+const express = require('express');
+const { PrismaClient } = require('@prisma/client');
 
+const router = express.Router();
+const prisma = new PrismaClient();
 
-// get watclist items
+// Get watchlist for a user
 router.get('/:userId', async (req, res) => {
-    const { userId } = req.params
+    const { userId } = req.params;
 
-    if (!userId || Object.keys(req.params).length === 0) {
-        return res.status(400).json({ error: "error finding id for user" })
+    if (!userId) {
+        return res.status(400).json({ error: 'User ID is required' });
     }
+
     try {
         const watchlist = await prisma.watchlistItem.findMany({
             where: { userId },
-            orderBy: { createdAt: 'desc' }// newest first
-        })
-        res.json(watchlist)
+            orderBy: { createdAt: 'desc' }, // newest first
+        });
+
+        res.json(watchlist);
     } catch (error) {
-        res.status(500).json({ error: "error with fetching watchlist" })
+        console.error(error);
+        res.status(500).json({ error: 'Error fetching watchlist' });
     }
-})
+});
 
-
-
+// Toggle watchlist item
 router.post('/', async (req, res) => {
-    const { userId, symbol } = req.body
+    const { userId, symbol } = req.body;
 
     if (!userId || !symbol) {
-        return res.status(400).json({ error: "issue getting symbol or userId" })
+        return res.status(400).json({ error: 'User ID and symbol are required' });
     }
 
     try {
         const existing = await prisma.watchlistItem.findUnique({
-            where: { userId_symbol: { userId, symbol } }
-        })
+            where: { userId_symbol: { userId, symbol } },
+        });
 
         if (existing) {
             await prisma.watchlistItem.delete({
-                where: { userId_symbol: { userId, symbol } }
-            })
-            return res.json({ removed: true, watchlistItem: existing })
+                where: { userId_symbol: { userId, symbol } },
+            });
+
+            return res.json({ removed: true, watchlistItem: existing });
         } else {
             const newCrypto = await prisma.watchlistItem.create({
-                data: { userId, symbol }
-            })
-            return res.json({ added: true, watchlistItem: newCrypto })
+                data: { userId, symbol },
+            });
+
+            return res.json({ added: true, watchlistItem: newCrypto });
         }
     } catch (error) {
-        return res.status(500).json({ error: "error toggling watchlist item" })
+        console.error(error);
+        res.status(500).json({ error: 'Error toggling watchlist item' });
     }
-})
-module.exports = router
+});
 
-//post new to watchlist or deletr using toggle, get rid of remove from watchlist
-
-
+module.exports = router;
 

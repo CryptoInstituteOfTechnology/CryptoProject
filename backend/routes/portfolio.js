@@ -1,32 +1,29 @@
-const express = require('express')
-const router = express.Router()
-const { PrismaClient } = require('@prisma/client')
-const prisma = new PrismaClient() // same as from kudosboard, DELETE these comments after merged and working in backend folder
+const express = require('express');
+const { PrismaClient } = require('@prisma/client');
 
-// simple get request
+const router = express.Router();
+const prisma = new PrismaClient();
 
-
-
+// Get portfolio entries for a user
 router.get('/:userId', async (req, res) => {
-    const { userID } = req.params
+    const { userId } = req.params;
 
     try {
-        const portfolio = await prisma.portfolioEntry.findMany({
+        const portfolioEntries = await prisma.portfolioEntry.findMany({
             where: {
                 userId,
-                quantity: { gt: 0 } // return ones that arent 0 , 0 means have been bought and sold
-            }, 
-            orderBy :{
-                quantity: 'desc' // display by qunatity in largest first
-            }
-        })
+                quantity: { gt: 0 }, // Return only entries with quantity greater than 0
+            },
+            orderBy: {
+                quantity: 'desc', // Order by quantity in descending order
+            },
+        });
 
-        res.json(portfolio)
+        res.json(portfolioEntries);
     } catch (error) {
-        res.status(500).json({ error: 'error fetching portfolio ' })
+        console.error(error);
+        res.status(500).json({ error: 'Error fetching portfolio entries' });
     }
-})
+});
 
-
-module.exports = router
-// on frontend have to have type, send the userid, quantity, price and symbol
+module.exports = router;
