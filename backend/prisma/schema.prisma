@@ -6,7 +6,6 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../generated/prisma"
 }
 
 datasource db {
@@ -32,7 +31,7 @@ model Transaction {
   symbol String // btc, eth, for frontend fetching
   quantity Int // buy is positive , sell is negative
   price Float // price of coin
-  type String // 'buy' or 'sell'
+  type String // 'BUY' or 'SELL'
   createdAt DateTime @default(now())
 }
 

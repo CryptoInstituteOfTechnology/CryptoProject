@@ -35,12 +35,12 @@ exports.Prisma = Prisma
 exports.$Enums = {}
 
 /**
- * Prisma Client JS version: 6.11.1
- * Query Engine version: f40f79ec31188888a2e33acda0ecc8fd10a853a9
+ * Prisma Client JS version: 6.10.0
+ * Query Engine version: aee10d5a411e4360c6d3445ce4810ca65adbf3e8
  */
 Prisma.prismaVersion = {
-  client: "6.11.1",
-  engine: "f40f79ec31188888a2e33acda0ecc8fd10a853a9"
+  client: "6.10.0",
+  engine: "aee10d5a411e4360c6d3445ce4810ca65adbf3e8"
 }
 
 Prisma.PrismaClientKnownRequestError = PrismaClientKnownRequestError;
@@ -163,12 +163,11 @@ const config = {
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
-    "rootEnvPath": null,
-    "schemaEnvPath": "../../.env"
+    "rootEnvPath": null
   },
   "relativePath": "../../prisma",
-  "clientVersion": "6.11.1",
-  "engineVersion": "f40f79ec31188888a2e33acda0ecc8fd10a853a9",
+  "clientVersion": "6.10.0",
+  "engineVersion": "aee10d5a411e4360c6d3445ce4810ca65adbf3e8",
   "datasourceNames": [
     "db"
   ],
@@ -182,8 +181,8 @@ const config = {
       }
     }
   },
-  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"../generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel PortfolioEntry {\n  id        Int      @id @default(autoincrement())\n  userId    String // supabase id\n  symbol    String\n  quantity  Int // net amount\n  avgPrice  Float\n  updatedAt DateTime @updatedAt\n\n  @@unique([userId, symbol]) // only should be one entry per coin - and you update that one\n}\n\nmodel Transaction {\n  id        Int      @id @default(autoincrement())\n  userId    String // supabase id\n  symbol    String // btc, eth, for frontend fetching\n  quantity  Int // buy is positive , sell is negative\n  price     Float // price of coin\n  type      String // 'buy' or 'sell'\n  createdAt DateTime @default(now())\n}\n\nmodel WatchlistItem {\n  id        Int      @id @default(autoincrement())\n  userId    String\n  symbol    String\n  createdAt DateTime @default(now())\n\n  @@unique([userId, symbol]) // no duplicate entries\n}\n",
-  "inlineSchemaHash": "533be663ebf0613c36a65ef19ced85ccbaddaa42cce764045c240eb46d448039",
+  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"../generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel PortfolioEntry {\n  id        Int      @id @default(autoincrement())\n  userId    String // supabase id\n  symbol    String\n  quantity  Int // net amount\n  avgPrice  Float\n  updatedAt DateTime @updatedAt\n\n  @@unique([userId, symbol]) // only should be one entry per coin - and you update that one\n}\n\nmodel Transaction {\n  id        Int      @id @default(autoincrement())\n  userId    String // supabase id\n  symbol    String // btc, eth, for frontend fetching\n  quantity  Int // buy is positive , sell is negative\n  price     Float // price of coin\n  type      String // 'BUY' or 'SELL'\n  createdAt DateTime @default(now())\n}\n\nmodel WatchlistItem {\n  id        Int      @id @default(autoincrement())\n  userId    String\n  symbol    String\n  createdAt DateTime @default(now())\n\n  @@unique([userId, symbol]) // no duplicate entries\n}\n",
+  "inlineSchemaHash": "5fe5d8481897c8a7e58ac507204f15a99058d7400f15ad1cdd915910e5fb8a53",
   "copyEngine": true
 }
 config.dirname = '/'
