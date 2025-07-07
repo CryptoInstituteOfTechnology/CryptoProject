@@ -11,7 +11,7 @@ router.get('/:userId', async (req, res) => {
     const { userID } = req.params
 
     try {
-        const portfolio = await prisma.PortfolioEntry.findMany({
+        const portfolio = await prisma.portfolioEntry.findMany({
             where: {
                 userId,
                 quantity: { gt: 0 } // return ones that arent 0 , 0 means have been bought and sold
@@ -27,4 +27,6 @@ router.get('/:userId', async (req, res) => {
     }
 })
 
+
+module.exports = router
 // on frontend have to have type, send the userid, quantity, price and symbol
