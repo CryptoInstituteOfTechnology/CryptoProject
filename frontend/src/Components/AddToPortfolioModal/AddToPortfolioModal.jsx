@@ -1,4 +1,4 @@
-import { useState, useRef } from "react"
+import { useState, useRef, useEffect } from "react"
 export default function AddToPortfolioModal({ coinData, livePrice, onExit }) {
     const [quantity, setQuantity] = useState("0")
     const [mode, setMode] = useState("buy")
@@ -39,7 +39,7 @@ export default function AddToPortfolioModal({ coinData, livePrice, onExit }) {
     return (
         <div
             className="fixed inset-0 bg-black bg-opacity-60 z-50 flex justify-center items-center"
-            onClick={onExit()}>
+            onClick={onExit}>
             <div
                 className="bg-zinv-900 text-white w-full max-w-d p-6 rounded-lg"
                 onClick={(e) => e.stopPropagation()}
@@ -73,23 +73,39 @@ export default function AddToPortfolioModal({ coinData, livePrice, onExit }) {
 
                     {/* Quantity Input and Total Cost*/}
                     <input
-                        type = "number"
-                     />
+                        type="number"
+                        min="0"
+                        ste="1" // only can buy integer amounts for cryptos on this Website
+                        value={quantity}
+                        onChange={(e) =>
+                            setQuantity(e.target.value)
+                        }
+                    />
 
                     {/* Total Cost*/}
+                    <p>
+                        Total ${livePrice * Number(quantity)}
+                    </p>
 
 
 
                     {/*Submit Button and Cancel Button */}
+                    <div>
+                        <button
+                            type="button"
+                            onClick={onExit}
+                        >
+                            Cancel
+                        </button>
+                        <button
+                            type = "submit"
+                        >
+                            ${mode === 'buy' ? 'Confirm Buy' : 'Confirm Sell'}
+                        </button>
+                    </div>
+
                 </form>
-
-
-
-
-
             </div>
-
-
         </div>
     )
 }

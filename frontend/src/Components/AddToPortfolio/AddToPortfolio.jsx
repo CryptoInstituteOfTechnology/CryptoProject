@@ -12,7 +12,7 @@ export default function AddToPortfolio({ coinData, livePrice }) {
             {showModal && <AddToPortfolioModal
                 coinData={coinData}
                 livePrice={livePrice}
-                onExit={setShowModal(prev => !prev)}
+                onExit={() => setShowModal(prev => !prev)}
             />}
             <button
                 className="bg-yellow-200 hover:bg-yellow-400 rounded-lg transition duration-300 ease-in-out py-2 px-4"
