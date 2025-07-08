@@ -7,8 +7,7 @@ import { useNavigate } from 'react-router-dom';
 
 const AllTickersView = () => {
     const { coinApiData, websocketData } = useContext(webFetchedContext)
-
-    const navigate = useNavigate() // routing for CryptoView
+    const navigate = useNavigate()
 
     return (
         <ScrollArea className="h-[600px]  rounded-md border p-4 h-screen overflow-y-scroll">
@@ -24,16 +23,12 @@ const AllTickersView = () => {
                                 className="cursor-pointer hover:bg-gray-100 transitiom-colors"
                                 onClick={() => navigate(`/assetview/${coin.id.toLowerCase()}`)} // takes user to cryptoview when clicked
                             >
-
-
                                 <TickerBox
                                     className="border-4 border-black hover:bg-gray-100 transition-colors"
                                     coinData={coin}
                                     livePrice={websocketPrice}
                                 />
                             </TableRow>
-
-
                         )
                     })
                     }
