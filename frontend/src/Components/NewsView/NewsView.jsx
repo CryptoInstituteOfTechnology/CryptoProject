@@ -3,6 +3,7 @@ import { webFetchedContext } from "../../context/Webfetching/WebFetchContext";
 import { useContext } from 'react';
 import { Table, TableCaption, TableBody } from "../ui/table"
 import { ScrollArea } from "../ui/scroll-area.jsx"
+import { useNavigate } from "react-router-dom";
 
 const NewsView = () => {
     const { newsApiData } = useContext(webFetchedContext); 
@@ -17,6 +18,7 @@ const NewsView = () => {
                             <NewsCard
                                 key = {news.ID}
                                 news = {news}
+                            
                             />
                         )
                     })
