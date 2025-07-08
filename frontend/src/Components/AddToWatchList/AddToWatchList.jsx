@@ -3,17 +3,11 @@ import { useBackendAttributes } from "../../context/BackEndContext"
 const BACKEND_BASE_URL = import.meta.env.VITE_BACKEND_URL
 export default function AddToWatchList({ coinData }) {
     const { watchlist, fetchWatchlist, userId } = useBackendAttributes()
-
     //variable check for in watchlist
-
     const inList = watchlist.some((entry) => {
         return entry.symbol.toLowerCase() === coinData.symbol.toLowerCase()
     })
-    
-
-
     //toggle watchlist function
-
     const toggleWatchlist = async (e) => {
         e.stopPropagation()
         try {
@@ -28,18 +22,12 @@ export default function AddToWatchList({ coinData }) {
                     symbol: coinData.symbol.toUpperCase(),
                 }),
             })
-
-
             const result = await res.json()
             await fetchWatchlist() // refetch watchlist to update
         } catch (error) {
             console.error(error)
         }
-
-
     }
-
-
 
     return (
         <div className="flex flex-col gap-2">
