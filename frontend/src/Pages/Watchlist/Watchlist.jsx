@@ -10,17 +10,13 @@ import TickerBox from '../../Components/TickerBox/TickerBox.jsx';
 export default function WatchList() {
     const { watchlist } = useBackendAttributes()
     const { coinApiData, websocketData } = useContext(webFetchedContext)
-    console.log(coinApiData)
-
     const navigate = useNavigate()
 
     // map out all symbols in watchlist in an array and then compare to the symbols in coinapi and then do same logic as Alltickersview
     const watchlistsymbols = watchlist.map((entry) => entry.symbol.toLowerCase())
-
     const matchingCoins = coinApiData.filter((coin) => {
         return watchlistsymbols.includes(coin.symbol.toLowerCase());
     });
-
 
     return (
         <div>
