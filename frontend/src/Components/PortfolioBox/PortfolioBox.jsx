@@ -3,9 +3,10 @@ import { TableCell, TableRow } from '../ui/table'
 import AddToWatchList from '../AddToWatchList/AddToWatchList'
 import AddToPortfolio from '../AddToPortfolio/AddToPortfolio'
 
-export default function TickerBox({ coinData, livePrice }) {
+export default function PortfolioBox({ coinData, livePrice, avgPrice, quantity }) {
     const [priceColor, setPriceColor] = useState('text-white')
-    const previousPrice = useRef(null) // reference to price before new price
+    const previousPrice = useRef(null) // reference to price before new price, can also be used for P&L color
+    const [profit, setProfit] = useState(null) // for Profit and loss
 
 
 
@@ -23,6 +24,7 @@ export default function TickerBox({ coinData, livePrice }) {
             setPriceColor('text-black')
         }
         previousPrice.current = livePrice
+        setProfit((livePrice * quantity) - (avgPrice * quantity))
     }, [livePrice])
 
     return (
@@ -32,9 +34,9 @@ export default function TickerBox({ coinData, livePrice }) {
             </TableCell>
             <TableCell className="text-lg font-bold text-white">{coinData.symbol.toUpperCase()}</TableCell>
             <TableCell className={`${priceColor} text-lg font-bold`}>$ {Number(livePrice).toFixed(4)}</TableCell>
-            <TableCell className="text-sm">Volume: {coinData.total_volume}</TableCell>
-            <TableCell className="text-sm">High: {coinData.high_24h}</TableCell>
-            <TableCell className="text-sm">Low: {coinData.low_24h}</TableCell>
+            <TableCell className="text-sm text-green-600 font-bold">Current Quantity: {quantity}</TableCell>
+            <TableCell className="text-sm text-green-600 font-bold">Average Price: ${avgPrice?.toFixed(4)}</TableCell>
+            <TableCell className={`${priceColor} text-lg font-bold`}>P&L : {profit?.toFixed(4)}</TableCell>
             <TableCell>
                 <AddToWatchList
                     coinData={coinData}

@@ -13,9 +13,9 @@ export default function WatchList() {
     const navigate = useNavigate()
 
     // map out all symbols in watchlist in an array and then compare to the symbols in coinapi
-    const watchlistsymbols = watchlist.map((entry) => entry.symbol.toLowerCase())
+    const watchlistSymbols = watchlist.map((entry) => entry.symbol.toLowerCase())
     const matchingCoins = coinApiData.filter((coin) => {
-        return watchlistsymbols.includes(coin.symbol.toLowerCase());
+        return watchlistSymbols.includes(coin.symbol.toLowerCase());
     });
     return (
         <div>
