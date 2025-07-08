@@ -43,7 +43,7 @@ export default function AddToPortfolioModal({ coinData, livePrice, onExit }) {
                 <div className="flex flex-col items-center mb-6">
                     <img src={coinData.image} alt={coinData.symbol} className="w-12 h-auto" />
                     <h1 className="text-3xl font-bold">{coinData.symbol.toUpperCase()}</h1>
-                    <p className={`text-2xl mt-2 ${priceColor}`}>Live: {livePrice}</p>
+                    <p className={`text-2xl mt-2 ${priceColor}`}>Live: {livePrice.toFixed(4)}</p>
                 </div>
 
                 {/* input form for buying and selling */}
@@ -78,7 +78,7 @@ export default function AddToPortfolioModal({ coinData, livePrice, onExit }) {
                         className="w-full p-2 mb-6 border border-gray-300 rounded"
                     />
 
-                    <p className="text-2xl mb-6">Total: {livePrice * Number(quantity)}</p>
+                    <p className="text-2xl mb-6">Total: {(livePrice * Number(quantity)).toFixed(4)}</p>
 
                     {/* Submit Button and Cancel Button */}
                     <div className="flex gap-4">
