@@ -1,5 +1,5 @@
 import React from 'react';
-
+import PortfolioView from '../../Components/PortfolioView/PortfolioView';
 export default function Portfolio() {
-  return <div>Hi, I'm Portfolio</div>;
+  return <PortfolioView/>;
 }
