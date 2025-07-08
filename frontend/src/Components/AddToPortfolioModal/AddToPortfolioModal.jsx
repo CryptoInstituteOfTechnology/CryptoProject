@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react"
 import { useBackendAttributes } from "../../context/BackEndContext"
+
 const BACKEND_BASE_URL = import.meta.env.VITE_BACKEND_URL
 export default function AddToPortfolioModal({ coinData, livePrice, onExit }) {
 
@@ -7,6 +8,7 @@ export default function AddToPortfolioModal({ coinData, livePrice, onExit }) {
     const [quantity, setQuantity] = useState("0")
     const [mode, setMode] = useState("buy")
     const [priceColor, setPriceColor] = useState('text-white')
+    const [errMessage, setErrMessage] = useState(null)
     const previousPrice = useRef(null)
 
     const handleSubmit = async (e) => {
@@ -46,7 +48,13 @@ export default function AddToPortfolioModal({ coinData, livePrice, onExit }) {
         }
         return res.json();
     };
-    
+
+
+    //display error message when user tries to sell more than they have
+    const displayErrorMessage = (error) => {
+        setErrMessage(error)
+    }
+
     useEffect(() => {
         if (previousPrice.current == null) {
             previousPrice.current = livePrice
@@ -92,6 +100,7 @@ export default function AddToPortfolioModal({ coinData, livePrice, onExit }) {
                         >
                             Sell
                         </button>
+                        {errMessage && <span className="text-red-500">{errMessage}</span>}
                     </div>
 
                     {/* Quantity Input and Total Cost */}
