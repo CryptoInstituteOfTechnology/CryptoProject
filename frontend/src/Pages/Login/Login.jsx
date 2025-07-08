@@ -18,7 +18,6 @@ const Login = () => {
             const result = await logInUser(email, password);
 
             if (result.success) {
-                console.log(session)
                 navigate('/dashboard');
             } else {
                 setError(result.error.message || 'Log in up failed');

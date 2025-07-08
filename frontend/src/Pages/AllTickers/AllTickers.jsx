@@ -1,12 +1,12 @@
 import React from 'react';
 import AllTickersView from '../../Components/AllTickersView/AllTickersView';
-
+import { useBackendAttributes } from '../../context/BackEndContext';
 const AllTickers = () => {
 
-    return(
+    return (
         <div>
-        <h1>All Tickers on Exchange</h1>
-        <AllTickersView/>
+            <h1>All Tickers on Exchange</h1>
+            <AllTickersView />
         </div>
     )
 }
