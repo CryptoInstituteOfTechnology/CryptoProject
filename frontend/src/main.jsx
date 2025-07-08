@@ -11,11 +11,11 @@ createRoot(document.getElementById('root')).render(
   <StrictMode>
     <div>
       <AuthContextProvider>
-        <WebFetchContextProvider>
-          <BackEndContextProvider>
+        <BackEndContextProvider>
+          <WebFetchContextProvider>
             <RouterProvider router={router} />
-          </BackEndContextProvider>
-        </WebFetchContextProvider>
+          </WebFetchContextProvider>
+        </BackEndContextProvider>
       </AuthContextProvider>
     </div>
   </StrictMode>,
