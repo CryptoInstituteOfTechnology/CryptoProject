@@ -45,10 +45,10 @@ export default function NavBar() {
                                 <input
                                     className="text-black placeholder:text-xs w-48"
                                     type="search"
-                                    placeholder="Search Ticker (ex: Bitcoin)" 
+                                    placeholder="Search Ticker (ex: Bitcoin)"
                                     value={searchInput}
                                     onChange={(e) => setSearchInput(e.target.value)}
-                                    />
+                                />
                                 <button
                                     type="submit"
                                     className="bg-blue-500 text-white py-1 px-2 rounded-md">

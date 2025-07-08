@@ -1,4 +1,3 @@
-import TickerBox from '../TickerBox/TickerBox.jsx';
 import { useBackendAttributes } from "../../context/BackEndContext";
 import { webFetchedContext } from "../../context/Webfetching/WebFetchContext";
 import { useContext } from 'react';
@@ -6,6 +5,7 @@ import { Table, TableRow, TableCaption, TableBody } from "../ui/table";
 import { ScrollArea } from "../ui/scroll-area.jsx";
 import { useNavigate } from 'react-router-dom';
 import PortfolioBox from '../PortfolioBox/PortfolioBox.jsx';
+import ProfitLossbox from "../ProfitLossBox/ProfitLossBox.jsx";
 
 export default function PortfolioView() {
     const { coinApiData, websocketData } = useContext(webFetchedContext)
@@ -19,8 +19,9 @@ export default function PortfolioView() {
         return portfolioSymbols.includes(coin.symbol.toLowerCase());
     });
     return (
-        <div>
+        <div className="flex  justify-center flex-col ">
             <h1>Portfolio Of Tickers</h1>
+            <ProfitLossbox/>
             <ScrollArea className="h-[600px]  rounded-md border p-4 h-screen overflow-y-scroll">
                 <Table className="border-4 border-black">
                     <TableBody>
