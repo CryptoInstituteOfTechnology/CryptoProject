@@ -12,7 +12,9 @@ createRoot(document.getElementById('root')).render(
     <div>
       <AuthContextProvider>
         <WebFetchContextProvider>
+          <BackEndContextProvider>
             <RouterProvider router={router} />
+          </BackEndContextProvider>
         </WebFetchContextProvider>
       </AuthContextProvider>
     </div>

@@ -8,7 +8,6 @@ const BackEndContext = createContext()
 
 export const BackEndContextProvider = ({ children }) => {
     const session = UserAuth()
-
     const userId = session?.user?.id // get userId for fetching
     const [portfolio, setPortfolio] = useState([])
     const [watchlist, setWatchlist] = useState([])
@@ -46,7 +45,7 @@ export const BackEndContextProvider = ({ children }) => {
     }, [userId])
     //letting functions be added so they can be recalled when added to portoflio or watchlist
     return (
-        <BackEndContextProvider
+        <BackEndContext.Provider
             value={{
                 userId,
                 portfolio,
@@ -58,7 +57,7 @@ export const BackEndContextProvider = ({ children }) => {
             }}
         >
             {children}
-        </BackEndContextProvider>
+        </BackEndContext.Provider>
     )
 }
 
