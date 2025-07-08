@@ -12,8 +12,7 @@ export const BackEndContextProvider = ({ children }) => {
     const userId = session?.user?.id // get userId for fetching
     const [portfolio, setPortfolio] = useState([])
     const [watchlist, setWatchlist] = useState([])
-
-
+    const [transactions, setTransactions] = useState([])
 
     const fetchPortfolio = async () => {
         const res = await fetch(`${BACKEND_BASE_URL}/api/portfolio/${userId}`)
@@ -22,7 +21,6 @@ export const BackEndContextProvider = ({ children }) => {
         setPortfolio(data)
     }
 
-
     const fetchWatchlist = async () => {
         const res = await fetch(`${BACKEND_BASE_URL}/api/watchlist/${userId}`)
         const data = await res.json()
@@ -30,7 +28,12 @@ export const BackEndContextProvider = ({ children }) => {
         setWatchlist(data)
     }
 
-
+    const fetchTransactions = async () => {
+        const res = await fetch(`${BACKEND_BASE_URL}/api/transactions/${userId}`)
+        const data = await res.json()
+        console.log(data)
+        setTransactions(data)
+    }
 
     useEffect(() => {
         if (!userId) {
@@ -39,9 +42,8 @@ export const BackEndContextProvider = ({ children }) => {
         console.log(userId)
         fetchPortfolio()
         fetchWatchlist()
-
+        fetchTransactions()
     }, [userId])
-
     //letting functions be added so they can be recalled when added to portoflio or watchlist
     return (
         <BackEndContextProvider
@@ -49,15 +51,17 @@ export const BackEndContextProvider = ({ children }) => {
                 userId,
                 portfolio,
                 watchlist,
+                transactions,
+                fetchTransactions,
                 fetchPortfolio,
                 fetchWatchlist,
             }}
-            >
-                {children}
+        >
+            {children}
         </BackEndContextProvider>
     )
 }
 
-export const useBackendAttributes = () =>{
+export const useBackendAttributes = () => {
     return useContext(BackEndContext)
 }
