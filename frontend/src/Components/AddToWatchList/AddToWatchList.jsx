@@ -6,7 +6,7 @@ export default function AddToWatchList({ coinData }) {
 
     //variable check for in watchlist
 
-    const inList = watchlist.includes((entry) => {
+    const inList = watchlist.some((entry) => {
         return entry.symbol.toLowerCase() === coinData.symbol.toLowerCase()
     })
     
@@ -15,7 +15,7 @@ export default function AddToWatchList({ coinData }) {
     //toggle watchlist function
 
     const toggleWatchlist = async (e) => {
-        e.stopPropogation()
+        e.stopPropagation()
         try {
             const res = await fetch(`${BACKEND_BASE_URL}/api/watchlist`, {
 
@@ -31,7 +31,6 @@ export default function AddToWatchList({ coinData }) {
 
 
             const result = await res.json()
-            console, log(result)
             await fetchWatchlist() // refetch watchlist to update
         } catch (error) {
             console.error(error)
