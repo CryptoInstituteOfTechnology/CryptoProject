@@ -55,13 +55,11 @@ export default function AddToPortfolioModal({ coinData, livePrice, onExit }) {
         }
         return res.json();
     };
-
-
     //display error message when user tries to sell more than they have
     const displayErrorMessage = (error) => {
         setErrMessage(error)
     }
-
+    
     useEffect(() => {
         if (previousPrice.current == null) {
             previousPrice.current = livePrice
@@ -76,8 +74,6 @@ export default function AddToPortfolioModal({ coinData, livePrice, onExit }) {
         }
         previousPrice.current = livePrice
     }, [livePrice])
-
-
     // need a box wit buy or sell option, quantity, then send order and have a live order and price symbol and name, and then basic modal stuff and  atotal button
     return (
         <div className="fixed inset-0 z-50 flex justify-center items-center" onClick={onExit}>
@@ -88,7 +84,6 @@ export default function AddToPortfolioModal({ coinData, livePrice, onExit }) {
                     <h1 className="text-3xl font-bold">{coinData.symbol.toUpperCase()}</h1>
                     <p className={`text-2xl mt-2 ${priceColor}`}>Live: {livePrice.toFixed(4)}</p>
                 </div>
-
                 {/* input form for buying and selling */}
                 <form onSubmit={handleSubmit}>
                     {/* Buy and Sell buttons */}
@@ -109,7 +104,6 @@ export default function AddToPortfolioModal({ coinData, livePrice, onExit }) {
                         </button>
                         {errMessage && <span className="text-red-500">{errMessage}</span>}
                     </div>
-
                     {/* Quantity Input and Total Cost */}
                     <input
                         type="number"
@@ -121,9 +115,7 @@ export default function AddToPortfolioModal({ coinData, livePrice, onExit }) {
                         }
                         className="w-full p-2 mb-6 border border-gray-300 rounded"
                     />
-
                     <p className="text-2xl mb-6">Total: {(livePrice * Number(quantity)).toFixed(4)}</p>
-
                     {/* Submit Button and Cancel Button */}
                     <div className="flex gap-4">
                         <button
