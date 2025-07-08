@@ -1,12 +1,21 @@
 import { useState, useRef, useEffect } from "react"
 import { useBackendAttributes } from "../../context/BackEndContext"
+
 const BACKEND_BASE_URL = import.meta.env.VITE_BACKEND_URL
 export default function AddToPortfolioModal({ coinData, livePrice, onExit }) {
 
-    const { userId, fetchPortfolio, fetchTransactions } = useBackendAttributes()
+    const { userId, portfolio, fetchPortfolio, fetchTransactions } = useBackendAttributes()
+
+    //finds the current quantity of item in portfolio
+    const currentQuantity = portfolio.find((entry) =>{
+        return entry.symbol.toLowerCase() === coinData.symbol.toLowerCase()
+    })?.quantity
+
+
     const [quantity, setQuantity] = useState("0")
     const [mode, setMode] = useState("buy")
     const [priceColor, setPriceColor] = useState('text-white')
+    const [errMessage, setErrMessage] = useState(null)
     const previousPrice = useRef(null)
 
     const handleSubmit = async (e) => {
@@ -46,6 +55,11 @@ export default function AddToPortfolioModal({ coinData, livePrice, onExit }) {
         }
         return res.json();
     };
+    //display error message when user tries to sell more than they have
+    const displayErrorMessage = (error) => {
+        setErrMessage(error)
+    }
+    
     useEffect(() => {
         if (previousPrice.current == null) {
             previousPrice.current = livePrice
@@ -88,6 +102,7 @@ export default function AddToPortfolioModal({ coinData, livePrice, onExit }) {
                         >
                             Sell
                         </button>
+                        {errMessage && <span className="text-red-500">{errMessage}</span>}
                     </div>
                     {/* Quantity Input and Total Cost */}
                     <input
@@ -116,6 +131,9 @@ export default function AddToPortfolioModal({ coinData, livePrice, onExit }) {
                         >
                             {mode === 'buy' ? 'Confirm Buy' : 'Confirm Sell'}
                         </button>
+                        <span>
+                            Current Quantity : {currentQuantity || 0}
+                        </span>
                     </div>
                 </form>
             </div>
