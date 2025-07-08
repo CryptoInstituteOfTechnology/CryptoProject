@@ -32,7 +32,6 @@ export const AuthContextProvider = ({ children }) => {
                 console.error('sign in error occured', error)
                 return { success: false, error: error.message }
             }
-            console.log(session)
             return { success: true, data }
         } catch (error) {
             console.error("error occured", error)
