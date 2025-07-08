@@ -1,24 +1,52 @@
 import { useState, useRef, useEffect } from "react"
+import { useBackendAttributes } from "../../context/BackEndContext"
+const BACKEND_BASE_URL = import.meta.env.VITE_BACKEND_URL
 export default function AddToPortfolioModal({ coinData, livePrice, onExit }) {
+
+    const { userId, fetchPortfolio, fetchTransactions } = useBackendAttributes()
     const [quantity, setQuantity] = useState("0")
     const [mode, setMode] = useState("buy")
     const [priceColor, setPriceColor] = useState('text-white')
     const previousPrice = useRef(null)
 
-    const handleSubmit = (e) => {
-        e.preventDefault()
-
-        const totalCost = livePrice * Number(quantity)
-        if (mode === "buy") {
-            console.log(`buying ${quantity} of ${coinData.symbol}`)
-        } else {
-            console.log(`selling ${quantity} of ${coinData.symbol}`)
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const transactionData = createTransactionData();
+            await makeApiCall(transactionData);
+            await fetchPortfolio(); // reload portfolio
+            await fetchTransactions(); // reload transactions
+            onExit(); // close modal after submitting
+        } catch (error) {
+            console.error(error);
+            displayErrorMessage(error.message);
         }
-
-        onExit() // close modal after submitting
-    }
-
-
+    };
+    const createTransactionData = () => {
+        const totalCost = livePrice * Number(quantity);
+        const type = mode.toUpperCase();
+        return {
+            userId,
+            symbol: coinData.symbol.toUpperCase(),
+            quantity,
+            price: livePrice,
+            type,
+        };
+    };
+    const makeApiCall = async (transactionData) => {
+        const res = await fetch(`${BACKEND_BASE_URL}/api/transactions`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(transactionData),
+        });
+        if (!res.ok) {
+            throw new Error(await res.text());
+        }
+        return res.json();
+    };
+    
     useEffect(() => {
         if (previousPrice.current == null) {
             previousPrice.current = livePrice
@@ -37,7 +65,7 @@ export default function AddToPortfolioModal({ coinData, livePrice, onExit }) {
 
     // need a box wit buy or sell option, quantity, then send order and have a live order and price symbol and name, and then basic modal stuff and  atotal button
     return (
-        <div className= "fixed inset-0 z-50 flex justify-center items-center" onClick={onExit}>
+        <div className="fixed inset-0 z-50 flex justify-center items-center" onClick={onExit}>
             <div className="bg-zinc-900 text-white w-full max-w-md p-6 rounded-lg" onClick={(e) => e.stopPropagation()}>
                 {/* Crypto Info Div */}
                 <div className="flex flex-col items-center mb-6">

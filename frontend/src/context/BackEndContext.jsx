@@ -17,6 +17,7 @@ export const BackEndContextProvider = ({ children }) => {
     const fetchPortfolio = async () => {
         const res = await fetch(`${BACKEND_BASE_URL}/api/portfolio/${userId}`);
         const data = await res.json();
+        console.log(data)
         setPortfolio(data);
     };
 
