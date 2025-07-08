@@ -12,12 +12,11 @@ export default function WatchList() {
     const { coinApiData, websocketData } = useContext(webFetchedContext)
     const navigate = useNavigate()
 
-    // map out all symbols in watchlist in an array and then compare to the symbols in coinapi and then do same logic as Alltickersview
+    // map out all symbols in watchlist in an array and then compare to the symbols in coinapi
     const watchlistsymbols = watchlist.map((entry) => entry.symbol.toLowerCase())
     const matchingCoins = coinApiData.filter((coin) => {
         return watchlistsymbols.includes(coin.symbol.toLowerCase());
     });
-
     return (
         <div>
         <h1>Watchlist Of Tickers</h1>
