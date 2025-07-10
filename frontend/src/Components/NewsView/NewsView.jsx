@@ -5,27 +5,29 @@ import { Table, TableCaption, TableBody } from "../ui/table"
 import { ScrollArea } from "../ui/scroll-area.jsx"
 import { useNavigate } from "react-router-dom";
 
-const NewsView = () => {
-    const { newsApiData } = useContext(webFetchedContext); 
+const NewsView = ({ variant = "fullscreen" }) => {
+    const { newsApiData } = useContext(webFetchedContext);
+    const height = variant === "dashboard" ? "h-[500px]" : "h-screen"
     return (
-        <ScrollArea className="h-[600px]  rounded-md border p-4  h-screen overflow-y-scroll">
+        <div className={`${height} w-full overflow-x-auto rounded-md border p-4 overflow-y-scroll`}>
+            <h1 className="text-xl font-semibold mb-2">News</h1>
             <Table className="border-4 border-black">
 
-                <TableCaption>News</TableCaption>
+            
                 <TableBody>
-                    {newsApiData.Data.map((news) =>{
-                        return(
+                    {newsApiData.Data.map((news) => {
+                        return (
                             <NewsCard
-                                key = {news.ID}
-                                news = {news}
-                            
+                                key={news.ID}
+                                news={news}
+
                             />
                         )
                     })
                     }
                 </TableBody>
             </Table>
-        </ScrollArea>
+        </div>
     )
 }
 

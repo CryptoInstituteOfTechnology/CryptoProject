@@ -5,14 +5,15 @@ import { Table, TableRow, TableCaption, TableBody } from "../ui/table"
 import { ScrollArea } from "../ui/scroll-area.jsx"
 import { useNavigate } from 'react-router-dom';
 
-const AllTickersView = () => {
+const AllTickersView = ({ variant = "fullscreen" }) => {
     const { coinApiData, websocketData } = useContext(webFetchedContext)
     const navigate = useNavigate()
+    const height = variant === "dashboard" ? "h-[600px]" : "h-screen" // set to 300px or full screen depedning on where it is
 
     return (
-        <ScrollArea className="h-[600px]  rounded-md border p-4 h-screen overflow-y-scroll">
+        <div className={`${height} w-full overflow-x-auto rounded-md border p-4 overflow-y-scroll`}>
+            <h1 className="text-xl font-semibold mb-2">All Crypto Assets</h1>
             <Table className="border-4 border-black">
-                <TableCaption>All Crypto Assets</TableCaption>
                 <TableBody>
                     {coinApiData.map((coin) => {
                         const websocketPrice = websocketData[coin.id.toLowerCase()]
@@ -34,7 +35,7 @@ const AllTickersView = () => {
                     }
                 </TableBody>
             </Table>
-        </ScrollArea>
+        </div>
     )
 }
 export default AllTickersView;

@@ -7,10 +7,11 @@ import { useNavigate } from 'react-router-dom';
 import PortfolioBox from '../PortfolioBox/PortfolioBox.jsx';
 import ProfitLossbox from "../ProfitLossBox/ProfitLossBox.jsx";
 
-export default function PortfolioView() {
+export default function PortfolioView({ variant = "fullscreen" }) {
     const { coinApiData, websocketData } = useContext(webFetchedContext)
     const navigate = useNavigate()
     const { portfolio } = useBackendAttributes()
+    const height = variant === "dashboard" ? "h-[600px]" : "h-screen"
 
     //symbols in portfolio to display
     const portfolioSymbols = portfolio.map((entry) => entry.symbol.toLowerCase())
@@ -19,42 +20,42 @@ export default function PortfolioView() {
         return portfolioSymbols.includes(coin.symbol.toLowerCase());
     });
     return (
-        <div className="flex  justify-center flex-col ">
-            <h1>Portfolio Of Tickers</h1>
-            <ProfitLossbox/>
-            <ScrollArea className="h-[600px]  rounded-md border p-4 h-screen overflow-y-scroll">
-                <Table className="border-4 border-black">
-                    <TableBody>
-                        {matchingCoins.map((coin) => {
-                            const websocketPrice = websocketData[coin.id.toLowerCase()]
-                            // average price of coin in portfolio
-                            const averagePrice = portfolio.find((entry) => {
-                                return entry.symbol.toLowerCase() === coin.symbol.toLowerCase()
-                            })?.avgPrice
-                            //quantity
-                            const currentQuantity = portfolio.find((entry) => {
-                                return entry.symbol.toLowerCase() === coin.symbol.toLowerCase()
-                            })?.quantity
-                            return (
-                                <TableRow
-                                    key={coin.id}
-                                    className="cursor-pointer hover:bg-gray-100 transitiom-colors"
-                                    onClick={() => navigate(`/assetview/${coin.id.toLowerCase()}`)} // takes user to cryptoview when clicked
-                                >
-                                    <PortfolioBox
-                                        className="border-4 border-black hover:bg-gray-100 transition-colors"
-                                        coinData={coin}
-                                        livePrice={websocketPrice}
-                                        avgPrice={averagePrice}
-                                        quantity={currentQuantity}
-                                    />
-                                </TableRow>
-                            )
-                        })
-                        }
-                    </TableBody>
-                </Table>
-            </ScrollArea>
+        <div className={`${height} w-full overflow-x-auto rounded-md border p-4 overflow-y-scroll`}>
+            <h1 className="text-xl font-semibold mb-2">Portfolio Of Tickers</h1>
+            <div className="flex justify-center">
+                {variant === "fullscreen" && <ProfitLossbox />}
+            </div>
+            <Table className="border-4 border-black">
+                <TableBody>
+                    {matchingCoins.map((coin) => {
+                        const websocketPrice = websocketData[coin.id.toLowerCase()]
+                        // average price of coin in portfolio
+                        const averagePrice = portfolio.find((entry) => {
+                            return entry.symbol.toLowerCase() === coin.symbol.toLowerCase()
+                        })?.avgPrice
+                        //quantity
+                        const currentQuantity = portfolio.find((entry) => {
+                            return entry.symbol.toLowerCase() === coin.symbol.toLowerCase()
+                        })?.quantity
+                        return (
+                            <TableRow
+                                key={coin.id}
+                                className="cursor-pointer hover:bg-gray-100 transitiom-colors"
+                                onClick={() => navigate(`/assetview/${coin.id.toLowerCase()}`)} // takes user to cryptoview when clicked
+                            >
+                                <PortfolioBox
+                                    className="border-4 border-black hover:bg-gray-100 transition-colors"
+                                    coinData={coin}
+                                    livePrice={websocketPrice}
+                                    avgPrice={averagePrice}
+                                    quantity={currentQuantity}
+                                />
+                            </TableRow>
+                        )
+                    })
+                    }
+                </TableBody>
+            </Table>
         </div>
     )
 }
