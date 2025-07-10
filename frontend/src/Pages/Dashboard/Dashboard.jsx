@@ -5,6 +5,7 @@ import AllTickersView from "../../Components/AllTickersView/AllTickersView"
 import NewsView from "../../Components/NewsView/NewsView"
 import PortfolioView from "../../Components/PortfolioView/PortfolioView";
 import ProfitLossbox from "../../Components/ProfitLossBox/ProfitLossBox";
+import { Button } from "../../Components/ui/button"
 const Dashboard = () => {
     const { session, signOut } = UserAuth()
     const navigate = useNavigate();
@@ -19,26 +20,28 @@ const Dashboard = () => {
     }
     return (
         <div>
-            <h1>Dashboard</h1>
-            <h2>Welcome, {session?.user?.email} </h2>
             <div>
-                <p
-                    onClick={handleSignOut}
-                    className="sign-out">Sign Out
-                </p>
+                <div className="relative">
+                    <Button
+                        onClick={handleSignOut}
+                        className="absolute top-0 right-0 bg-blue-500 hover:bg-blue-700 text-white text-sm font-medium py-2 px-4 rounded"
+                    >
+                        Sign Out
+                    </Button>
+                </div>
 
-                <div className="grid grid-cols-2 grid-rows-[auto_1fr_1fr] gap -4">
-                    <div className="col-span-2">
-                        <ProfitLossbox/>
+                <div className="grid grid-cols-2 grid-rows-[auto_1fr_1fr] gap-4">
+                    <div className="col-span-2 flex justify-center">
+                        <ProfitLossbox />
                     </div>
                     <div className="row-span-1">
-                        <PortfolioView variant="dashboard"/>
+                        <PortfolioView variant="dashboard" />
                     </div>
                     <div className="row-span-1">
-                        <AllTickersView variant="dashboard"/>
+                        <AllTickersView variant="dashboard" />
                     </div>
                     <div className="col-span-2">
-                        <NewsView variant="dashboard"/>
+                        <NewsView variant="dashboard" />
                     </div>
                 </div>
             </div>

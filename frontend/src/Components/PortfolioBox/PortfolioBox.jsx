@@ -44,7 +44,7 @@ export default function PortfolioBox({ coinData, livePrice, avgPrice, quantity }
                 <img src={coinData.image} alt={coinData.symbol} className="w-12 h-auto" />
             </TableCell>
             <TableCell className="text-lg font-bold text-white">{coinData.symbol.toUpperCase()}</TableCell>
-            <TableCell className={`${priceColor} text-lg font-bold`}>$ {Number(livePrice).toFixed(4)}</TableCell>
+            <TableCell className={`${priceColor} text-lg font-bold`}>Price: ${Number(livePrice).toFixed(4)}</TableCell>
             <TableCell className="text-sm text-green-600 font-bold">Current Quantity: {quantity}</TableCell>
             <TableCell className="text-sm text-green-600 font-bold">Average Price: ${avgPrice?.toFixed(4)}</TableCell>
             <TableCell className={`${profitColor} text-lg font-bold`}>P&L : ${profit?.toFixed(4)}</TableCell>

@@ -7,12 +7,13 @@ import { useNavigate } from "react-router-dom";
 
 const NewsView = ({ variant = "fullscreen" }) => {
     const { newsApiData } = useContext(webFetchedContext);
-    const height = variant === "dashboard" ? "h-[300px]" : "h-screen"
+    const height = variant === "dashboard" ? "h-[500px]" : "h-screen"
     return (
-        <ScrollArea className={`${height} rounded-md border p-4  h-screen overflow-y-scroll`}>
+        <div className={`${height} w-full overflow-x-auto rounded-md border p-4 overflow-y-scroll`}>
+            <h1 className="text-xl font-semibold mb-2">News</h1>
             <Table className="border-4 border-black">
 
-                <TableCaption>News</TableCaption>
+            
                 <TableBody>
                     {newsApiData.Data.map((news) => {
                         return (
@@ -26,7 +27,7 @@ const NewsView = ({ variant = "fullscreen" }) => {
                     }
                 </TableBody>
             </Table>
-        </ScrollArea>
+        </div>
     )
 }
 
