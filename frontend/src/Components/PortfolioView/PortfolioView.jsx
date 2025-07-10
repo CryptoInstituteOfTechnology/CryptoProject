@@ -7,10 +7,11 @@ import { useNavigate } from 'react-router-dom';
 import PortfolioBox from '../PortfolioBox/PortfolioBox.jsx';
 import ProfitLossbox from "../ProfitLossBox/ProfitLossBox.jsx";
 
-export default function PortfolioView() {
+export default function PortfolioView({variant = "fullscreen"}) {
     const { coinApiData, websocketData } = useContext(webFetchedContext)
     const navigate = useNavigate()
     const { portfolio } = useBackendAttributes()
+    const height = variant === "dashboard" ? "h-[300px]" : "h-screen"
 
     //symbols in portfolio to display
     const portfolioSymbols = portfolio.map((entry) => entry.symbol.toLowerCase())
@@ -20,9 +21,9 @@ export default function PortfolioView() {
     });
     return (
         <div className="flex  justify-center flex-col ">
-            <h1>Portfolio Of Tickers</h1>
-            <ProfitLossbox/>
-            <ScrollArea className="h-[600px]  rounded-md border p-4 h-screen overflow-y-scroll">
+            {variant === "fullscreen" && <h1 className="text-xl font-semibold mb-2">Portfolio Of Tickers</h1>}
+            {variant === "fullscreen" && <ProfitLossbox/>}
+            <ScrollArea className={`${height} rounded-md border p-4 h-screen overflow-y-scroll`}>
                 <Table className="border-4 border-black">
                     <TableBody>
                         {matchingCoins.map((coin) => {
