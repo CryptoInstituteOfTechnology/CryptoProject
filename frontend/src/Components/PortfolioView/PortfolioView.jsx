@@ -22,7 +22,9 @@ export default function PortfolioView({ variant = "fullscreen" }) {
     return (
         <div className={`${height} w-full overflow-x-auto rounded-md border p-4 overflow-y-scroll`}>
             <h1 className="text-xl font-semibold mb-2">Portfolio Of Tickers</h1>
-            {variant === "fullscreen" && <ProfitLossbox />}
+            <div className="flex justify-center">
+                {variant === "fullscreen" && <ProfitLossbox />}
+            </div>
             <Table className="border-4 border-black">
                 <TableBody>
                     {matchingCoins.map((coin) => {
