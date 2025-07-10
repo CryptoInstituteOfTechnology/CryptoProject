@@ -3,6 +3,8 @@ import { UserAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import AllTickersView from "../../Components/AllTickersView/AllTickersView"
 import NewsView from "../../Components/NewsView/NewsView"
+import PortfolioView from "../../Components/PortfolioView/PortfolioView";
+import ProfitLossbox from "../../Components/ProfitLossBox/ProfitLossBox";
 const Dashboard = () => {
     const { session, signOut } = UserAuth()
     const navigate = useNavigate();
@@ -24,12 +26,19 @@ const Dashboard = () => {
                     onClick={handleSignOut}
                     className="sign-out">Sign Out
                 </p>
-                <div className="flex justify-between gap-4">
-                    <div className="w-1/2 shrink">
-                        <AllTickersView />
+
+                <div className="grid grid-cols-2 grid-rows-[auto_1fr_1fr] gap -4">
+                    <div className="col-span-2">
+                        <ProfitLossbox/>
                     </div>
-                    <div className="w-1/2 shrink">
-                        <NewsView />
+                    <div className="row-span-1">
+                        <PortfolioView variant="dashboard"/>
+                    </div>
+                    <div className="row-span-1">
+                        <AllTickersView variant="dashboard"/>
+                    </div>
+                    <div className="col-span-2">
+                        <NewsView variant="dashboard"/>
                     </div>
                 </div>
             </div>
