@@ -48,7 +48,7 @@ export default function NavBar() {
                 </DropdownMenuTrigger>
 
 
-                <DropdownMenuContent className="w-56 bg-whtie text-black z-50">
+                <DropdownMenuContent className="w-56 bg-white text-black z-50">
                     <DropdownMenuLabel className="text-blue-500 font-bold">Navigation</DropdownMenuLabel>
                     <DropdownMenuSeparator />
 
