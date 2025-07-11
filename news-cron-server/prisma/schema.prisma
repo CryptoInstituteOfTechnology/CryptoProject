@@ -13,3 +13,24 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Article {
+  id        Int    @id @default(autoincrement())
+  guid      String
+  title     String
+  keywords  String // for parsing for nodemailer to find which symbol its for
+  image_url String
+
+  // SentimentScore breakdown
+  sentiment     String
+  mixedScore    Float
+  negativeScore Float
+  neutralScore  Float
+  positiveScore Float
+
+  sent        Boolean
+  createdAt   DateTime @default(now())
+  publishedOn DateTime @map("PUBLISHED_ON")
+
+  @@unique([guid])
+}
