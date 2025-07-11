@@ -1,6 +1,7 @@
 const { ComprehendClient, BatchDetectSentimentCommand, LanguageCode } = require("@aws-sdk/client-comprehend");
 const fs = require('fs').promises;
 const path = require('path');
+
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 
 //configurations for accessing aws
