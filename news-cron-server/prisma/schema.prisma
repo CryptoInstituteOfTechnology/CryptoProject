@@ -18,7 +18,7 @@ model Article {
   id        Int    @id @default(autoincrement())
   guid      String
   title     String
-  keywords  String // for parsing for nodemailer to find which symbol its for
+  symbols String[]
   image_url String
 
   // SentimentScore breakdown
