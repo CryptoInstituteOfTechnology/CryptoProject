@@ -1,9 +1,7 @@
 const { ComprehendClient, BatchDetectSentimentCommand, LanguageCode } = require("@aws-sdk/client-comprehend");
 const fs = require('fs').promises;
 const path = require('path');
-
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
-
 //configurations for accessing aws
 // aws only support us-west-2(oregon) for comphrehend
 const config = {
@@ -14,9 +12,6 @@ const config = {
     },
 };
 const client = new ComprehendClient(config);
-
-
-
 // this function fetches news and then filters out the benchmark scores by 0
 // then it makes a call to Amazon Comprehend to get the sentiment, then returns objects with a sentiment score
 // with a positvie or negative sentiment of .10 or higher
@@ -37,8 +32,6 @@ async function sentimentalArticles() {
     }
     const command = new BatchDetectSentimentCommand(input) // sets up command
     const response = await client.send(command); // get sentiment
-
-
     // map response back to original data
     const mapped = response.ResultList.map((result, index) => {
         try {
@@ -56,7 +49,6 @@ async function sentimentalArticles() {
             return null // or some other default value
         }
     })
-
     //for each aritcle, if its negative or pos score ratio is more than 3:1 or 1:3 keep
     function checkSentimentRatio(article) {
         const positive = article.SentimentScore.Positive
@@ -65,11 +57,7 @@ async function sentimentalArticles() {
         return ratio >= 3 || ratio <= 1 / 3
     }
     const articlesExtremeSentiment = mapped.filter(checkSentimentRatio)
-
-
-    
 }
 
 
-
-sentimentalArticles()
+module.exports = sentimentalArticles;
