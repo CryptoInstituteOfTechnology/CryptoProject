@@ -2,8 +2,6 @@ const { ComprehendClient, BatchDetectSentimentCommand, LanguageCode } = require(
 const fs = require('fs').promises;
 const path = require('path');
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
-
-
 //configurations for accessing aws
 // aws only support us-west-2(oregon) for comphrehend
 const config = {
@@ -14,7 +12,6 @@ const config = {
     },
 };
 const client = new ComprehendClient(config);
-
 // this function fetches news and then filters out the benchmark scores by 0
 // then it makes a call to Amazon Comprehend to get the sentiment, then returns objects with a sentiment score
 // with a positvie or negative sentiment of .10 or higher
