@@ -66,8 +66,6 @@ async function sentimentalArticles() {
     }
     const articlesExtremeSentiment = mapped.filter(checkSentimentRatio)
 
-
-    
 }
 
 
