@@ -1,6 +1,7 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 const symbols = require('./symbols.json')
+const articles = require('./article.json');
 
 // return associated symbols with article
 function classifySymbols(article) {
@@ -38,4 +39,5 @@ async function parseArticles(articles) {
     }
 }
 
+parseArticles(articles)
 

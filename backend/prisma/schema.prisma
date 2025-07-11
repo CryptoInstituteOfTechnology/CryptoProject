@@ -55,7 +55,6 @@ model Article {
   title     String
   symbols String[]
   image_url String
-  url String
   // SentimentScore breakdown
   sentiment     String
   mixedScore    Float

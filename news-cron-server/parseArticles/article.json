@@ -1,0 +1,89 @@
+[
+    {
+        "GUID": "https://example.com/article-1",
+        "TITLE": "Article 1: Bitcoin Price Surges to New Highs",
+        "CATEGORY_DATA": [
+            {
+                "TYPE": "122",
+                "ID": 14,
+                "NAME": "BTC",
+                "CATEGORY": "BTC"
+            },
+            {
+                "TYPE": "122",
+                "ID": 37,
+                "NAME": "MARKET",
+                "CATEGORY": "MARKET"
+            }
+        ],
+        "IMAGE_URL": "https://example.com/image-1.jpg",
+        "URL": "https://example.com/article-1",
+        "SENTIMENT": "POSITIVE",
+        "SentimentScores": {
+            "mixedScore": 0.5,
+            "negativeScore": 0.2,
+            "neutralScore": 0.3,
+            "positiveScore": 0.8
+        },
+        "sent": true,
+        "PUBLISHED_ON": 1643723400
+    },
+    {
+        "GUID": "https://example.com/article-2",
+        "TITLE": "Article 2: Ethereum Price Plummets Amid Market Volatility",
+        "CATEGORY_DATA": [
+            {
+                "TYPE": "122",
+                "ID": 15,
+                "NAME": "ETH",
+                "CATEGORY": "ETH"
+            },
+            {
+                "TYPE": "122",
+                "ID": 38,
+                "NAME": "MARKET",
+                "CATEGORY": "MARKET"
+            }
+        ],
+        "IMAGE_URL": "https://example.com/image-2.jpg",
+        "URL": "https://example.com/article-2",
+        "SENTIMENT": "NEGATIVE",
+        "SentimentScores": {
+            "mixedScore": 0.3,
+            "negativeScore": 0.6,
+            "neutralScore": 0.1,
+            "positiveScore": 0.2
+        },
+        "sent": false,
+        "PUBLISHED_ON": 1643723410
+    },
+    {
+        "GUID": "https://example.com/article-3",
+        "TITLE": "Article 3: Crypto Market Trends to Watch in 2023",
+        "CATEGORY_DATA": [
+            {
+                "TYPE": "122",
+                "ID": 16,
+                "NAME": "CRYPTO",
+                "CATEGORY": "CRYPTO"
+            },
+            {
+                "TYPE": "122",
+                "ID": 39,
+                "NAME": "MARKET",
+                "CATEGORY": "MARKET"
+            }
+        ],
+        "IMAGE_URL": "https://example.com/image-3.jpg",
+        "URL": "https://example.com/article-3",
+        "SENTIMENT": "NEUTRAL",
+        "SentimentScores": {
+            "mixedScore": 0.4,
+            "negativeScore": 0.3,
+            "neutralScore": 0.6,
+            "positiveScore": 0.4
+        },
+        "sent": true,
+        "PUBLISHED_ON": 1643723420
+    }
+]
