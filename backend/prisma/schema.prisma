@@ -47,3 +47,25 @@ model WatchlistItem{
   @@unique([userId,symbol]) // no duplicate entries
   @@index([userId]) // creates list of where it is at in DB for easier lookup
 }
+
+
+model Article {
+  id        Int    @id @default(autoincrement())
+  guid      String
+  title     String
+  symbols String[]
+  image_url String
+  url String
+  // SentimentScore breakdown
+  sentiment     String
+  mixedScore    Float
+  negativeScore Float
+  neutralScore  Float
+  positiveScore Float
+
+  sent        Boolean
+  createdAt   DateTime @default(now())
+  publishedOn DateTime @map("PUBLISHED_ON") // convert date frmo api in to JS date
+
+  @@unique([guid])
+}
