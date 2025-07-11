@@ -24,6 +24,7 @@ async function sentimentalArticles() {
 
     // only fetch 25 at a time - AWS Comprehend BatchDetect only can process 25 at a time without a job
     //use nornal fetch when calling fromAPI, but have to use special to process fake data
+    // url will have all categories w tickers in reg prod
     const data = await fs.readFile('./testNews.json', 'utf8');
     const news = JSON.parse(data);
     const filteredNews = news.filter(
