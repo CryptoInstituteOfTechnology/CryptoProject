@@ -30,7 +30,7 @@ model Article {
 
   sent        Boolean
   createdAt   DateTime @default(now())
-  publishedOn DateTime @map("PUBLISHED_ON")
+  publishedOn DateTime @map("PUBLISHED_ON") // convert date frmo api in to JS date
 
   @@unique([guid])
 }
