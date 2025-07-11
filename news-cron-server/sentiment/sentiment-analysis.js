@@ -15,7 +15,7 @@ const client = new ComprehendClient(config);
 // this function fetches news and then filters out the benchmark scores by 0
 // then it makes a call to Amazon Comprehend to get the sentiment, then returns objects with a sentiment score
 // with a positvie or negative sentiment of .10 or higher
-// filter sout atrticles without pos to neg ratio of 3 or 1/3
+// filters out atrticles without pos to neg ratio of 3 or 1/3
 async function sentimentalArticles() {
 
     // only fetch 25 at a time - AWS Comprehend BatchDetect only can process 25 at a time without a job

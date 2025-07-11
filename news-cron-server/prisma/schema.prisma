@@ -18,16 +18,14 @@ model Article {
   id        Int    @id @default(autoincrement())
   guid      String
   title     String
-  keywords  String // for parsing for nodemailer to find which symbol its for
+  symbols String[]
   image_url String
-
   // SentimentScore breakdown
   sentiment     String
   mixedScore    Float
   negativeScore Float
   neutralScore  Float
   positiveScore Float
-
   sent        Boolean
   createdAt   DateTime @default(now())
   publishedOn DateTime @map("PUBLISHED_ON") // convert date frmo api in to JS date
