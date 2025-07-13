@@ -3,6 +3,7 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 const path = require('path');
 const { supabase } = require('../supabaseClient');
+const buildEmail = require('./buildEmail')
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 
 let transporter = nodemailer.createTransport({
@@ -16,21 +17,19 @@ let transporter = nodemailer.createTransport({
         refreshToken: process.env.OAUTH_REFRESH_TOKEN
     }
 });
-
 // get user email
 async function getUserEmail(userId) {
-    const {data,error} = await supabase
-    .from('users')
-    .select('email')
-    .eq('id',userId) // where id === userID
-    .single()
-    if (error){
+    const { data, error } = await supabase
+        .from('users')
+        .select('email')
+        .eq('id', userId) // where id === userID
+        .single()
+    if (error) {
         console.log(error)
         return null
     }
     return data.email
 }
-
 async function sendEmails() {
     // get users with portfolio entries, get all distinct Ids
     const users = await prisma.portfolioEntry.findMany({
@@ -59,21 +58,15 @@ async function sendEmails() {
             symbolArticleMap.get(symbol).push(article)
         }
     }
-
-
     for (const { userId } of users) {
-
         // get user portfolio
         const portfolio = await prisma.portfolioEntry.findMany(
             {
                 where: { userId }
             }
         )
-
-
         const userSymbols = portfolio.map(entry => entry.symbol)
         const matchedArticles = new Set() // create set for articles that will be sent
-
         //find matching symbols in portfolio with articles associated, then add them to set
         for (const symbol of userSymbols) {
             if (symbolArticleMap.has(symbol)) {
@@ -83,10 +76,11 @@ async function sendEmails() {
             }
         }
 
+        //sends email in one batch, one email per person
         if (matchedArticles.size > 0) {
             // get email address from supabase
             const email = await getUserEmail(userId)
-
+            const html = buildEmail(Array.from(matchedArticles))
             const mailOptions = {
                 from: `Crypto Alerts <${process.env.MAIL_USERNAME}>`,
                 to: email,
@@ -94,23 +88,15 @@ async function sendEmails() {
                 html: html
             }
 
-
-
-
-            const html = buildEmail(Array.from(matchedArticles))
-            try{
+            try {
                 await transporter.sendMail(mailOptions)
-                console.log("email sent to" , email)
-            }catch(error){
+                console.log("email sent to", email)
+            } catch (error) {
                 console.error(`failed to send email`)
             }
-            
         }
-
     }
-
     // mark articles as sent
-
     const articleId = articles.map(article => article.id)
     await prisma.article.updateMany({
         where: {
@@ -123,8 +109,4 @@ async function sendEmails() {
 }
 
 
-
-
-
-//batch users articles to one email to save request amounts
 
