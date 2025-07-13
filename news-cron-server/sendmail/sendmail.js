@@ -110,3 +110,4 @@ async function sendEmails() {
 
 
 
+module.exports = sendEmails
