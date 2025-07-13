@@ -1,6 +1,7 @@
 const nodeMailer = require('nodemailer')
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
+const path = require('path');
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 
 let transporter = nodemailer.createTransport({
@@ -74,9 +75,26 @@ async function sendEmails() {
 
         if (matchedArticles.size > 0) {
             // get email address from supabase
-            const html = buildEmail([matchedArticles])
+            const email = await getUserEmail(userId)
 
-            //send emails
+            const mailOptions = {
+                from: `Crypto Alerts <${process.env.MAIL_USERNAME}>`,
+                to: email,
+                subject: "Your Crypto News Update",
+                html: html
+            }
+
+
+
+
+            const html = buildEmail(Array.from(matchedArticles))
+            try{
+                await transporter.sendMail(mailOptions)
+                console.log("email sent to" , email)
+            }catch(error){
+                console.error(`failed to send email`)
+            }
+            
         }
 
     }
