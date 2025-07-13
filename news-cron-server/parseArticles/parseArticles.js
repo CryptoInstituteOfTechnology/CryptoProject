@@ -1,6 +1,7 @@
-const { PrismaClient } = require('@prisma/client');
+const { PrismaClient } = require('../generated/prisma');
 const prisma = new PrismaClient();
 const symbols = require('./symbols.json')
+const articles = require('./articles.json')
 // return associated symbols with article
 function classifySymbols(article) {
     const associatedTickers = article.CATEGORY_DATA.filter((category) => {
@@ -37,5 +38,6 @@ async function parseArticles(articles) {
     }
 }
 
+parseArticles(articles)
 
 module.exports = parseArticles

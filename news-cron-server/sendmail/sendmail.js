@@ -1,8 +1,8 @@
-const nodeMailer = require('nodemailer')
-const { PrismaClient } = require('@prisma/client');
+const nodemailer = require('nodemailer')
+const { PrismaClient } = require('../generated/prisma');
 const prisma = new PrismaClient();
 const path = require('path');
-const { supabase } = require('../supabaseClient');
+const supabase = require('../supabaseClient');
 const buildEmail = require('./buildEmail')
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 
@@ -19,16 +19,15 @@ let transporter = nodemailer.createTransport({
 });
 // get user email
 async function getUserEmail(userId) {
-    const { data, error } = await supabase
-        .from('users')
-        .select('email')
-        .eq('id', userId) // where id === userID
-        .single()
+    console.log('🔍 Fetching email for user ID:', userId);
+    const { data, error } = await supabase.auth.admin.getUserById(userId);
     if (error) {
-        console.log(error)
+        console.log(`❌ Failed to get user`, error)
         return null
     }
-    return data.email
+    const email = data?.user?.email
+    console.log(`✅ Found email for ${userId}:`, email);
+    return email; 
 }
 async function sendEmails() {
     // get users with portfolio entries, get all distinct Ids
@@ -92,20 +91,20 @@ async function sendEmails() {
                 await transporter.sendMail(mailOptions)
                 console.log("email sent to", email)
             } catch (error) {
-                console.error(`failed to send email`)
+                console.error(error)
             }
         }
     }
     // mark articles as sent
-    const articleId = articles.map(article => article.id)
-    await prisma.article.updateMany({
-        where: {
-            id: { in: articleId }
-        },
-        data: {
-            sent: true
-        }
-    })
+    // const articleId = articles.map(article => article.id)
+    // await prisma.article.updateMany({
+    //     where: {
+    //         id: { in: articleId }
+    //     },
+    //     data: {
+    //         sent: true
+    //     }
+    // })
 }
 
 
