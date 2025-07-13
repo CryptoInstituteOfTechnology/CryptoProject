@@ -2,6 +2,7 @@ const nodeMailer = require('nodemailer')
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 const path = require('path');
+const { supabase } = require('../supabaseClient');
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 
 let transporter = nodemailer.createTransport({
@@ -16,9 +17,20 @@ let transporter = nodemailer.createTransport({
     }
 });
 
-
+// get user email
 async function getUserEmail(userId) {
-    return `${userId}@gmail.com`
+    const {data,error} = await supabase
+    .from('users')
+    .select('email')
+    .eq('id',userId) // where id === userID
+    .single()
+
+    if (error){
+        console.log(error)
+        return null
+    }
+
+    return data.email
 }
 
 async function sendEmails() {
