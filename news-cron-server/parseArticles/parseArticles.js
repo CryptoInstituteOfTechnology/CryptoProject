@@ -37,5 +37,5 @@ async function parseArticles(articles) {
     }
 }
 
-parseArticles(articles)
 
+module.exports = parseArticles

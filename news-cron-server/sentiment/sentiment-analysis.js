@@ -58,6 +58,4 @@ async function sentimentalArticles() {
     }
     const articlesExtremeSentiment = mapped.filter(checkSentimentRatio)
 }
-
-
 module.exports = sentimentalArticles;
