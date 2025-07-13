@@ -1,10 +1,20 @@
 const nodeMailer = require('nodemailer')
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
-require('dotenv').config()
+require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 
+let transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        type: 'OAuth2',
+        user: process.env.MAIL_USERNAME,
+        pass: process.env.MAIL_PASSWORD,
+        clientId: process.env.OAUTH_CLIENTID,
+        clientSecret: process.env.OAUTH_CLIENT_SECRET,
+        refreshToken: process.env.OAUTH_REFRESH_TOKEN
+    }
+});
 
-c
 
 async function getUserEmail(userId) {
     return `${userId}@gmail.com`
@@ -53,7 +63,7 @@ async function sendEmails() {
         const userSymbols = portfolio.map(entry => entry.symbol)
         const matchedArticles = new Set() // create set for articles that will be sent
 
-        //find mathcing symbols in portfolio with articles associated, then add them to set
+        //find matching symbols in portfolio with articles associated, then add them to set
         for (const symbol of userSymbols) {
             if (symbolArticleMap.has(symbol)) {
                 symbolArticleMap.get(symbol).forEach((article) => {
