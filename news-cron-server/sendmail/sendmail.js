@@ -24,12 +24,10 @@ async function getUserEmail(userId) {
     .select('email')
     .eq('id',userId) // where id === userID
     .single()
-
     if (error){
         console.log(error)
         return null
     }
-
     return data.email
 }
 
