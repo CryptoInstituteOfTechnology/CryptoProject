@@ -13,6 +13,7 @@
   "dependencies": {
     "@aws-sdk/client-comprehend": "^3.844.0",
     "@prisma/client": "^6.11.1",
+    "@supabase/supabase-js": "^2.50.5",
     "dotenv": "^17.2.0",
     "express": "^5.1.0",
     "node-cron": "^4.2.0",
