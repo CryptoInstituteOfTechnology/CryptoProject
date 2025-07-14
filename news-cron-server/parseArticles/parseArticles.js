@@ -24,10 +24,10 @@ async function parseArticles(articles) {
                     symbols: associatedTickers,
                     image_url: article.IMAGE_URL,
                     sentiment: article.SENTIMENT,
-                    mixedScore: article.SentimentScores.mixedScore || 0,
-                    negativeScore: article.SentimentScores.negativeScore || 0,
-                    neutralScore: article.SentimentScores.neutralScore || 0,
-                    positiveScore: article.SentimentScores.positiveScore || 0,
+                    mixedScore: article.SentimentScore?.Mixed || 0,
+                    negativeScore: article.SentimentScore?.Negative || 0,
+                    neutralScore: article.SentimentScore?.Neutral || 0,
+                    positiveScore: article.SentimentScore?.Positive || 0,
                     sent: article.sent || false,
                     publishedOn: publishedOnDate,
                 },
@@ -37,7 +37,5 @@ async function parseArticles(articles) {
         }
     }
 }
-
-parseArticles(articles)
 
 module.exports = parseArticles
