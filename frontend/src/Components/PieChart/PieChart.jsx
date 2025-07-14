@@ -14,7 +14,7 @@ function findWeights(data) {
         const blue = Math.floor(Math.random() * 156) + 100
         const color = `rgb(${red},${blue},${green})`
         return {
-            symbol: coin.symbol, 
+            symbol: coin.symbol,
             percent,
             color
         }
@@ -38,27 +38,45 @@ export default function Piechart() {
     let cumulativePercent = 0;
     //for each slice
 
-    const paths = slices.map((slice, i) =>{
+    const paths = slices.map((slice, i) => {
         const [startX, startY] = getCoordinatesForPercent(cumulativePercent);
         cumulativePercent += slice.percent;
         const [endX, endY] = getCoordinatesForPercent(cumulativePercent);
-          // if the slice is more than 50%, take the large arc (the long way around)
         const largeArcFlag = slice.percent > .5 ? 1 : 0;
-        // create an array and join it just for code readability
+
+        // Calculate midpoint for symbol
+        const midPoint = cumulativePercent - slice.percent / 2;
+        const [symbolX, symbolY] = getCoordinatesForPercent(midPoint);
+
         const pathData = [
-            `M ${startX} ${startY}`, // Move
-            `A 1 1 0 ${largeArcFlag} 1 ${endX} ${endY}`, // Arc
-            `L 0 0`, // Line
+            `M ${startX} ${startY}`,
+            `A 1 1 0 ${largeArcFlag} 1 ${endX} ${endY}`,
+            `L 0 0`,
         ].join(' ');
 
-        return <path key = {i} d = {pathData} fill = {slice.color}/>
-    })
-
+        return (
+            <g key={i}>
+                <path d={pathData} fill={slice.color} />
+                {/* Example: Place a text symbol at the midpoint */}
+                <text
+                    x={symbolX}
+                    y={symbolY}
+                    textAnchor="middle"
+                    alignmentBaseline="middle"
+                    fontSize="0.1"
+                    fill="#000"
+                >
+                    ★
+                </text>
+            </g>
+        );
+    });
+    
     return (
         <svg
             viewBox="-1 1 2 2" // puts center at the center of circle
-            style = {{transform: "rotate(-90deg)"}} // start circle at top
-        > 
+            style={{ transform: "rotate(-90deg)" }} // start circle at top
+        >
             {paths}
         </svg>
     )
