@@ -23,13 +23,11 @@ const Signup = () => {
             const result = await signUpNewUser(email, password);
 
             if (result.success) {
-                console.log(session)
                 navigate('/dashboard');
             } else {
                 setError(result.error.message || 'Sign up failed');
             }
         } catch (error) {
-            console.log('issue moving to dashboard', error);
             setError('An unexpected error occurred');
         } finally {
             setLoading(false);

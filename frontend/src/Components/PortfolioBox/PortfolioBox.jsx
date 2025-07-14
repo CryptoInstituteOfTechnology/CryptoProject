@@ -45,9 +45,9 @@ export default function PortfolioBox({ coinData, livePrice, avgPrice, quantity }
             </TableCell>
             <TableCell className="text-lg font-bold text-white">{coinData.symbol.toUpperCase()}</TableCell>
             <TableCell className={`${priceColor} text-lg font-bold`}>Price: ${Number(livePrice).toFixed(4)}</TableCell>
-            <TableCell className="text-sm text-green-600 font-bold">Current Quantity: {quantity}</TableCell>
-            <TableCell className="text-sm text-green-600 font-bold">Average Price: ${avgPrice?.toFixed(4)}</TableCell>
-            <TableCell className={`${profitColor} text-lg font-bold`}>P&L : ${profit?.toFixed(4)}</TableCell>
+            <TableCell className="text-sm text-white font-bold">Current Quantity: {quantity}</TableCell>
+            <TableCell className="text-sm text-white font-bold">Your Average Price: ${avgPrice?.toFixed(4)}</TableCell>
+            <TableCell className={`${profitColor} text-lg font-bold`}>P&L : ${profit?.toFixed(2)}</TableCell>
             <TableCell>
                 <AddToWatchList
                     coinData={coinData}

@@ -23,7 +23,6 @@ const Login = () => {
                 setError(result.error.message || 'Log in up failed');
             }
         } catch (error) {
-            console.log('issue moving to dashboard', error);
             setError('An unexpected error occurred');
         } finally {
             setLoading(false);

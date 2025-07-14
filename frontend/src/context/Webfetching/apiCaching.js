@@ -20,7 +20,6 @@ export async function apiCaching({ url, timeBeforeNextFetch, cachingKey, methodT
         return data
     } catch (error) {
         if (cachedData) {
-            console.log("using prev data because of error")
             return JSON.parse(cachedData)
         }
         return null 
