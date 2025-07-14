@@ -17,19 +17,21 @@ let transporter = nodemailer.createTransport({
         refreshToken: process.env.OAUTH_REFRESH_TOKEN
     }
 });
-// get user email
+
+// gets user email for sending
 async function getUserEmail(userId) {
     console.log('🔍 Fetching email for user ID:', userId);
     const { data, error } = await supabase.auth.admin.getUserById(userId);
     if (error) {
-        console.log(`❌ Failed to get user`, error)
+        console.log(` Failed to get user`, error)
         return null
     }
     const email = data?.user?.email
-    console.log(`✅ Found email for ${userId}:`, email);
-    return email; 
+    console.log(` Found email for ${userId}:`, email);
+    return email;
 }
 async function sendEmails() {
+
     // get users with portfolio entries, get all distinct Ids
     const users = await prisma.portfolioEntry.findMany({
         select: {
@@ -37,14 +39,19 @@ async function sendEmails() {
         },
         distinct: ['userId']
     })
+
     // get all unsent articles
     const articles = await prisma.article.findMany({
         where: {
             sent: false
         }
     })
-    // map symbols to articles - create table
-    // ex BTC ;[article1,article2] -> then you can loop by user and add all articles to one email
+
+    /** 
+     * ## map symbols to articles - create table
+    * - ex BTC ;[article1,article2] -> then you can loop by user and add all articles to one email
+    * - multple tickers can have same articles
+    */
     const symbolArticleMap = new Map()
     for (const article of articles) {
         for (const symbol of article.symbols) {
@@ -57,6 +64,7 @@ async function sendEmails() {
             symbolArticleMap.get(symbol).push(article)
         }
     }
+    //send users emails 
     for (const { userId } of users) {
         // get user portfolio
         const portfolio = await prisma.portfolioEntry.findMany(
@@ -65,7 +73,11 @@ async function sendEmails() {
             }
         )
         const userSymbols = portfolio.map(entry => entry.symbol)
-        const matchedArticles = new Set() // create set for articles that will be sent
+        /**
+         * create set for articles that will be sent, 
+         * set bc symbols can have same articles
+         */
+        const matchedArticles = new Set()
         //find matching symbols in portfolio with articles associated, then add them to set
         for (const symbol of userSymbols) {
             if (symbolArticleMap.has(symbol)) {
@@ -74,7 +86,6 @@ async function sendEmails() {
                 })
             }
         }
-
         //sends email in one batch, one email per person
         if (matchedArticles.size > 0) {
             // get email address from supabase
@@ -95,18 +106,16 @@ async function sendEmails() {
             }
         }
     }
-    // mark articles as sent
-    // const articleId = articles.map(article => article.id)
-    // await prisma.article.updateMany({
-    //     where: {
-    //         id: { in: articleId }
-    //     },
-    //     data: {
-    //         sent: true
-    //     }
-    // })
+    //mark articles as sent
+    const articleId = articles.map(article => article.id)
+    await prisma.article.updateMany({
+        where: {
+            id: { in: articleId }
+        },
+        data: {
+            sent: true
+        }
+    })
 }
-
-
 
 module.exports = sendEmails

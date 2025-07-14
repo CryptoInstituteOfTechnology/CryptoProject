@@ -4,7 +4,6 @@ function buildEmail(articles) {
         return `
         <div style="margin-bottom: 20px; border-bottom: 1px solid #ccc; padding-bottom: 10px;">
             <h2>${article.title}</h2>
-            <img src="${article.image_url}" alt="Article Image" style="max-width: 100%; height: auto;">
             <p><strong>Symbols:</strong> ${article.symbols.join(', ')}</p>
             <a href="${article.guid}" target="_blank">Read Full Article</a>
         </div>
@@ -34,5 +33,4 @@ function buildEmail(articles) {
         </html>
     `;
 }
-
 module.exports = buildEmail
