@@ -6,6 +6,7 @@
 
 generator client {
   provider = "prisma-client-js"
+  output   = "../generated/prisma"
 }
 
 datasource db {
@@ -13,48 +14,46 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
-model PortfolioEntry{
-  id Int @id @default(autoincrement())
-  userId String // supabase id
-  symbol String 
-  quantity Int // net amount
-  avgPrice Float 
+model PortfolioEntry {
+  id        Int      @id @default(autoincrement())
+  userId    String // supabase id
+  symbol    String
+  quantity  Int // net amount
+  avgPrice  Float
   updatedAt DateTime @updatedAt
-  @@unique([userId,symbol]) // only should be one entry per coin - and you update that one
+
+  @@unique([userId, symbol]) // only should be one entry per coin - and you update that one
   @@index([userId])
 }
-
 
 model Transaction {
-  id  Int  @id @default(autoincrement())
-  userId String // supabase id
-  symbol String // btc, eth, for frontend fetching
-  quantity Int // buy is positive , sell is negative
-  price Float // price of coin
-  type String // 'BUY' or 'SELL'
+  id        Int      @id @default(autoincrement())
+  userId    String // supabase id
+  symbol    String // btc, eth, for frontend fetching
+  quantity  Int // buy is positive , sell is negative
+  price     Float // price of coin
+  type      String // 'BUY' or 'SELL'
   createdAt DateTime @default(now())
 
   @@index([userId])
 }
 
-model WatchlistItem{
-  id Int @id @default(autoincrement())
-  userId String
-  symbol String
+model WatchlistItem {
+  id        Int      @id @default(autoincrement())
+  userId    String
+  symbol    String
   createdAt DateTime @default(now())
 
-  @@unique([userId,symbol]) // no duplicate entries
+  @@unique([userId, symbol]) // no duplicate entries
   @@index([userId]) // creates list of where it is at in DB for easier lookup
 }
 
-
 model Article {
-  id        Int    @id @default(autoincrement())
-  guid      String
-  title     String
-  symbols String[]
-  image_url String
+  id            Int      @id @default(autoincrement())
+  guid          String
+  title         String
+  symbols       String[]
+  image_url     String
   // SentimentScore breakdown
   sentiment     String
   mixedScore    Float
