@@ -12,7 +12,7 @@ export default function PortfolioView({ variant = "fullscreen" }) {
     const navigate = useNavigate()
     const { portfolio } = useBackendAttributes()
     const height = variant === "dashboard" ? "h-[600px]" : "h-screen"
-
+    console.log(portfolio)
     //symbols in portfolio to display
     const portfolioSymbols = portfolio.map((entry) => entry.symbol.toLowerCase())
     // symbols 
