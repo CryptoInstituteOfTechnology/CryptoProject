@@ -1,5 +1,15 @@
 const sendEmails = require('./sendmail/sendmail')
+const parseArticles = require('./parseArticles/parseArticles')
+const sentimentalArticles = require('./sentiment/sentiment-analysis')
 
-sendEmails()
-.then(()=> console.log(`sent email!`))
-.catch((err) => console.error(err))
+const sentimentalArticles = require('./sentimentalArticles');
+const parseArticles = require('./parseArticles');
+const sendEmails = require('./sendEmails');
+
+async function main() {
+    const articles = await sentimentalArticles();
+    await parseArticles(articles);
+    await sendEmails();
+}
+
+main();
