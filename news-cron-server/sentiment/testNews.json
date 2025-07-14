@@ -1,0 +1,82 @@
+[
+    {
+        "ID": 433532,
+        "GUID": "abcde12345",
+        "TITLE": "Example Article Title",
+        "SOURCE_DATA": {
+            "BENCHMARK_SCORE": 90
+        }
+    },
+    {
+        "ID": 234567,
+        "GUID": "fghij67890",
+        "TITLE": "This Company is a Total Disaster",
+        "SOURCE_DATA": {
+            "BENCHMARK_SCORE": 0
+        }
+    },
+    {
+        "ID": 345678,
+        "GUID": "klmno34567",
+        "TITLE": "The Best Investment Opportunity of the Year",
+        "SOURCE_DATA": {
+            "BENCHMARK_SCORE": 95
+        }
+    },
+    {
+        "ID": 456789,
+        "GUID": "pqrst90123",
+        "TITLE": "A Complete Waste of Time and Money",
+        "SOURCE_DATA": {
+            "BENCHMARK_SCORE": 10
+        }
+    },
+    {
+        "ID": 567890,
+        "GUID": "uvwxyz45678",
+        "TITLE": "The Future of Technology is Here",
+        "SOURCE_DATA": {
+            "BENCHMARK_SCORE": 80
+        }
+    },
+    {
+        "ID": 678901,
+        "GUID": "123456abcdef",
+        "TITLE": "A Game-Changing Innovation",
+        "SOURCE_DATA": {
+            "BENCHMARK_SCORE": 70
+        }
+    },
+    {
+        "ID": 789012,
+        "GUID": "ghijklmnopqr",
+        "TITLE": "A Total Failure in Every Way",
+        "SOURCE_DATA": {
+            "BENCHMARK_SCORE": 0
+        }
+    },
+    {
+        "ID": 890123,
+        "GUID": "stuvwxzyzabc",
+        "TITLE": "The Most Exciting Development in Years",
+        "SOURCE_DATA": {
+            "BENCHMARK_SCORE": 85
+        }
+    },
+    {
+        "ID": 901234,
+        "GUID": "defghijklmno",
+        "TITLE": "A Disappointing Experience",
+        "SOURCE_DATA": {
+            "BENCHMARK_SCORE": 40
+        }
+    },
+    {
+        "ID": 12345,
+        "GUID": "pqrstuvwxyza",
+        "TITLE": "The Best Decision I Ever Made",
+        "SOURCE_DATA": {
+            "BENCHMARK_SCORE": 98
+        }
+    }
+]
