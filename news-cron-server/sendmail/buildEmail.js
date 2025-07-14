@@ -33,5 +33,4 @@ function buildEmail(articles) {
         </html>
     `;
 }
-
 module.exports = buildEmail

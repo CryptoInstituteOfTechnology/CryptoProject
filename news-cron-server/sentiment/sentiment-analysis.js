@@ -1,7 +1,7 @@
 const { ComprehendClient, BatchDetectSentimentCommand, LanguageCode } = require("@aws-sdk/client-comprehend");
 const path = require('path');
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
-//url setup
+//url setup, take all known tickers for url string
 const baseUrl = 'https://data-api.coindesk.com/news/v1/article/list';
 const tickers = [
     "BTC", "ETH", "BNB", "LTC", "XRP", "EOS", "TRX", "ADA", "XMR",
@@ -11,7 +11,7 @@ const tickers = [
 const params = {
     lang: "EN",
     limit: "20",
-    categories: tickers.join(","),  // join array to comma-separated string
+    categories: tickers.join(","),  // join array to comma-separated string ex BTC,ETH
     api_key: process.env.COINDESK_NEWS_API_KEY
 };
 const url = new URL(baseUrl);
@@ -31,14 +31,19 @@ const config = {
 };
 const client = new ComprehendClient(config);
 
-// this function fetches news and then filters out the benchmark scores by 0
-// then it makes a call to Amazon Comprehend to get the sentiment, then returns objects with a sentiment score
-// with a positive or negative sentiment of .10 or higher
-// filters out atrticles without pos to neg ratio of 3 or 1/3
+/**
+ * ## This function fetches news and then filters out the benchmark scores equal to 0.
+ * - Makes a call to Amazon Comprehend to get the sentiment.
+ * - Returns objects with a sentiment score (positive or negative) of 0.10 or higher.
+ * - Filters out articles without a positive to negative ratio of 3 or 1/3.
+ */
 async function sentimentalArticles() {
-    // only fetch 25 at a time - AWS Comprehend BatchDetect only can process 25 at a time without a job
-    //use nornal fetch when calling fromAPI, but have to use special to process fake data
-    // url will have all categories w tickers in reg prod
+    /**
+     * - Only fetch 25 at a time: AWS Comprehend BatchDetect can only process 25 at a time without a job.
+     * - Use normal fetch when calling from API, but use a special method to process fake data.
+     * - URL will have all categories with tickers in regular production.
+     */
+
     const responses = await fetch(url, options);
     const json = await responses.json()
     const news = json.Data || []
@@ -78,4 +83,5 @@ async function sentimentalArticles() {
     const articlesExtremeSentiment = mapped.filter(checkSentimentRatio)
     return articlesExtremeSentiment
 }
+
 module.exports = sentimentalArticles;

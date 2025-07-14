@@ -8,10 +8,10 @@ function classifySymbols(article) {
     }).map((category) => category.NAME);
     return associatedTickers;
 }
-//create DB entries for articles with info we want!
+//create DB entries for articles and add to DB
 async function parseArticles(articles) {
     const articlesToParse = articles;
-    // Logic to parse it
+
     for (const article of articlesToParse) {
         const associatedTickers = classifySymbols(article);
         const publishedOnDate = new Date(article.PUBLISHED_ON * 1000);
