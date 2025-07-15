@@ -28,7 +28,7 @@ export default function WatchList() {
                         return (
                             <TableRow
                                 key={coin.id}
-                                className="cursor-pointer hover:bg-gray-100 transitiom-colors"
+                                className="cursor-pointer hover:bg-blue-400 transitiom-colors "
                                 onClick={() => navigate(`/assetview/${coin.id.toLowerCase()}`)} // takes user to cryptoview when clicked
                             >
                                 <TickerBox
