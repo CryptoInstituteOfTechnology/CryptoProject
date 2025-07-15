@@ -1,6 +1,4 @@
 import { useBackendAttributes } from "../../context/BackEndContext";
-
-
 // find percentage makeups of portfolio, and assign random color
 function findWeights(data) {
     let total = 0
@@ -9,10 +7,14 @@ function findWeights(data) {
     }
     const mapofWeights = data.map((coin) => {
         const percent = (coin.avgPrice * coin.quantity) / total
-        const red = Math.floor(Math.random() * 156) + 100
-        const green = Math.floor(Math.random() * 156) + 100
-        const blue = Math.floor(Math.random() * 156) + 100
-        const color = `rgb(${red},${blue},${green})`
+        let sum = 0;
+        //get consistent, non changing color
+        for (let i = 0; i < coin.symbol.length; i++) {
+            sum += coin.symbol.charCodeAt(i);
+        }
+        // use modulus to get hue between 0-359
+        const hue = sum % 360;
+        const color = `hsl(${hue}, 70%, 50%)`;
         return {
             symbol: coin.symbol,
             percent,
@@ -30,21 +32,20 @@ function getCoordinatesForPercent(percent) {
 
 export default function Piechart() {
     const { portfolio } = useBackendAttributes()
-
     //get percentages of slice
     const slices = findWeights(portfolio)
-
     //tracker to see what percent has been filled, so you know where to start next slice
     let cumulativePercent = 0;
     //for each slice
-
     const paths = slices.map((slice, i) => {
+        // starting x and y point to end of y and x
         const [startX, startY] = getCoordinatesForPercent(cumulativePercent);
         cumulativePercent += slice.percent;
         const [endX, endY] = getCoordinatesForPercent(cumulativePercent);
+        //if arc is big start clockwise
         const largeArcFlag = slice.percent > .5 ? 1 : 0;
 
-        // Calculate midpoint for symbol
+        // Calculate midpoint for symbol display
         const midPoint = cumulativePercent - slice.percent / 2;
         const [symbolX, symbolY] = getCoordinatesForPercent(midPoint);
 
@@ -53,29 +54,34 @@ export default function Piechart() {
             `A 1 1 0 ${largeArcFlag} 1 ${endX} ${endY}`,
             `L 0 0`,
         ].join(' ');
-
         return (
             <g key={i}>
-                <path d={pathData} fill={slice.color} />
-                {/* Example: Place a text symbol at the midpoint */}
+                <path
+                    d={pathData}
+                    fill={slice.color}
+                    stroke="#000"
+                    strokeWidth="0.02"
+                    strokeLinejoin="round"
+                />
                 <text
-                    x={symbolX}
-                    y={symbolY}
+                    className="font-bold"
+                    x={symbolX * .6}
+                    y={symbolY * .6}
                     textAnchor="middle"
                     alignmentBaseline="middle"
-                    fontSize="0.1"
+                    fontSize="0.15"  // smaller font size for smaller chart
                     fill="#000"
                 >
-                    ★
+                    {slice.symbol}
                 </text>
             </g>
         );
     });
-    
     return (
-        <svg
-            viewBox="-1 1 2 2" // puts center at the center of circle
-            style={{ transform: "rotate(-90deg)" }} // start circle at top
+        <svg className="mb-10 mr-4"
+            viewBox="-1 -1 2 2"
+            width="200"
+            height="200"
         >
             {paths}
         </svg>

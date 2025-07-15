@@ -6,6 +6,7 @@ import { ScrollArea } from "../ui/scroll-area.jsx";
 import { useNavigate } from 'react-router-dom';
 import PortfolioBox from '../PortfolioBox/PortfolioBox.jsx';
 import ProfitLossbox from "../ProfitLossBox/ProfitLossBox.jsx";
+import Piechart from "../PieChart/PieChart.jsx";
 
 export default function PortfolioView({ variant = "fullscreen" }) {
     const { coinApiData, websocketData } = useContext(webFetchedContext)
@@ -23,6 +24,7 @@ export default function PortfolioView({ variant = "fullscreen" }) {
         <div className={`${height} w-full overflow-x-auto rounded-md border p-4 overflow-y-scroll`}>
             <h1 className="text-xl font-semibold mb-2">Portfolio Of Tickers</h1>
             <div className="flex justify-center">
+                {variant === "fullscreen" && <Piechart/>}
                 {variant === "fullscreen" && <ProfitLossbox />}
             </div>
             <Table className="border-4 border-black">
