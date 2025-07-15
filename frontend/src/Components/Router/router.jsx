@@ -13,18 +13,24 @@ const Layout = () => (
     </>
 );
 
-// Lazy load route components
-const Signup = lazy(() => import("../../Pages/Signup/Signup"));
-const Login = lazy(() => import("../../Pages/Login/Login"));
-const Dashboard = lazy(() => import("../../Pages/Dashboard/Dashboard"));
-const App = lazy(() => import("../../App"));
-const AssetView = lazy(() => import("../../Pages/AssetView/AssetView"));
-const AllTickers = lazy(() => import("../../Pages/AllTickers/AllTickers"));
-const News = lazy(() => import("../../Pages/News/News"));
-const Portfolio = lazy(() => import("../../Pages/Portfolio/Portfolio"));
-const Recommendations = lazy(() => import("../../Pages/Recommendations/Recommendations"));
-const WatchList = lazy(() => import("../../Pages/Watchlist/Watchlist"));
-
+const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+//takes one second to load page artifically
+const lazyWithDelay = (importFunc) => {
+    return lazy(() =>
+        delay(1000).then(() => importFunc())
+    );
+};
+// lazy components for loading
+const Signup = lazyWithDelay(() => import("../../Pages/Signup/Signup"));
+const Login = lazyWithDelay(() => import("../../Pages/Login/Login"));
+const Dashboard = lazyWithDelay(() => import("../../Pages/Dashboard/Dashboard"));
+const App = lazyWithDelay(() => import("../../App"));
+const AssetView = lazyWithDelay(() => import("../../Pages/AssetView/AssetView"));
+const AllTickers = lazyWithDelay(() => import("../../Pages/AllTickers/AllTickers"));
+const News = lazyWithDelay(() => import("../../Pages/News/News"));
+const Portfolio = lazyWithDelay(() => import("../../Pages/Portfolio/Portfolio"));
+const Recommendations = lazyWithDelay(() => import("../../Pages/Recommendations/Recommendations"));
+const WatchList = lazyWithDelay(() => import("../../Pages/Watchlist/Watchlist"));
 export const router = createBrowserRouter([
     {
         element: <Layout />,

@@ -12,7 +12,7 @@ const AllTickersView = ({ variant = "fullscreen" }) => {
 
     return (
         <div className={`${height} w-full overflow-x-auto rounded-md border p-4 overflow-y-scroll`}>
-            <h1 className="text-xl font-semibold mb-2">All Crypto Assets</h1>
+            <h1 className="text-xl font-semibold mb-2 text-center">All Crypto Assets</h1>
             <Table className="border-4 border-black text-xs table-auto">
                 <TableBody>
                     {coinApiData.map((coin) => {
