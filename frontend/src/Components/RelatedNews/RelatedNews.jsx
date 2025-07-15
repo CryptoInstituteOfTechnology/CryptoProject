@@ -7,7 +7,7 @@ export default function RelatedNews() {
     const { relatedNews } = useBackendAttributes()
 
     return (
-        <div className={`w-full overflow-x-auto rounded-md border p-4 overflow-y-scroll mt-2`}>
+        <div className={` h-[500px] w-full overflow-x-auto rounded-md border p-4 overflow-y-scroll mt-2`}>
             <h1 className="text-xl font-semibold mb-2">Important News For Your Portfolio</h1>
             <Table className="border-4 border-black">
                 <TableBody>
