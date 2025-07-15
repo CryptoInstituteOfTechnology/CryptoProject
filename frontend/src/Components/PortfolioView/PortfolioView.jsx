@@ -13,7 +13,6 @@ export default function PortfolioView({ variant = "fullscreen" }) {
     const navigate = useNavigate()
     const { portfolio } = useBackendAttributes()
     const height = variant === "dashboard" ? "h-[600px]" : "h-screen"
-    console.log(portfolio)
     //symbols in portfolio to display
     const portfolioSymbols = portfolio.map((entry) => entry.symbol.toLowerCase())
     // symbols 
@@ -42,7 +41,7 @@ export default function PortfolioView({ variant = "fullscreen" }) {
                         return (
                             <TableRow
                                 key={coin.id}
-                                className="cursor-pointer hover:bg-gray-100 transitiom-colors"
+                                className="cursor-pointer hover:bg-blue-400 transitiom-colors"
                                 onClick={() => navigate(`/assetview/${coin.id.toLowerCase()}`)} // takes user to cryptoview when clicked
                             >
                                 <PortfolioBox

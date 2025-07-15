@@ -11,7 +11,7 @@ const NewsView = ({ variant = "fullscreen" }) => {
     return (
         <div className={`${height} w-full overflow-x-auto rounded-md border p-4 overflow-y-scroll`}>
             <h1 className="text-xl font-semibold mb-2">News</h1>
-            <Table className="border-4 border-black">
+            <Table className="border border-black text-xs table-auto">
 
             
                 <TableBody>

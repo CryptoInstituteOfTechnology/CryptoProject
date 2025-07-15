@@ -1,4 +1,6 @@
 import { useBackendAttributes } from "../../context/BackEndContext";
+import { useNavigate } from "react-router-dom";
+import symbolToName from "./symbolToName.json";
 // find percentage makeups of portfolio, and assign random color
 function findWeights(data) {
     let total = 0
@@ -32,6 +34,7 @@ function getCoordinatesForPercent(percent) {
 
 export default function Piechart() {
     const { portfolio } = useBackendAttributes()
+    const navigate = useNavigate()
     //get percentages of slice
     const slices = findWeights(portfolio)
     //tracker to see what percent has been filled, so you know where to start next slice
@@ -55,16 +58,21 @@ export default function Piechart() {
             `L 0 0`,
         ].join(' ');
         return (
-            <g key={i}>
+            <g
+                key={i}
+                className="cursor-pointer transition-transform duration-300 ease-in-out hover:scale-110"
+                onClick={() => navigate(`/assetview/${symbolToName[slice.symbol]}`)}
+            >
                 <path
                     d={pathData}
                     fill={slice.color}
                     stroke="#000"
                     strokeWidth="0.02"
                     strokeLinejoin="round"
+                    className="transition-colors duration-300 ease-in-out hover:fill-gray-100"
                 />
                 <text
-                    className="font-bold"
+                    className="font-bold  pointer-events-none"
                     x={symbolX * .6}
                     y={symbolY * .6}
                     textAnchor="middle"
@@ -80,8 +88,8 @@ export default function Piechart() {
     return (
         <svg className="mb-10 mr-4"
             viewBox="-1 -1 2 2"
-            width="200"
-            height="200"
+            width="250"
+            height="250"
         >
             {paths}
         </svg>

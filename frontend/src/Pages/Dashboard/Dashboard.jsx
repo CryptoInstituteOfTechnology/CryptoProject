@@ -9,7 +9,7 @@ const Dashboard = () => {
         <div>
             <div>
                 <div className="grid grid-cols-2 grid-rows-[auto_1fr_1fr] gap-4">
-                    <div className="col-span-2 flex justify-center gap-2 mt-4 ">
+                    <div className="col-span-2 flex justify-center gap-12 mt-4 ">
                         <ProfitLossbox />
                         <Piechart/>
                     </div>
