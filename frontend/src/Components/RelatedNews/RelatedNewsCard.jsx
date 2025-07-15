@@ -6,15 +6,15 @@ const NewsCard = ({ news }) => {
         <TableRow className="border-4 border-black hover:shadow-md transition-shadow hover:bg-gray-100 transition-colors block">
             <TableCell className="p-4" colSpan={2}>
                 <a
-                    href={news.URL}
+                    href={news.guid}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="block"
                 >
                     <div className="flex flex-col">
-                        <img src={news.IMAGE_URL} alt="image of news" className="w-24 h-auto" />
+                        <img src={news.image_url} alt="image of news" className="w-24 h-auto" />
                         <div className="text-lg font-bold">
-                            {new Date(news.PUBLISHED_ON * 1000).toLocaleDateString()} : {news.TITLE}
+                            {new Date(news.publishedOn * 1000).toLocaleDateString()} : {news.title}
                         </div>
                     </div>
                 </a>

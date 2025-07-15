@@ -5,6 +5,7 @@ import { useContext } from 'react';
 import { useState, useRef, useEffect } from 'react';
 import AddToPortfolio from '../../Components/AddToPortfolio/AddToPortfolio';
 import AddToWatchList from '../../Components/AddToWatchList/AddToWatchList';
+import RelatedNews from '../../Components/RelatedNews/RelatedNews';
 
 export default function AssetView() {
     const { coinApiData, websocketData, newsApiData } = useContext(webFetchedContext)
@@ -87,6 +88,7 @@ export default function AssetView() {
                 <h1>All Time Low Change Percentage: {coin.atl_change_percentage}%</h1>
                 <h1>All Time Low Date:{coin.atl_date}</h1>
             </div>
+            <RelatedNews/>
         </div>
     )
 
