@@ -28,14 +28,14 @@ export default function PortfolioBox({ coinData, livePrice, avgPrice, quantity }
         previousPrice.current = livePrice
         setProfit((livePrice * quantity) - (avgPrice * quantity))
 
-        
-         if (profit > 0) {
-                setProfitColor('text-green-600')
-            } else if (profit < 0) {
-                setProfitColor('text-red-600')
-            } else {
-                setProfitColor('text-black')
-            }
+
+        if (profit > 0) {
+            setProfitColor('text-green-600')
+        } else if (profit < 0) {
+            setProfitColor('text-red-600')
+        } else {
+            setProfitColor('text-black')
+        }
     }, [livePrice])
 
     return (
