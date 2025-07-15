@@ -13,7 +13,6 @@ const Layout = () => (
         <Footer />
     </>
 );
-
 const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 //takes one second to load page artifically
 const lazyWithDelay = (importFunc) => {
@@ -52,8 +51,6 @@ export const LoadingSpinner = ({ className }) => {
         </svg>
     )
 }
-
-
 
 export const router = createBrowserRouter([
     {
