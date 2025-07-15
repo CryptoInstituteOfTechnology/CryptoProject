@@ -19,7 +19,7 @@ export default function WatchList() {
     });
     return (
         <div>
-        <h1>Watchlist Of Tickers</h1>
+        <h1 className='text-xl font-semibold mb-2 text-center '>Watchlist Of Tickers</h1>
         <ScrollArea className="h-[600px]  rounded-md border p-4 h-screen overflow-y-scroll">
             <Table className="border-4 border-black">
                 <TableBody>

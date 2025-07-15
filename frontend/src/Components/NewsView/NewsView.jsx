@@ -10,7 +10,7 @@ const NewsView = ({ variant = "fullscreen" }) => {
     const height = variant === "dashboard" ? "h-[500px]" : "h-screen"
     return (
         <div className={`${height} w-full overflow-x-auto rounded-md border p-4 overflow-y-scroll`}>
-            <h1 className="text-xl font-semibold mb-2">News</h1>
+            <h1 className="text-xl font-semibold mb-2 text-center">News</h1>
             <Table className="border border-black text-xs table-auto">
 
             

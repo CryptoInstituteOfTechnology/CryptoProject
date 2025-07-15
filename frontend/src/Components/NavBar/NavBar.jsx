@@ -31,13 +31,13 @@ export default function NavBar() {
         }
     }
     return (
-        <nav className="bg-blue-500 text-white w-full px-4 py-3 flex items-center justify-between">
+        <nav className="bg-blue-500 text-white w-full px-4 py-3 flex items-center justify-between relative">
             <h1>
                 <Link to="/dashboard">CryptoApp</Link>
             </h1>
             <Button
                 onClick={handleSignOut}
-                className="bg-blue-500 hover:bg-blue-700 text-white text-sm font-medium py-2 px-4 rounded"
+                className="bg-blue-500 hover:bg-blue-700 text-white text-sm font-medium py-2 px-4 rounded absolute top-3 right-40"
             >
                 Sign Out
             </Button>

@@ -21,7 +21,7 @@ export default function PortfolioView({ variant = "fullscreen" }) {
     });
     return (
         <div className={`${height} w-full overflow-x-auto rounded-md border p-4 overflow-y-scroll`}>
-            <h1 className="text-xl font-semibold mb-2">Portfolio Of Tickers</h1>
+            <h1 className="text-xl font-semibold mb-2 text-center">Portfolio Of Tickers</h1>
             <div className="flex justify-center">
                 {variant === "fullscreen" && <Piechart/>}
                 {variant === "fullscreen" && <ProfitLossbox />}
