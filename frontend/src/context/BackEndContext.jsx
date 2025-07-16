@@ -12,6 +12,7 @@ export const BackEndContextProvider = ({ children }) => {
     const [portfolio, setPortfolio] = useState([]);
     const [watchlist, setWatchlist] = useState([]);
     const [transactions, setTransactions] = useState([]);
+    const [relatedNews, setRelatedNews] = useState([])
 
 
     const fetchPortfolio = async () => {
@@ -32,6 +33,12 @@ export const BackEndContextProvider = ({ children }) => {
         setTransactions(data);
     };
 
+    const fetchNews = async () => {
+        const res = await fetch(`${BACKEND_BASE_URL}/api/portfolionews/${userId}`);
+        const data = await res.json();
+        setRelatedNews(data);
+    }
+
     useEffect(() => {
         if (!userId) {
             return;
@@ -39,6 +46,7 @@ export const BackEndContextProvider = ({ children }) => {
         fetchPortfolio();
         fetchWatchlist();
         fetchTransactions();
+        fetchNews()
     }, [session]);
 
     return (
@@ -48,9 +56,11 @@ export const BackEndContextProvider = ({ children }) => {
                 portfolio,
                 watchlist,
                 transactions,
+                relatedNews,
                 fetchTransactions,
                 fetchPortfolio,
                 fetchWatchlist,
+                fetchNews,
             }}
         >
             {children}
