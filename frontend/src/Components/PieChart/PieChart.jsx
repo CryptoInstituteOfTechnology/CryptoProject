@@ -90,6 +90,7 @@ export default function Piechart() {
             viewBox="-1 -1 2 2"
             width="250"
             height="250"
+            style = {{overflow: "visible"}}
         >
             {paths}
         </svg>
