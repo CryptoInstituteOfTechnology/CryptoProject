@@ -19,7 +19,7 @@ class TestSensitiveRoutes(unittest.TestCase):
         data = response.get_json()
         self.assertEqual(data[0]['id'], 'fakeid1')
 
-    #testing for portoflio  regular auth
+    #testing for portoflio
     @patch('routes.conn')
     def test_get_portfolio(self, mock_conn):
         # Mock cursor
@@ -31,6 +31,7 @@ class TestSensitiveRoutes(unittest.TestCase):
         data = response.get_json()
         self.assertEqual(data[0]['userId'], 'fakeid')
     
+    #testing for transactions
     @patch('routes.conn')
     def test_get_transactions(self, mock_conn):
         mock_cursor = MagicMock()
@@ -44,7 +45,7 @@ class TestSensitiveRoutes(unittest.TestCase):
         data = response.get_json()
         self.assertEqual(len(data), 2)
         self.assertEqual(data[0]['amount'], 100)
-        
+    #testing for recs
     @patch('routes.conn')
     def test_get_recommendations(self, mock_conn):
         mock_cursor = MagicMock()
@@ -58,7 +59,7 @@ class TestSensitiveRoutes(unittest.TestCase):
         data = response.get_json()
         self.assertEqual(len(data), 2)
         self.assertEqual(data[0]['symbol'], 'BTC')
-        
+    #testing for post
     @patch('routes.conn')
     def test_post_recommendation_success(self, mock_conn):
         mock_cursor = MagicMock()
