@@ -85,3 +85,12 @@ model HistoricProfit {
   profit Float // can be negative
   updatedAt DateTime @updatedAt
 }
+
+model HistoricProfitPoint{
+  id  Int @id @default(autoincrement())
+  userId String
+  profit Float
+  timestamp DateTime @default(now())
+  @@index([userId])
+  @@index([timestamp])
+}
