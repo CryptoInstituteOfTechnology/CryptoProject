@@ -55,7 +55,7 @@ router.post('/', async (req, res) => {
             }
 
             // code for updating historical profit and loss, curr price * quantity average price bought * quantity 
-            const profit = (p - existingEntry.avgPrice) * quantity
+            const profit = (p - existingEntry.avgPrice) * quant
 
             const existingProfit = await prisma.historicProfit.findUnique({
                 where: { userId },
@@ -65,11 +65,11 @@ router.post('/', async (req, res) => {
                 await prisma.historicProfit.update({
                     where: { userId },
                     data: {
-                        profit: existingProfit + profit
+                        profit: existingProfit.profit + profit
                     }
                 })
             } else {
-                prisma.historicProfit.create({
+                await prisma.historicProfit.create({
                     data: {
                         userId,
                         profit: profit,
