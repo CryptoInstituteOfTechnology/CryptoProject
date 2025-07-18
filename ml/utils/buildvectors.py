@@ -62,7 +62,6 @@ def build_vector(portfolio_entries):
     total_value = 0.0
     for symbol in crypto_symbols:
         total_value += raw_weight[symbol]
-    #normalize vector
     #prevent portfolios with no entries so far
     if total_value > 0:
         vector = []
