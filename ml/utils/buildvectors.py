@@ -70,6 +70,7 @@ def build_vector(portfolio_entries):
             value = raw_weight[symbol]
             percentage = value / total_value
             vector.append(percentage)
+        return vector
     
     return None
         

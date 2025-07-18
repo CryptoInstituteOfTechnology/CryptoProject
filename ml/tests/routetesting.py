@@ -1,6 +1,6 @@
 import unittest
 from unittest.mock import patch, MagicMock
-from routes import app
+from ..routes import app
 from types import SimpleNamespace
 class TestSensitiveRoutes(unittest.TestCase):
     def setUp(self):
