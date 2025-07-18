@@ -78,3 +78,10 @@ model Recommendation {
   @@unique([userId, symbol])
   @@index([userId])
 }
+
+model HistoricProfit {
+  id Int @id @default(autoincrement())
+  userId String @unique // only can have one per user
+  profit Float // can be negative
+  updatedAt DateTime @updatedAt
+}
