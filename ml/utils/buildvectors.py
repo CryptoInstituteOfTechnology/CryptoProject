@@ -73,7 +73,3 @@ def build_vector(portfolio_entries):
         return vector
     
     return None
-        
-    
-        
- 
