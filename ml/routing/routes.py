@@ -25,12 +25,16 @@ supabase = create_client(
 )
 admin_auth_client = supabase.auth.admin
 
-# Get all user ids  - GET , what we use SUPABSE admin for
 @app.route("/users")
 def get_users():
-    users = admin_auth_client.list_users()
-    user_dicts = [user.__dict__ for user in users]
-    return jsonify(user_dicts)
+    try:
+        users = admin_auth_client.list_users()  # returns a list of User objects
+        # Convert each user object to a dict
+        user_dicts = [user.__dict__ for user in users]
+        return jsonify(user_dicts)
+    except Exception as e:
+        print("Error fetching users:", e)
+        return jsonify({"error": str(e)}), 500
 
 
 #Fetch portfolio entries for a user, given userid
@@ -65,29 +69,34 @@ def get_recommendations(user_id):
         rows = cur.fetchall()
     return jsonify(rows)
 
-#Post a new recommendation
+#Post news recommendations for one user
 @app.route("/recommendations", methods=["POST"])
-def post_recommendation():
+def post_recommendations():
     data = request.get_json()
-    user_id = data.get("userId")
-    symbol = data.get("symbol")
-    if not user_id or not symbol:
-        return jsonify({"error": "Missing userId or symbol"}), 400
+    
+    if not isinstance(data,list):
+        return jsonify("no list of recs recieved")
+    
     with conn.cursor() as cur:
         try:
-            cur.execute(
-                """
-                INSERT INTO "Recommendation" ("userId", "symbol")
-                VALUES (%s, %s)
-                ON CONFLICT DO NOTHING
-                """,
-                (user_id, symbol),
-            )
+            for rec in data:
+                user_id = rec.get("userId")
+                symbol = rec.get("symbol")
+                if not user_id or not symbol:
+                    return jsonify({"error": "Missing userId or symbol"}), 400
+                cur.execute(
+                    """
+                    INSERT INTO "Recommendation" ("userId", "symbol")
+                    VALUES (%s, %s)
+                    ON CONFLICT DO NOTHING
+                    """,
+                    (user_id, symbol),
+                )
             conn.commit()
         except Exception as error:
             conn.rollback()
             return jsonify({"error": str(error)}), 400
+    return jsonify({"message": f"{len(data)} recommendations added"}), 201
 
-    return jsonify({"message": "Recommendation added"}), 201
 if __name__ == "__main__":
     app.run(debug=True)

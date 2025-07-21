@@ -1,6 +1,7 @@
 # given a portfolio build a vector
 #store weights in a dictionary key vlaue pair
-from datetime import datetime
+from datetime import datetime, timezone
+from dateutil import parser
 from utils.timedecay import time_decay_weight
 #possible cryptos
 crypto_symbols = [
@@ -29,7 +30,6 @@ def build_vector(portfolio_entries):
     takes portfolio entries - which is a list of dictonaries of someones portfolio entries and turns it
     into a vector of 27 deminsions(we have 27 diff cryptos based on percentage of portfolio and when it was last updates
     to get rid of difference in portfolio similairity btwn long term and short term investors)
-     
     Portfolio entry contains a key for symbol, quantity,avg price, and lastupdated
     get the perctnages of what protfolio entires make up of the portfolio,
     """
@@ -46,13 +46,16 @@ def build_vector(portfolio_entries):
         symbol = entry["symbol"]
         quantity = float(entry["quantity"])
         avg_price = float(entry["avgPrice"])
-        updated_at = entry["updatedAt"]
+        updated_at= entry["updatedAt"]
         
         #all symbols in portoflio entries should be known
         if symbol not in symbol_indexes:
             continue
             
         #get decay %
+        updated_at = parser.parse(updated_at)
+        if updated_at.tzinfo is not None:
+            updated_at = updated_at.replace(tzinfo=None)  # make naive by removing tzinfo
         days_ago = (now - updated_at).days
         decay = time_decay_weight(days_ago)
         #quality to add in raw values
