@@ -1,15 +1,13 @@
-#given a list of transactions rank them, for 
-from .timedecay import time_decay_weight
 import datetime
-
-#needs all transactions merged together
-def score_transactions_k(transactions, top_k = 4):
+from dateutil import parser
+from .timedecay import time_decay_weight
+def score_transactions_k(transactions, top_k=4):
     """
-    given a list of transactions from multiple users return the highest rated transactions, ignores sell transacton
+    given a list of transactions from multiple users return the highest rated transactions, ignores sell transaction
     """
-    now = datetime.datetime.utcnow()
+    now = datetime.datetime.now(datetime.timezone.utc)  # timezone-aware now
     scored_transactions = {}
-    
+
     for transaction in transactions:
         try:
             if transaction["type"] != "BUY":
@@ -19,16 +17,15 @@ def score_transactions_k(transactions, top_k = 4):
             quantity = transaction["quantity"]
             price = float(transaction["price"])
             created_at = transaction["createdAt"]
+            created_at_dt = parser.parse(created_at)
+            if created_at_dt.tzinfo is None:
+                created_at_dt = created_at_dt.replace(tzinfo=datetime.timezone.utc)
         except (ValueError) as error:
             print(f"skipping invalid transaction {error}")
             continue
-        
-        #rank based on days, and size and then multply
-        
-        decay = time_decay_weight((now - created_at).days)
+        decay = time_decay_weight((now - created_at_dt).days)
         size = abs(quantity * price)
         score = decay * size
-        
         #use symbol as a key and only change if scoe is higher than usual to help ranking
         if (symbol not in scored_transactions) or (score > scored_transactions[symbol]["score"]):
             scored_transactions[symbol] = {

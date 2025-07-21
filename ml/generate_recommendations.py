@@ -1,4 +1,3 @@
-
 from routing.supabasewrapper import SupabaseAPIWrapper
 from utils.buildvectors import build_vector
 from recommend.knn import knn
@@ -6,11 +5,18 @@ from utils.cosinesimilarity import cosine_similarity
 from utils.scoretransactions import score_transactions_k
 
 def generate_recommendations_for_users(api):
+    
     all_users = api.get_all_users()
+    
+    if not isinstance(all_users, list):
+        print("Expected a list of users but got:", all_users)
+        return 
     users_vectors_map = {}
     #build user vectors
     for user in all_users:
-        uid = user["id"]
+        uid = user.get("id")
+        if not uid:
+            continue 
         portfolio = api.get_portfolio_entries(uid)
         if portfolio:
             vector = build_vector(portfolio)

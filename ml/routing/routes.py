@@ -25,14 +25,16 @@ supabase = create_client(
 )
 admin_auth_client = supabase.auth.admin
 
-# Get all user ids  - GET , what we use SUPABSE admin for
 @app.route("/users")
 def get_users():
-    users = admin_auth_client.list_users()
-    print(users)
-    user_dicts = [user.__dict__ for user in users]
-    print(user_dicts)
-    return jsonify(user_dicts)
+    try:
+        users = admin_auth_client.list_users()  # returns a list of User objects
+        # Convert each user object to a dict
+        user_dicts = [user.__dict__ for user in users]
+        return jsonify(user_dicts)
+    except Exception as e:
+        print("Error fetching users:", e)
+        return jsonify({"error": str(e)}), 500
 
 
 #Fetch portfolio entries for a user, given userid
