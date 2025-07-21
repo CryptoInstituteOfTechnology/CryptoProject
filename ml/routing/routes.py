@@ -69,14 +69,15 @@ def get_recommendations(user_id):
 @app.route("/recommendations", methods=["POST"])
 def post_recommendations():
     data = request.get_json()
+    
     if not isinstance(data,list):
         return jsonify("no list of recs recieved")
-
+    
     with conn.cursor() as cur:
         try:
             for rec in data:
-                user_id = data.get("userId")
-                symbol = data.get("symbol")
+                user_id = rec.get("userId")
+                symbol = rec.get("symbol")
                 if not user_id or not symbol:
                     return jsonify({"error": "Missing userId or symbol"}), 400
                 cur.execute(
@@ -92,5 +93,6 @@ def post_recommendations():
             conn.rollback()
             return jsonify({"error": str(error)}), 400
     return jsonify({"message": f"{len(data)} recommendations added"}), 201
+
 if __name__ == "__main__":
     app.run(debug=True)
