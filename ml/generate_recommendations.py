@@ -1,9 +1,9 @@
 
-from .routing.supabasewrapper import SupabaseAPIWrapper
-from .utils.buildvectors import build_vector
-from .recommend.knn import knn
-from .utils.cosinesimilarity import cosine_similarity
-from .utils.scoretransactions import score_transactions_k
+from routing.supabasewrapper import SupabaseAPIWrapper
+from utils.buildvectors import build_vector
+from recommend.knn import knn
+from utils.cosinesimilarity import cosine_similarity
+from utils.scoretransactions import score_transactions_k
 
 def generate_recommendations_for_users(api):
     all_users = api.get_all_users()
@@ -43,6 +43,7 @@ def generate_recommendations_for_users(api):
         
         recommendations = score_transactions_k(all_transactions,top_k=4)
         if recommendations:
+            print(f" generated this many recs: {len(recommendations)}")
             api.post_recommendations(user_id, recommendations)
             
     

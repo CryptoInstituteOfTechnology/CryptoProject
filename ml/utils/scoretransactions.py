@@ -7,7 +7,7 @@ def score_transactions_k(transactions, top_k = 4):
     """
     given a list of transactions from multiple users return the highest rated transactions, ignores sell transacton
     """
-    now = datetime.utcnow()
+    now = datetime.datetime.utcnow()
     scored_transactions = {}
     
     for transaction in transactions:

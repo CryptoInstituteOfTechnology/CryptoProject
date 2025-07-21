@@ -6,6 +6,7 @@ if __name__ == "__main__":
     base_url = "http://localhost:5000"
     api = SupabaseAPIWrapperMock(base_url)
     print("running rec model")
+    
     generate_recommendations_for_users(api)
     print("done")
     
