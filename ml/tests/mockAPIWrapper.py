@@ -33,27 +33,52 @@ class SupabaseAPIWrapperMock:
         return self._handle_response(mock_data.get(user_id, []))
 
     def get_latest_transactions(self, user_id, limit=15):
+        from datetime import datetime, timedelta
         now = datetime.utcnow()
+    
         return self._handle_response([
             {
+                "userId": user_id,
                 "symbol": "ETH",
-                "type": "buy",
-                "amount": 5000.0,
-                "createdAt": (now - timedelta(days=1)).isoformat()
+                "type": "BUY",
+                "quantity": 2.0,
+                "price": 2500.0,
+                "createdAt": now - timedelta(days=1)
             },
             {
+                "userId": user_id,
                 "symbol": "DOGE",
-                "type": "buy",
-                "amount": 800.0,
-                "createdAt": (now - timedelta(days=2)).isoformat()
+                "type": "BUY",
+                "quantity": 1000,
+                "price": 0.08,
+                "createdAt": now - timedelta(days=2)
             },
             {
+                "userId": user_id,
                 "symbol": "BTC",
-                "type": "sell",
-                "amount": 1500.0,
-                "createdAt": (now - timedelta(days=3)).isoformat()
+                "type": "SELL",  # will be skipped by score_transactions_k()
+                "quantity": 0.5,
+                "price": 31000.0,
+                "createdAt": now - timedelta(days=3)
+            },
+            {
+                "userId": user_id,
+                "symbol": "ARB",
+                "type": "BUY",
+                "quantity": 300.0,
+                "price": 1.2,
+                "createdAt": now - timedelta(days=4)
+            },
+            {
+                "userId": user_id,
+                "symbol": "SOL",
+                "type": "BUY",
+                "quantity": 15.0,
+                "price": 90.0,
+                "createdAt": now - timedelta(days=5)
             }
         ])
+
 
     def get_recommendations(self, user_id):
         return self._handle_response([
