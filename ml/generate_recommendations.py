@@ -43,7 +43,7 @@ def generate_recommendations_for_users(api):
         recommendations = score_transactions_k(all_transactions,top_k=4)
         if recommendations:
             print(f" generated this many recs: {len(recommendations)}")
-            api.post_recommendations(user_id, recommendations)
+            api.post_recommendations(recommendations)
             
     
     

@@ -43,10 +43,12 @@ class SupabaseAPIWrapper:
         return self._handle_response(response)
     
     def post_recommendations(self, recommendation_list):
-        """
-        Post a list of recommendations.
-        Each item in the list should be a dict with keys: 'userId' and 'symbol'
-        """
         url = f"{self.base_url}/recommendations"
-        response = requests.post(url, headers=self.headers, data=json.dumps(recommendation_list))
+        payload = json.dumps(recommendation_list)
+        response = requests.post(url, headers=self.headers, data=payload)
+        try:
+            response.raise_for_status()
+        except requests.HTTPError as e:
+            print(f"HTTP error occurred: {e} for url: {url}")
+            raise
         return self._handle_response(response)

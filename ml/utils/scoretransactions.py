@@ -29,7 +29,7 @@ def score_transactions_k(transactions, top_k=4):
         #use symbol as a key and only change if scoe is higher than usual to help ranking
         if (symbol not in scored_transactions) or (score > scored_transactions[symbol]["score"]):
             scored_transactions[symbol] = {
-                "user_id": user_id,
+                "userId": user_id,
                 "symbol": symbol,
                 "score":score
             }
