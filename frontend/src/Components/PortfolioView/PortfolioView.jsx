@@ -2,7 +2,6 @@ import { useBackendAttributes } from "../../context/BackEndContext";
 import { webFetchedContext } from "../../context/Webfetching/WebFetchContext";
 import { useContext } from 'react';
 import { Table, TableRow, TableCaption, TableBody } from "../ui/table";
-import { ScrollArea } from "../ui/scroll-area.jsx";
 import { useNavigate } from 'react-router-dom';
 import PortfolioBox from '../PortfolioBox/PortfolioBox.jsx';
 import ProfitLossbox from "../ProfitLossBox/ProfitLossBox.jsx";
