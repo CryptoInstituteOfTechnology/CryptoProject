@@ -8,8 +8,6 @@ from utils.scoretransactions import score_transactions_k
 def generate_recommendations_for_users(api):
     all_users = api.get_all_users()
     users_vectors_map = {}
-    
-    
     #build user vectors
     for user in all_users:
         uid = user["id"]
@@ -18,8 +16,6 @@ def generate_recommendations_for_users(api):
             vector = build_vector(portfolio)
             if vector:
                 users_vectors_map[uid] = vector
-            
-            
     #find top 3 for users then recommend
     for user in all_users:
         user_id = user["id"]
@@ -30,10 +26,7 @@ def generate_recommendations_for_users(api):
             top_similar = knn(user_id, users_vectors_map, k=3)
         except ValueError:
             continue
-        
-        
         #merge all the transactions from top 3 and then get the top 4 and post them for a user
-        
         all_transactions = []
         for similar_id, score in top_similar:
             transactions = api.get_latest_transactions(similar_id)

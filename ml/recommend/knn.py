@@ -8,9 +8,7 @@ def knn(user_id, users_vectors_map, k=3):
     
     
     target_vector = users_vectors_map[user_id]
-    
     similarities = []
-    
     for other_users in users_vectors_map:
         if other_users == user_id:
             continue
