@@ -2,17 +2,15 @@ import requests
 import json
 
 class SupabaseAPIWrapper:
-    """A Python module that wraps API calls for a Supabase/Postgres Flask app.
-    """
+    """A Python wrapper for your Supabase-backed Flask API."""
     
     def __init__(self, base_url):
-        self.base_url = base_url
+        self.base_url = base_url.rstrip("/")
         self.headers = {'Content-Type': 'application/json'}
     
     def _handle_response(self, response):
-        """Handle the HTTP response."""
         try:
-            response.raise_for_status()  # Raise an error for bad responses
+            response.raise_for_status()
             return response.json()
         except requests.HTTPError as http_err:
             print(f"HTTP error occurred: {http_err}")
@@ -21,31 +19,34 @@ class SupabaseAPIWrapper:
         return None
 
     def get_all_users(self):
-        """Fetch all users."""
+        """Fetch all users via Supabase admin auth."""
         url = f"{self.base_url}/users"
         response = requests.get(url, headers=self.headers)
         return self._handle_response(response)
     
     def get_portfolio_entries(self, user_id):
         """Fetch portfolio entries for a given user ID."""
-        url = f"{self.base_url}/users/{user_id}/portfolios"
+        url = f"{self.base_url}/portfolio/{user_id}"
         response = requests.get(url, headers=self.headers)
         return self._handle_response(response)
 
-    def get_latest_transactions(self, user_id, limit=15):
-        """Fetch the latest transactions for a given user ID, limited to a specified number."""
-        url = f"{self.base_url}/users/{user_id}/transactions?limit={limit}"
+    def get_latest_transactions(self, user_id):
+        """Fetch the latest 15 transactions for a given user ID."""
+        url = f"{self.base_url}/transactions/{user_id}"
         response = requests.get(url, headers=self.headers)
         return self._handle_response(response)
 
     def get_recommendations(self, user_id):
         """Fetch recommendations for a given user ID."""
-        url = f"{self.base_url}/users/{user_id}/recommendations"
+        url = f"{self.base_url}/recommendations/{user_id}"
         response = requests.get(url, headers=self.headers)
         return self._handle_response(response)
     
-    def post_recommendations(self, user_id, recommendation_data):
-        """Post a new recommendation for a given user ID."""
-        url = f"{self.base_url}/users/{user_id}/recommendations"
-        response = requests.post(url, headers=self.headers, data=json.dumps(recommendation_data))
+    def post_recommendations(self, recommendation_list):
+        """
+        Post a list of recommendations.
+        Each item in the list should be a dict with keys: 'userId' and 'symbol'
+        """
+        url = f"{self.base_url}/recommendations"
+        response = requests.post(url, headers=self.headers, data=json.dumps(recommendation_list))
         return self._handle_response(response)

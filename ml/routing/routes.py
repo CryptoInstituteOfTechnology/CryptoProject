@@ -29,7 +29,9 @@ admin_auth_client = supabase.auth.admin
 @app.route("/users")
 def get_users():
     users = admin_auth_client.list_users()
+    print(users)
     user_dicts = [user.__dict__ for user in users]
+    print(user_dicts)
     return jsonify(user_dicts)
 
 
