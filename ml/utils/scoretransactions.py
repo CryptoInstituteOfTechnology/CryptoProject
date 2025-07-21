@@ -15,10 +15,10 @@ def score_transactions_k(transactions, top_k = 4):
             if transaction["type"] != "BUY":
                 continue
             user_id = transaction["userId"]
-            symbol = transactions["symbol"]
-            quantity = transactions["quantity"]
-            price = float(transactions["price"])
-            created_at = transactions["createdAt"]
+            symbol = transaction["symbol"]
+            quantity = transaction["quantity"]
+            price = float(transaction["price"])
+            created_at = transaction["createdAt"]
         except (ValueError) as error:
             print(f"skipping invalid transaction {error}")
             continue
@@ -38,5 +38,5 @@ def score_transactions_k(transactions, top_k = 4):
             }
         
     top_recs = sorted(scored_transactions.values(), key = lambda x: x["score"], reverse=True)
-    return top_recs
+    return top_recs[:k]
     
