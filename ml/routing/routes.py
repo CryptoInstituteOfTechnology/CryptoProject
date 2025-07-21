@@ -65,29 +65,32 @@ def get_recommendations(user_id):
         rows = cur.fetchall()
     return jsonify(rows)
 
-#Post a new recommendation
+#Post news recommendations for one user
 @app.route("/recommendations", methods=["POST"])
-def post_recommendation():
+def post_recommendations():
     data = request.get_json()
-    user_id = data.get("userId")
-    symbol = data.get("symbol")
-    if not user_id or not symbol:
-        return jsonify({"error": "Missing userId or symbol"}), 400
+    if not isinstance(data,list):
+        return jsonify("no list of recs recieved")
+
     with conn.cursor() as cur:
         try:
-            cur.execute(
-                """
-                INSERT INTO "Recommendation" ("userId", "symbol")
-                VALUES (%s, %s)
-                ON CONFLICT DO NOTHING
-                """,
-                (user_id, symbol),
-            )
+            for rec in data:
+                user_id = data.get("userId")
+                symbol = data.get("symbol")
+                if not user_id or not symbol:
+                    return jsonify({"error": "Missing userId or symbol"}), 400
+                cur.execute(
+                    """
+                    INSERT INTO "Recommendation" ("userId", "symbol")
+                    VALUES (%s, %s)
+                    ON CONFLICT DO NOTHING
+                    """,
+                    (user_id, symbol),
+                )
             conn.commit()
         except Exception as error:
             conn.rollback()
             return jsonify({"error": str(error)}), 400
-
-    return jsonify({"message": "Recommendation added"}), 201
+    return jsonify({"message": f"{len(data)} recommendations added"}), 201
 if __name__ == "__main__":
     app.run(debug=True)

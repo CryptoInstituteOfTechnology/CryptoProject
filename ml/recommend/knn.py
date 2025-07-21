@@ -1,6 +1,5 @@
 from utils.cosinesimilarity import cosine_similarity
 
-
 #function runs for one user, have to do for all, get top 3 similary people
 def knn(user_id, users_vectors_map, k=3):
     

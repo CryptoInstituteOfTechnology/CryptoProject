@@ -44,7 +44,7 @@ class SupabaseAPIWrapper:
         response = requests.get(url, headers=self.headers)
         return self._handle_response(response)
     
-    def post_recommendation(self, user_id, recommendation_data):
+    def post_recommendations(self, user_id, recommendation_data):
         """Post a new recommendation for a given user ID."""
         url = f"{self.base_url}/users/{user_id}/recommendations"
         response = requests.post(url, headers=self.headers, data=json.dumps(recommendation_data))

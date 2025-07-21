@@ -38,5 +38,5 @@ def score_transactions_k(transactions, top_k = 4):
             }
         
     top_recs = sorted(scored_transactions.values(), key = lambda x: x["score"], reverse=True)
-    return top_recs[:k]
+    return top_recs[:top_k]
     
