@@ -27,7 +27,6 @@ export default function AddToPortfolioModal({ coinData, livePrice, onExit }) {
             await fetchTransactions(); // reload transactions
             onExit(); // close modal after submitting
         } catch (error) {
-            console.error(error);
             displayErrorMessage(error.message);
         }
     };

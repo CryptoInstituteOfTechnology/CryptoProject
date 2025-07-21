@@ -68,3 +68,13 @@ model Article {
 
   @@unique([guid])
 }
+
+model Recommendation {
+  id        Int      @id @default(autoincrement())
+  userId    String   // or use UUID type if Prisma supports it for Postgres
+  symbol    String
+  createdAt DateTime @default(now())
+
+  @@unique([userId, symbol])
+  @@index([userId])
+}

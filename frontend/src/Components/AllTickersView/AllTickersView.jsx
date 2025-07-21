@@ -12,8 +12,8 @@ const AllTickersView = ({ variant = "fullscreen" }) => {
 
     return (
         <div className={`${height} w-full overflow-x-auto rounded-md border p-4 overflow-y-scroll`}>
-            <h1 className="text-xl font-semibold mb-2">All Crypto Assets</h1>
-            <Table className="border-4 border-black">
+            <h1 className="text-xl font-semibold mb-2 text-center">All Crypto Assets</h1>
+            <Table className="border-4 border-black text-xs table-auto">
                 <TableBody>
                     {coinApiData.map((coin) => {
                         const websocketPrice = websocketData[coin.id.toLowerCase()]
@@ -21,7 +21,7 @@ const AllTickersView = ({ variant = "fullscreen" }) => {
 
                             <TableRow
                                 key={coin.id}
-                                className="cursor-pointer hover:bg-gray-100 transitiom-colors"
+                                className="cursor-pointer hover:bg-blue-400 transitiom-colors"
                                 onClick={() => navigate(`/assetview/${coin.id.toLowerCase()}`)} // takes user to cryptoview when clicked
                             >
                                 <TickerBox

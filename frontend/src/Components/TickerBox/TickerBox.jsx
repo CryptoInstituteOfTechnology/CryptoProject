@@ -31,7 +31,7 @@ export default function TickerBox({ coinData, livePrice }) {
                 <img src={coinData.image} alt={coinData.symbol} className="w-12 h-auto" />
             </TableCell>
             <TableCell className="text-lg font-bold text-white">{coinData.symbol.toUpperCase()}</TableCell>
-            <TableCell className={`${priceColor} text-lg font-bold`}>Price: ${Number(livePrice).toFixed(4)}</TableCell>
+            <TableCell className={`${priceColor} text-lg font-bold`}>Price: ${Number(livePrice).toFixed(2)}</TableCell>
             <TableCell className="text-sm">Volume: {coinData.total_volume}</TableCell>
             <TableCell className="text-sm">High: {coinData.high_24h}</TableCell>
             <TableCell className="text-sm">Low: {coinData.low_24h}</TableCell>

@@ -10,6 +10,7 @@ const NewsView = ({  }) => {
         <div className={`h-[500px] w-full overflow-x-auto rounded-md border p-4 overflow-y-scroll`}>
             <h1 className="text-xl font-semibold mb-2">News</h1>
             <Table className="border-4 border-black"> 
+
                 <TableBody>
                     {newsApiData.Data.map((news) => {
                         return (

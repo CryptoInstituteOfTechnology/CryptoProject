@@ -25,7 +25,6 @@ export default function AddToWatchList({ coinData }) {
             const result = await res.json()
             await fetchWatchlist() // refetch watchlist to update
         } catch (error) {
-            console.error(error)
         }
     }
 

@@ -13,7 +13,8 @@ dist
 dist-ssr
 *.local
 /generated/prisma
-
+/generated
+package-lock.json
 
 # Editor directories and files
 .vscode/*
