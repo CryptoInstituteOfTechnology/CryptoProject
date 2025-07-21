@@ -7,7 +7,6 @@ from utils.scoretransactions import score_transactions_k
 def generate_recommendations_for_users(api):
     
     all_users = api.get_all_users()
-    
     if not isinstance(all_users, list):
         print("Expected a list of users but got:", all_users)
         return 
@@ -39,7 +38,7 @@ def generate_recommendations_for_users(api):
             if transactions:
                 #extend turns a list and adds it to end of curr list
                 all_transactions.extend(transactions)
-        
+                
         recommendations = score_transactions_k(all_transactions,top_k=4)
         if recommendations:
             print(f" generated this many recs: {len(recommendations)}")

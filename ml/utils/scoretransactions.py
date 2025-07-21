@@ -7,7 +7,6 @@ def score_transactions_k(transactions, top_k=4):
     """
     now = datetime.datetime.now(datetime.timezone.utc)  # timezone-aware now
     scored_transactions = {}
-
     for transaction in transactions:
         try:
             if transaction["type"] != "BUY":
@@ -32,8 +31,7 @@ def score_transactions_k(transactions, top_k=4):
                 "userId": user_id,
                 "symbol": symbol,
                 "score":score
-            }
-        
+            }  
     top_recs = sorted(scored_transactions.values(), key = lambda x: x["score"], reverse=True)
     return top_recs[:top_k]
     

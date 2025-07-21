@@ -16,7 +16,6 @@ crypto_symbols = [
     "XLM", "SUI", "NEAR"
 ]
 
-
 #build this for raw weight simplicity and so that when we use vector in another program we know which index is what
 symbol_indexes = {}
 index_ctr = 0
@@ -34,37 +33,37 @@ def build_vector(portfolio_entries):
     get the perctnages of what protfolio entires make up of the portfolio,
     """
     now = datetime.utcnow() #timezone independent timestamp
-
     #raw weights are floats
     raw_weight = {}
     for symbol in crypto_symbols:
-        raw_weight[symbol] = 0.0
-        
+        raw_weight[symbol] = 0.0    
     #for each entry do avgprice * quantity * timedecay 
     for entry in portfolio_entries:
         #symbol from DB is uppercase just like in symbol_indexes
         symbol = entry["symbol"]
         quantity = float(entry["quantity"])
         avg_price = float(entry["avgPrice"])
-        updated_at= entry["updatedAt"]
-        
+        updated_at= entry["updatedAt"]    
         #all symbols in portoflio entries should be known
         if symbol not in symbol_indexes:
             continue
-            
+          
         #get decay %
         updated_at = parser.parse(updated_at)
         if updated_at.tzinfo is not None:
             updated_at = updated_at.replace(tzinfo=None)  # make naive by removing tzinfo
         days_ago = (now - updated_at).days
         decay = time_decay_weight(days_ago)
+        
         #quality to add in raw values
         value = quantity * avg_price * decay
         raw_weight[symbol] = value
+        
     #total val for vectorization
     total_value = 0.0
     for symbol in crypto_symbols:
         total_value += raw_weight[symbol]
+        
     #prevent portfolios with no entries so far
     if total_value > 0:
         vector = []
@@ -73,5 +72,4 @@ def build_vector(portfolio_entries):
             percentage = value / total_value
             vector.append(percentage)
         return vector
-    
     return None

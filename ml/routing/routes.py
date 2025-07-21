@@ -36,7 +36,6 @@ def get_users():
         print("Error fetching users:", e)
         return jsonify({"error": str(e)}), 500
 
-
 #Fetch portfolio entries for a user, given userid
 @app.route("/portfolio/<user_id>")
 def get_portfolio(user_id):
@@ -76,7 +75,6 @@ def post_recommendations():
     
     if not isinstance(data,list):
         return jsonify("no list of recs recieved")
-    
     with conn.cursor() as cur:
         try:
             for rec in data:

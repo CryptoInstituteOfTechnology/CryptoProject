@@ -2,8 +2,6 @@ import requests
 import json
 
 class SupabaseAPIWrapper:
-    """A Python wrapper for your Supabase-backed Flask API."""
-    
     def __init__(self, base_url):
         self.base_url = base_url.rstrip("/")
         self.headers = {'Content-Type': 'application/json'}
