@@ -13,7 +13,13 @@ export const BackEndContextProvider = ({ children }) => {
     const [watchlist, setWatchlist] = useState([]);
     const [transactions, setTransactions] = useState([]);
     const [relatedNews, setRelatedNews] = useState([])
+    const [recommendations, setRecommendations] = useState([])
 
+    const fetchRecommendations = async () => {
+        const res = await fetch(`${BACKEND_BASE_URL}/api/recommendations/${userId}`);
+        const data = await res.json();
+        setRecommendations(data);
+    }
 
     const fetchPortfolio = async () => {
         const res = await fetch(`${BACKEND_BASE_URL}/api/portfolio/${userId}`);
@@ -47,6 +53,7 @@ export const BackEndContextProvider = ({ children }) => {
         fetchWatchlist();
         fetchTransactions();
         fetchNews()
+        fetchRecommendations()
     }, [session]);
 
     return (
@@ -57,10 +64,12 @@ export const BackEndContextProvider = ({ children }) => {
                 watchlist,
                 transactions,
                 relatedNews,
+                recommendations,
                 fetchTransactions,
                 fetchPortfolio,
                 fetchWatchlist,
                 fetchNews,
+                fetchRecommendations,
             }}
         >
             {children}
