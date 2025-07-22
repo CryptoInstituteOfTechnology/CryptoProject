@@ -14,7 +14,6 @@ import {
 
 export default function HistoryChart() {
     const { historicProfitPoints } = useBackendAttributes();
-    console.log(historicProfitPoints)
     // Sort data by timestamp ascending
     const sortedData = [...historicProfitPoints].sort(
         (a, b) => new Date(a.timestamp) - new Date(b.timestamp)
