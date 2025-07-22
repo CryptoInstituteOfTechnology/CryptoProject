@@ -94,3 +94,14 @@ model HistoricProfitPoint{
   @@index([userId])
   @@index([timestamp])
 }
+
+model Profile {
+  id Int @id @default(autoincrement())
+  userId String
+  username String
+  imageUrl String
+  firstName  String  
+  lastName   String  
+  phone      String
+  @@unique([userId,username])
+}

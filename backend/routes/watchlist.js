@@ -52,7 +52,7 @@ router.post('/', async (req, res) => {
             return res.json({ added: true, watchlistItem: newCrypto });
         }
     } catch (error) {
-        console.error(error);
+
         res.status(500).json({ error: 'Error toggling watchlist item' });
     }
 });

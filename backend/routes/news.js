@@ -45,7 +45,7 @@ router.get('/:userId', async (req, res) => {
         }
         res.json(Array.from(matchedArticles))
     } catch (error) {
-        console.error(error)
+        return res.status(404).json({ error: 'No news found for user' });
     }
 })
 
