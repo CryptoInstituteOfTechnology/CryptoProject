@@ -33,3 +33,5 @@ router.get('/historic-profit/:userId', async (req, res) => {
     }
     res.json(profit);
 });
+
+module.exports = router;
