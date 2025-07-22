@@ -32,8 +32,9 @@ export default function NavBar() {
     }
     return (
         <nav className="bg-blue-500 text-white w-full px-4 py-3 flex items-center justify-between relative">
-            <h1>
+            <h1 className=" flex gap-4">
                 <Link to="/dashboard">CryptoApp</Link>
+                <Link to= "/stats">Your All Time Statistics</Link>
             </h1>
             <Button
                 onClick={handleSignOut}

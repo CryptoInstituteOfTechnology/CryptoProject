@@ -19,7 +19,6 @@ router.post('/', async (req, res) => {
         const existingEntry = await prisma.portfolioEntry.findUnique({
             where: { userId_symbol: { userId, symbol } },
         });
-
         if (isBuy) {
             const newQuant = existingEntry ? existingEntry.quantity + quant : quant;
             const newAvg = existingEntry
@@ -53,6 +52,39 @@ router.post('/', async (req, res) => {
                     data: { quantity: newQuant },
                 });
             }
+
+            // code for updating historical profit and loss, curr price * quantity average price bought * quantity 
+            const profit = (p - existingEntry.avgPrice) * quant
+            // current profit update
+            const existingProfit = await prisma.historicProfit.findUnique({
+                where: { userId },
+            })
+
+            let newProfit;
+
+            if (existingProfit) {
+                newProfit = existingProfit.profit + profit
+                await prisma.historicProfit.update({
+                    where: { userId },
+                    data: {
+                        profit: newProfit
+                    }
+                })
+            } else {
+                newProfit = profit
+                await prisma.historicProfit.create({
+                    data: {
+                        userId,
+                        profit: newProfit,
+                    },
+                })
+            }
+            await prisma.historicProfitPoint.create({
+                data: {
+                    userId,
+                    profit: newProfit, 
+                },
+            });
         }
 
         await prisma.transaction.create({
@@ -64,7 +96,6 @@ router.post('/', async (req, res) => {
                 type: isBuy ? 'BUY' : 'SELL',
             },
         });
-
         res.json({ success: true, message: `${type.toUpperCase()} ${symbol.toUpperCase()}` });
     } catch (error) {
         console.error(error);

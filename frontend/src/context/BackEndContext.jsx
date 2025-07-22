@@ -14,6 +14,20 @@ export const BackEndContextProvider = ({ children }) => {
     const [transactions, setTransactions] = useState([]);
     const [relatedNews, setRelatedNews] = useState([])
     const [recommendations, setRecommendations] = useState([])
+    const [historicProfit, setHistoricProfit] = useState(null)
+    const [historicProfitPoints, setHistoricProfitPoints] = useState([])
+
+    const fetchHistoricProfits = async () => {
+        const res = await fetch(`${BACKEND_BASE_URL}/api/stats/historic-profit-points/${userId}`);
+        const data = await res.json();
+        setHistoricProfitPoints(data);
+    }
+
+    const fetchHistoricalProfit = async () => {
+        const res = await fetch(`${BACKEND_BASE_URL}/api/stats/historic-profit/${userId}`);
+        const data = await res.json();
+        setHistoricProfit(data);
+    }
 
     const fetchRecommendations = async () => {
         const res = await fetch(`${BACKEND_BASE_URL}/api/recommendations/${userId}`);
@@ -54,6 +68,8 @@ export const BackEndContextProvider = ({ children }) => {
         fetchTransactions();
         fetchNews()
         fetchRecommendations()
+        fetchHistoricProfits()
+        fetchHistoricalProfit()
     }, [session]);
 
     return (
@@ -65,6 +81,8 @@ export const BackEndContextProvider = ({ children }) => {
                 transactions,
                 relatedNews,
                 recommendations,
+                historicProfit,
+                historicProfitPoints,
                 fetchTransactions,
                 fetchPortfolio,
                 fetchWatchlist,
