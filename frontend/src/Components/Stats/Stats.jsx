@@ -4,8 +4,9 @@ import { useBackendAttributes } from "../../context/BackEndContext";
 
 export default function Stats() {
     const { historicProfit } = useBackendAttributes();
+    console.log(historicProfit)
     // Extract profit value safely, fallback to 0 if undefined
-    const profitValue = historicProfit
+    const profitValue = historicProfit.profit
 
     return (
         <div

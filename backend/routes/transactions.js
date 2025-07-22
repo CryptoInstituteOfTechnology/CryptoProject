@@ -19,7 +19,6 @@ router.post('/', async (req, res) => {
         const existingEntry = await prisma.portfolioEntry.findUnique({
             where: { userId_symbol: { userId, symbol } },
         });
-
         if (isBuy) {
             const newQuant = existingEntry ? existingEntry.quantity + quant : quant;
             const newAvg = existingEntry
@@ -56,32 +55,38 @@ router.post('/', async (req, res) => {
 
             // code for updating historical profit and loss, curr price * quantity average price bought * quantity 
             const profit = (p - existingEntry.avgPrice) * quant
-
-            //create pricepoint for data
-
-            
-
             // current profit update
             const existingProfit = await prisma.historicProfit.findUnique({
                 where: { userId },
             })
 
+            let newProfit;
+
             if (existingProfit) {
+                newProfit = existingProfit.profit + profit
                 await prisma.historicProfit.update({
                     where: { userId },
                     data: {
-                        profit: existingProfit.profit + profit
+                        profit: newProfit
                     }
                 })
             } else {
+                newProfit = profit
                 await prisma.historicProfit.create({
                     data: {
                         userId,
-                        profit: profit,
+                        profit: newProfit,
                     },
                 })
             }
+            await prisma.historicProfitPoint.create({
+                data: {
+                    userId,
+                    profit: newProfit, 
+                },
+            });
         }
+
         await prisma.transaction.create({
             data: {
                 userId,

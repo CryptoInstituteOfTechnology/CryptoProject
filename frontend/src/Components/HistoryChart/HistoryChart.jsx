@@ -14,7 +14,7 @@ import {
 
 export default function HistoryChart() {
     const { historicProfitPoints } = useBackendAttributes();
-
+    console.log(historicProfitPoints)
     // Sort data by timestamp ascending
     const sortedData = [...historicProfitPoints].sort(
         (a, b) => new Date(a.timestamp) - new Date(b.timestamp)
@@ -44,7 +44,9 @@ export default function HistoryChart() {
                     type="monotone"
                     dataKey="profit"
                     stroke={lineColor}
-                    activeDot={{ r: 8 }}
+                    strokeWidth={5}
+                    dot={{ r: 6 }}         // normal point radius
+                    activeDot={{ r: 10 }}
                     name="Profit"
                 />
             </LineChart>
