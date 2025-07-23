@@ -5,6 +5,9 @@ import RelatedNewsCard from "./RelatedNewsCard"
 
 export default function RelatedNews() {
     const { relatedNews } = useBackendAttributes()
+    if (!relatedNews || relatedNews.length === 0) {
+        return null
+    }
 
     return (
         <div className={` h-[500px] w-full overflow-x-auto rounded-md border p-4 overflow-y-scroll mt-2`}>

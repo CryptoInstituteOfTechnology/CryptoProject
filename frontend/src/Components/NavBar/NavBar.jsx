@@ -39,20 +39,7 @@ export default function NavBar() {
                 >
                     CryptoApp
                 </Link>
-                <Link
-                    to="/stats"
-                    className="text-white hover:text-yellow-300 active:text-yellow-500 transition-colors duration-150"
-                >
-                    Your All Time Statistics
-                </Link>
-                <Link
-                    to="/profile"
-                    className="text-white hover:text-yellow-300 active:text-yellow-500 transition-colors duration-150"
-                >
-                    Profile
-                </Link>
             </h1>
-
             <Button
                 onClick={handleSignOut}
                 className="bg-blue-500 hover:bg-blue-700 text-white text-sm font-medium py-2 px-4 rounded absolute top-3 right-40"
@@ -104,6 +91,24 @@ export default function NavBar() {
 
                     <DropdownMenuItem>
                         <Link to="/signup" className="text-black hover:text-gray-200 transition-colors">Signup</Link>
+                    </DropdownMenuItem>
+
+                    <DropdownMenuItem>
+                        <Link
+                            to="/stats"
+                            className="text-black hover:text-gray-200 transition-colors"
+                        >
+                            Your All Time Statistics
+                        </Link>
+                    </DropdownMenuItem>
+
+                    <DropdownMenuItem>
+                        <Link
+                            to="/profile"
+                            className="text-black hover:text-gray-200 transition-colors"
+                        >
+                            Profile
+                        </Link>
                     </DropdownMenuItem>
 
                     <DropdownMenuSeparator />

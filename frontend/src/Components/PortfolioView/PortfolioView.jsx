@@ -22,37 +22,44 @@ export default function PortfolioView({ variant = "fullscreen" }) {
         <div className={`${height} w-full overflow-x-auto rounded-md border p-4 overflow-y-scroll`}>
             <h1 className="text-xl font-semibold mb-2 text-center">Portfolio Of Tickers</h1>
             <div className="flex justify-center">
-                {variant === "fullscreen" && <Piechart/>}
+                {variant === "fullscreen" && <Piechart />}
                 {variant === "fullscreen" && <ProfitLossbox />}
             </div>
             <Table className="border-4 border-black">
                 <TableBody>
-                    {matchingCoins.map((coin) => {
-                        const websocketPrice = websocketData[coin.id.toLowerCase()]
-                        // average price of coin in portfolio
-                        const averagePrice = portfolio.find((entry) => {
-                            return entry.symbol.toLowerCase() === coin.symbol.toLowerCase()
-                        })?.avgPrice
-                        //quantity
-                        const currentQuantity = portfolio.find((entry) => {
-                            return entry.symbol.toLowerCase() === coin.symbol.toLowerCase()
-                        })?.quantity
-                        return (
-                            <TableRow
-                                key={coin.id}
-                                className="cursor-pointer hover:bg-blue-400 transitiom-colors"
-                                onClick={() => navigate(`/assetview/${coin.id.toLowerCase()}`)} // takes user to cryptoview when clicked
-                            >
-                                <PortfolioBox
-                                    className="border-4 border-black hover:bg-gray-100 transition-colors"
-                                    coinData={coin}
-                                    livePrice={websocketPrice}
-                                    avgPrice={averagePrice}
-                                    quantity={currentQuantity}
-                                />
-                            </TableRow>
-                        )
-                    })
+                    {matchingCoins.length === 0 ? (
+                        <tr>
+                            <td className="text-center p-4">
+                                No coins in your portfolio, add some crypto to your portfolio!
+                            </td>
+                        </tr>
+                    ) : (
+                        matchingCoins.map((coin) => {
+                            const websocketPrice = websocketData[coin.id.toLowerCase()]
+                            // average price of coin in portfolio
+                            const averagePrice = portfolio.find((entry) => {
+                                return entry.symbol.toLowerCase() === coin.symbol.toLowerCase()
+                            })?.avgPrice
+                            //quantity
+                            const currentQuantity = portfolio.find((entry) => {
+                                return entry.symbol.toLowerCase() === coin.symbol.toLowerCase()
+                            })?.quantity
+                            return (
+                                <TableRow
+                                    key={coin.id}
+                                    className="cursor-pointer hover:bg-blue-400 transitiom-colors"
+                                    onClick={() => navigate(`/assetview/${coin.id.toLowerCase()}`)} // takes user to cryptoview when clicked
+                                >
+                                    <PortfolioBox
+                                        className="border-4 border-black hover:bg-gray-100 transition-colors"
+                                        coinData={coin}
+                                        livePrice={websocketPrice}
+                                        avgPrice={averagePrice}
+                                        quantity={currentQuantity}
+                                    />
+                                </TableRow>
+                            )
+                        }))
                     }
                 </TableBody>
             </Table>

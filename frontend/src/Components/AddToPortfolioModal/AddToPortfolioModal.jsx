@@ -2,17 +2,17 @@ import { useState, useRef, useEffect } from "react"
 import { useBackendAttributes } from "../../context/BackEndContext"
 
 const BACKEND_BASE_URL = import.meta.env.VITE_BACKEND_URL
-export default function AddToPortfolioModal({ coinData, livePrice, onExit }) {
 
+export default function AddToPortfolioModal({ coinData, livePrice, onExit }) {
     const { userId, portfolio, fetchPortfolio, fetchTransactions } = useBackendAttributes()
 
-    //finds the current quantity of item in portfolio
-    const currentQuantity = portfolio.find((entry) =>{
-        return entry.symbol.toLowerCase() === coinData.symbol.toLowerCase()
-    })?.quantity
+    // Find the current quantity of item in portfolio
+    const currentQuantity = portfolio.find((entry) =>
+        entry.symbol.toLowerCase() === coinData.symbol.toLowerCase()
+    )?.quantity
 
-
-    const [quantity, setQuantity] = useState("0")
+    // Initialize quantity as a number
+    const [quantity, setQuantity] = useState(0)
     const [mode, setMode] = useState("buy")
     const [priceColor, setPriceColor] = useState('text-white')
     const [errMessage, setErrMessage] = useState(null)
@@ -23,15 +23,15 @@ export default function AddToPortfolioModal({ coinData, livePrice, onExit }) {
         try {
             const transactionData = createTransactionData();
             await makeApiCall(transactionData);
-            await fetchPortfolio(); // reload portfolio
-            await fetchTransactions(); // reload transactions
-            onExit(); // close modal after submitting
+            await fetchPortfolio();
+            await fetchTransactions();
+            onExit();
         } catch (error) {
             displayErrorMessage(error.message);
         }
     };
+
     const createTransactionData = () => {
-        const totalCost = livePrice * Number(quantity);
         const type = mode.toUpperCase();
         return {
             userId,
@@ -41,6 +41,7 @@ export default function AddToPortfolioModal({ coinData, livePrice, onExit }) {
             type,
         };
     };
+
     const makeApiCall = async (transactionData) => {
         const res = await fetch(`${BACKEND_BASE_URL}/api/transactions`, {
             method: "POST",
@@ -54,11 +55,11 @@ export default function AddToPortfolioModal({ coinData, livePrice, onExit }) {
         }
         return res.json();
     };
-    //display error message when user tries to sell more than they have
+
     const displayErrorMessage = (error) => {
         setErrMessage(error)
     }
-    
+
     useEffect(() => {
         if (previousPrice.current == null) {
             previousPrice.current = livePrice
@@ -73,7 +74,12 @@ export default function AddToPortfolioModal({ coinData, livePrice, onExit }) {
         }
         previousPrice.current = livePrice
     }, [livePrice])
-    // need a box wit buy or sell option, quantity, then send order and have a live order and price symbol and name, and then basic modal stuff and  atotal button
+
+    // --- FIX: Define parsedPrice before use ---
+    const parsedPrice = Number(livePrice);
+    const displayPrice = !isNaN(parsedPrice) ? parsedPrice.toFixed(4) : "N/A";
+    const totalCost = !isNaN(parsedPrice * quantity) ? (parsedPrice * quantity).toFixed(4) : "N/A";
+
     return (
         <div className="fixed inset-0 z-50 flex justify-center items-center" onClick={onExit}>
             <div className="bg-zinc-900 text-white w-full max-w-md p-6 rounded-lg" onClick={(e) => e.stopPropagation()}>
@@ -81,7 +87,9 @@ export default function AddToPortfolioModal({ coinData, livePrice, onExit }) {
                 <div className="flex flex-col items-center mb-6">
                     <img src={coinData.image} alt={coinData.symbol} className="w-12 h-auto" />
                     <h1 className="text-3xl font-bold">{coinData.symbol.toUpperCase()}</h1>
-                    <p className={`text-2xl mt-2 ${priceColor}`}>Live: {livePrice.toFixed(4)}</p>
+                    <p className={`text-2xl mt-2 ${priceColor}`}>
+                        Live: {displayPrice}
+                    </p>
                 </div>
                 {/* input form for buying and selling */}
                 <form onSubmit={handleSubmit}>
@@ -109,12 +117,10 @@ export default function AddToPortfolioModal({ coinData, livePrice, onExit }) {
                         min="0"
                         step="1"
                         value={quantity}
-                        onChange={(e) =>
-                            setQuantity(e.target.value)
-                        }
+                        onChange={(e) => setQuantity(Number(e.target.value))}
                         className="w-full p-2 mb-6 border border-gray-300 rounded"
                     />
-                    <p className="text-2xl mb-6">Total: {(livePrice * Number(quantity)).toFixed(4)}</p>
+                    <p className="text-2xl mb-6">Total: {totalCost}</p>
                     {/* Submit Button and Cancel Button */}
                     <div className="flex gap-4">
                         <button

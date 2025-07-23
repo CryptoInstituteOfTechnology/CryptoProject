@@ -38,7 +38,7 @@ export default function CryptoCard({ coinData, livePrice }) {
             </div>
             <div className='flex gap-2 items-center'>
                 <AddToWatchList coinData={coinData} />
-                <AddToPortfolio coinData={coinData} />
+                <AddToPortfolio coinData={coinData} livePrice={livePrice} />
             </div>
         </Card>
     )
