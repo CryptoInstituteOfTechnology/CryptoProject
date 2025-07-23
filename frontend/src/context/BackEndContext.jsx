@@ -16,6 +16,16 @@ export const BackEndContextProvider = ({ children }) => {
     const [recommendations, setRecommendations] = useState([])
     const [historicProfit, setHistoricProfit] = useState(null)
     const [historicProfitPoints, setHistoricProfitPoints] = useState([])
+    const [profile, setProfile] = useState(null);
+
+    const fetchProfile = async () => {
+            const res = await fetch(`${BACKEND_BASE_URL}/api/profile/${userId}`);
+            if (!res.ok) {
+                throw new Error("Failed to fetch profile");
+            }
+            const data = await res.json();
+            setProfile(data);
+    };
 
     const fetchHistoricProfits = async () => {
         const res = await fetch(`${BACKEND_BASE_URL}/api/stats/historic-profit-points/${userId}`);
@@ -70,6 +80,7 @@ export const BackEndContextProvider = ({ children }) => {
         fetchRecommendations()
         fetchHistoricProfits()
         fetchHistoricalProfit()
+        fetchProfile()
     }, [session]);
 
     return (
@@ -83,6 +94,7 @@ export const BackEndContextProvider = ({ children }) => {
                 recommendations,
                 historicProfit,
                 historicProfitPoints,
+                profile,
                 fetchTransactions,
                 fetchPortfolio,
                 fetchWatchlist,

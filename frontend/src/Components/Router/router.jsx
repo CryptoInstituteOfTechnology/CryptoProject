@@ -33,6 +33,7 @@ const Recommendations = lazyWithDelay(() => import("../../Pages/Recommendations/
 const WatchList = lazyWithDelay(() => import("../../Pages/Watchlist/Watchlist"));
 const YourStats = lazyWithDelay(() => import("../../Pages/YourStats/YourStats"))
 const CreateProfile = lazyWithDelay(() => import("../../Pages/CreateProfile/CreateProfile"))
+const Profile = lazyWithDelay(() => import("../../Pages/Profile/Profile"))
 
 // ui for loading
 export const LoadingSpinner = ({ className }) => {
@@ -242,6 +243,22 @@ export const router = createBrowserRouter([
                             }
                         >
                             <CreateProfile />
+                        </React.Suspense>
+                    </PrivateRoute>
+                ),
+            },
+            {
+                path: "/profile",
+                element: (
+                    <PrivateRoute>
+                        <React.Suspense
+                            fallback={
+                                <div className="flex flex-col justify-center items-center h-screen text-xl space-y-4">
+                                    Loading... <LoadingSpinner className="w-12 h-12" />
+                                </div>
+                            }
+                        >
+                            <Profile />
                         </React.Suspense>
                     </PrivateRoute>
                 ),

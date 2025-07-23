@@ -5,15 +5,12 @@ const router = express.Router();
 const prisma = new PrismaClient();
 
 // route to return user profile and attributes
-router.get('/:userId/:username', async (req, res) => {
-    const { userId, username } = req.params;
+router.get('/:userId', async (req, res) => {
+    const { userId } = req.params;
     try {
-        const profile = await prisma.profile.findUnique({
+        const profile = await prisma.profile.findFirst({
             where: {
-                userId_username: {
-                    userId,
-                    username,
-                },
+                userId
             },
         });
         if (!profile) {
