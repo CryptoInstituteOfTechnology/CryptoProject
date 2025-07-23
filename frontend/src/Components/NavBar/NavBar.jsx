@@ -104,6 +104,15 @@ export default function NavBar() {
 
                     <DropdownMenuItem>
                         <Link
+                            to="/leaderboard"
+                            className="text-black hover:text-gray-200 transition-colors"
+                        >
+                            Leaderboard
+                        </Link>
+                    </DropdownMenuItem>
+
+                    <DropdownMenuItem>
+                        <Link
                             to="/profile"
                             className="text-black hover:text-gray-200 transition-colors"
                         >

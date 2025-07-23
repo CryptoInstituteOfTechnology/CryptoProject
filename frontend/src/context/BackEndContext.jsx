@@ -8,7 +8,6 @@ const BackEndContext = createContext();
 export const BackEndContextProvider = ({ children }) => {
     const session = UserAuth();
     const userId = session.session?.user?.id;
-
     const [portfolio, setPortfolio] = useState([]);
     const [watchlist, setWatchlist] = useState([]);
     const [transactions, setTransactions] = useState([]);
@@ -17,12 +16,16 @@ export const BackEndContextProvider = ({ children }) => {
     const [historicProfit, setHistoricProfit] = useState(null)
     const [historicProfitPoints, setHistoricProfitPoints] = useState([])
     const [profile, setProfile] = useState(null);
+    const [leaderBoard, setLeaderBoard] = useState([])
+
+    const fetchLeaderboard = async () =>{
+        const res = await fetch(`${BACKEND_BASE_URL}/api/stats/historic-profit`);
+            const data = await res.json();
+            setLeaderBoard(data);
+    }
 
     const fetchProfile = async () => {
             const res = await fetch(`${BACKEND_BASE_URL}/api/profile/${userId}`);
-            if (!res.ok) {
-                throw new Error("Failed to fetch profile");
-            }
             const data = await res.json();
             setProfile(data);
     };
@@ -81,6 +84,7 @@ export const BackEndContextProvider = ({ children }) => {
         fetchHistoricProfits()
         fetchHistoricalProfit()
         fetchProfile()
+        fetchLeaderboard()
     }, [session]);
 
     return (
@@ -95,6 +99,8 @@ export const BackEndContextProvider = ({ children }) => {
                 historicProfit,
                 historicProfitPoints,
                 profile,
+                leaderBoard,
+                fetchLeaderboard,
                 fetchTransactions,
                 fetchPortfolio,
                 fetchWatchlist,

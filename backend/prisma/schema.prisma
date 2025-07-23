@@ -79,12 +79,6 @@ model Recommendation {
   @@index([userId])
 }
 
-model HistoricProfit {
-  id Int @id @default(autoincrement())
-  userId String @unique // only can have one per user
-  profit Float // can be negative
-  updatedAt DateTime @updatedAt
-}
 
 model HistoricProfitPoint{
   id  Int @id @default(autoincrement())
@@ -96,12 +90,23 @@ model HistoricProfitPoint{
 }
 
 model Profile {
-  id Int @id @default(autoincrement())
-  userId String
-  username String
-  imageUrl String
-  firstName  String  
-  lastName   String  
-  phone      String
-  @@unique([userId,username])
+  id        Int    @id @default(autoincrement())
+  userId    String @unique
+  username  String
+  imageUrl  String
+  firstName String  
+  lastName  String  
+  phone     String
+
+  profit    HistoricProfit?
+
+  @@unique([userId, username])
+}
+
+model HistoricProfit {
+  id        Int     @id @default(autoincrement())
+  userId    String  @unique
+  profit    Float
+  updatedAt DateTime @updatedAt
+  user      Profile @relation(fields: [userId], references: [userId])
 }
