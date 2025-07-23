@@ -15,7 +15,7 @@ router.get('/historic-profit-points/:userId', async (req, res) => {
     res.json(points);
 });
 
-// get all users current historical Profit/Realized profit
+// get all users current historical Profit/Realized profit and their username from psima
 router.get('/historic-profit', async (req, res) => {
     const profits = await prisma.historicProfit.findMany();
     res.json(profits);
@@ -25,13 +25,15 @@ router.get('/historic-profit', async (req, res) => {
 // get one users historic profit
 router.get('/historic-profit/:userId', async (req, res) => {
     const { userId } = req.params;
-    const profit = await prisma.historicProfit.findUnique({
-        where: { userId },
-    });
-    if (!profit) {
-        return res.status(404).json({ error: 'HistoricProfit not found for user' });
+    try {
+        const profit = await prisma.historicProfit.findUnique({
+            where: { userId },
+
+        });
+        res.json(profit);
+    } catch (error) {
+        res.status(404).json({ error: 'HistoricProfit not found for user' });
     }
-    res.json(profit);
 });
 
 module.exports = router;

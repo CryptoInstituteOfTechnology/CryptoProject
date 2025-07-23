@@ -14,7 +14,7 @@ router.get('/:userId', async (req, res) => {
 
         res.json(recommendations)
     } catch (error) {
-        console.error(error)
+        res.status(500).json({ error: "error fetching recs" })
     }
 })
 

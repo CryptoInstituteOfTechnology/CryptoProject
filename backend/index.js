@@ -11,6 +11,7 @@ app.use('/api/transactions' , require('./routes/transactions'))
 app.use('/api/portfolionews',require('./routes/news'))
 app.use('/api/recommendations', require('./routes/recommendations'))
 app.use('/api/stats', require('./routes/stats') )
+app.use('/api/profile', require('./routes/profile'))
 
 app.listen(PORT, () =>{
     console.log(`server running on port ${PORT}`)

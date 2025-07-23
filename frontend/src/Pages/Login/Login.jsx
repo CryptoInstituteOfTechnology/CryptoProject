@@ -29,22 +29,25 @@ const Login = () => {
         }
     };
     return (
-        <div className="max-w-md mx-auto p-4 md:p-6 lg:p-8">
+        <div className="max-w-md mx-auto p-6 md:p-8 lg:p-10">
             <Card className="bg-white rounded-lg shadow-md">
                 <CardTitle>
                     <CardContent>
-                        <form onSubmit={handleLogin} className="flex flex-col gap-6 login-box">
-                            <h2 className="text-3xl font-bold text-gray-900">Login</h2>
-                            <p className="text-sm text-gray-600">
-                                No Account? Create one! <Link to="/" className="text-blue-500 hover:text-blue-700">Sign Up!</Link>
+                        <form onSubmit={handleLogin} className="flex flex-col gap-8 login-box">
+                            <h2 className="text-4xl font-extrabold text-gray-900">Login</h2>
+                            <p className="text-base text-gray-600">
+                                No Account? Create one!{" "}
+                                <Link to="/" className="text-blue-500 hover:text-blue-700 font-semibold">
+                                    Sign Up!
+                                </Link>
                             </p>
-                            <div className="grid gap-6 email-pass-box">
+                            <div className="grid gap-8 email-pass-box">
                                 <input
                                     placeholder="Email Address"
                                     type="email"
                                     id="email-input"
                                     onChange={(e) => setEmail(e.target.value)}
-                                    className="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                                    className="w-full p-4 pl-12 text-lg text-gray-700 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
                                 />
 
                                 <input
@@ -52,16 +55,16 @@ const Login = () => {
                                     type="password"
                                     id="password-input"
                                     onChange={(e) => setPassword(e.target.value)}
-                                    className="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                                    className="w-full p-4 pl-12 text-lg text-gray-700 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
                                 />
 
                                 <button
-                                    className="login-button w-full py-2 px-4 bg-blue-500 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-400 disabled:hover:bg-gray-400"
+                                    className="login-button w-full py-4 px-6 bg-blue-500 text-xl font-semibold text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-400 disabled:hover:bg-gray-400"
                                     disabled={loading}
                                 >
                                     Login
                                 </button>
-                                {error && <p className="text-red-500 text-sm">{error}</p>}
+                                {error && <p className="text-red-600 text-base">{error}</p>}
                             </div>
                         </form>
                     </CardContent>
