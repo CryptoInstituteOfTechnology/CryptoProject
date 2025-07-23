@@ -13,30 +13,40 @@ export default function CryptoCard({ coinData, livePrice }) {
             return
         }
         if (livePrice > previousPrice.current) {
-            setPriceColor('text-green-600')
+            setPriceColor('text-green-500')
         } else if (livePrice < previousPrice.current) {
-            setPriceColor('text-red-600')
+            setPriceColor('text-red-500')
         } else {
-            setPriceColor('text-black')
+            setPriceColor('text-gray-300')
         }
         previousPrice.current = livePrice
     }, [livePrice])
-
 
     if (!coinData) {
         return null
     }
 
+    // Format price with commas and 2 decimals
+    const formattedPrice = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+    }).format(livePrice || 0)
+
     return (
-        <Card className= "flex justify-between items-center p-4 bg-[#2a2a2a] rounded-xl shadow w-full">
-            <div className='flex items-center gap-4'>
-                <img src={coinData.image} alt={coinData.symbol} className='w-10 h-auto' />
+        <Card
+            className="flex justify-between items-center p-4 bg-[#2a2a2a] rounded-xl shadow-md w-full
+                    hover:shadow-lg hover:bg-[#3a3a3a] transition-shadow duration-300"
+        >
+            <div className="flex items-center gap-4">
+                <img src={coinData.image} alt={coinData.symbol} className="w-10 h-auto rounded-full" />
                 <div>
-                    <p className='text-white font-bold text-lg'>{coinData.symbol.toUpperCase()}</p>
-                    <p className={`${priceColor} font-semibold`}>Price: ${Number(livePrice).toFixed(2)}</p>
+                    <p className="text-white font-bold text-lg">{coinData.symbol.toUpperCase()}</p>
+                    <p className={`${priceColor} font-semibold`}>{formattedPrice}</p>
                 </div>
             </div>
-            <div className='flex gap-2 items-center'>
+            <div className="flex gap-3 items-center">
                 <AddToWatchList coinData={coinData} />
                 <AddToPortfolio coinData={coinData} livePrice={livePrice} />
             </div>

@@ -1,68 +1,65 @@
 import { useBackendAttributes } from "../../context/BackEndContext";
 import { webFetchedContext } from "../../context/Webfetching/WebFetchContext";
 import { useContext } from 'react';
-import { Table, TableRow, TableCaption, TableBody } from "../ui/table";
+import { Table, TableRow, TableBody } from "../ui/table";
 import { useNavigate } from 'react-router-dom';
 import PortfolioBox from '../PortfolioBox/PortfolioBox.jsx';
 import ProfitLossbox from "../ProfitLossBox/ProfitLossBox.jsx";
 import Piechart from "../PieChart/PieChart.jsx";
 
 export default function PortfolioView({ variant = "fullscreen" }) {
-    const { coinApiData, websocketData } = useContext(webFetchedContext)
-    const navigate = useNavigate()
-    const { portfolio } = useBackendAttributes()
-    const height = variant === "dashboard" ? "h-[600px]" : "h-screen"
-    //symbols in portfolio to display
-    const portfolioSymbols = portfolio.map((entry) => entry.symbol.toLowerCase())
-    // symbols 
-    const matchingCoins = coinApiData.filter((coin) => {
-        return portfolioSymbols.includes(coin.symbol.toLowerCase());
-    });
+    const { coinApiData, websocketData } = useContext(webFetchedContext);
+    const navigate = useNavigate();
+    const { portfolio } = useBackendAttributes();
+    const height = variant === "dashboard" ? "h-[600px]" : "h-screen";
+
+    const portfolioSymbols = portfolio.map((entry) => entry.symbol.toLowerCase());
+    const matchingCoins = coinApiData.filter((coin) =>
+        portfolioSymbols.includes(coin.symbol.toLowerCase())
+    );
+
     return (
-        <div className={`${height} w-full overflow-x-auto rounded-md border p-4 overflow-y-scroll`}>
-            <h1 className="text-xl font-semibold mb-2 text-center">Portfolio Of Tickers</h1>
-            <div className="flex justify-center">
+        <div className={`${height} bg-gray-900 w-full overflow-x-auto rounded-lg p-6 overflow-y-scroll`}>
+            <h1 className="text-2xl font-bold mb-4 text-center text-yellow-400">Portfolio Of Tickers</h1>
+            <div className="flex justify-center gap-8 mb-6">
                 {variant === "fullscreen" && <Piechart />}
                 {variant === "fullscreen" && <ProfitLossbox />}
             </div>
-            <Table className="border-4 border-black">
+            <Table className="min-w-full text-sm table-auto border-collapse">
                 <TableBody>
                     {matchingCoins.length === 0 ? (
                         <tr>
-                            <td className="text-center p-4">
+                            <td colSpan={8} className="text-center p-6 text-gray-400">
                                 No coins in your portfolio, add some crypto to your portfolio!
                             </td>
                         </tr>
                     ) : (
-                        matchingCoins.map((coin) => {
-                            const websocketPrice = websocketData[coin.id.toLowerCase()]
-                            // average price of coin in portfolio
-                            const averagePrice = portfolio.find((entry) => {
-                                return entry.symbol.toLowerCase() === coin.symbol.toLowerCase()
-                            })?.avgPrice
-                            //quantity
-                            const currentQuantity = portfolio.find((entry) => {
-                                return entry.symbol.toLowerCase() === coin.symbol.toLowerCase()
-                            })?.quantity
+                        matchingCoins.map((coin, index) => {
+                            const websocketPrice = websocketData[coin.id.toLowerCase()];
+                            const portfolioEntry = portfolio.find((entry) =>
+                                entry.symbol.toLowerCase() === coin.symbol.toLowerCase()
+                            );
+                            const averagePrice = portfolioEntry?.avgPrice;
+                            const currentQuantity = portfolioEntry?.quantity;
+
                             return (
                                 <TableRow
                                     key={coin.id}
-                                    className="cursor-pointer hover:bg-blue-400 transitiom-colors"
-                                    onClick={() => navigate(`/assetview/${coin.id.toLowerCase()}`)} // takes user to cryptoview when clicked
+                                    className={`cursor-pointer transition-colors ${index % 2 === 0 ? "bg-gray-800" : "bg-gray-700"} rounded-lg p-4 mb-4 shadow-md hover:bg-yellow-600 hover:text-black transition-all`}
+                                    onClick={() => navigate(`/assetview/${coin.id.toLowerCase()}`)}
                                 >
                                     <PortfolioBox
-                                        className="border-4 border-black hover:bg-gray-100 transition-colors"
                                         coinData={coin}
                                         livePrice={websocketPrice}
                                         avgPrice={averagePrice}
                                         quantity={currentQuantity}
                                     />
                                 </TableRow>
-                            )
-                        }))
-                    }
+                            );
+                        })
+                    )}
                 </TableBody>
             </Table>
         </div>
-    )
+    );
 }

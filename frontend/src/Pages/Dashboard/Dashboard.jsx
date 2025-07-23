@@ -8,15 +8,15 @@ const Dashboard = () => {
     return (
         <div>
             <div>
-                <div className="grid grid-cols-2 grid-rows-[auto_1fr_1fr] gap-4">
-                    <div className="col-span-2 flex justify-center gap-12 mt-4 ">
+                <div className="grid grid-cols-2 gap-4">
+                    <div className="col-span-2 flex justify-center gap-12 mt-4">
                         <ProfitLossbox />
-                        <Piechart/>
+                        <Piechart />
                     </div>
-                    <div className="row-span-1">
+                    <div>
                         <PortfolioView variant="dashboard" />
                     </div>
-                    <div className="row-span-1">
+                    <div>
                         <AllTickersView variant="dashboard" />
                     </div>
                     <div className="col-span-2">
@@ -25,6 +25,6 @@ const Dashboard = () => {
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
 export default Dashboard

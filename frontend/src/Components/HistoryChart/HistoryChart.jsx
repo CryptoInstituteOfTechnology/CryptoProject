@@ -1,6 +1,4 @@
-import { useContext } from 'react';
 import { useBackendAttributes } from "../../context/BackEndContext";
-
 import {
     ResponsiveContainer,
     LineChart,
@@ -14,12 +12,20 @@ import {
 
 export default function HistoryChart() {
     const { historicProfitPoints } = useBackendAttributes();
+
+    if (!historicProfitPoints || historicProfitPoints.length === 0) {
+        return (
+            <div className="flex justify-center items-center h-72 text-gray-500 italic">
+                No profit data yet. Make your first trade to see your profit history.
+            </div>
+        );
+    }
+
     // Sort data by timestamp ascending
     const sortedData = [...historicProfitPoints].sort(
         (a, b) => new Date(a.timestamp) - new Date(b.timestamp)
     );
 
-    // Determine overall trend: compare last profit to first profit
     const firstProfit = sortedData.length > 0 ? sortedData[0].profit : 0;
     const lastProfit = sortedData.length > 0 ? sortedData[sortedData.length - 1].profit : 0;
     const lineColor = lastProfit >= firstProfit ? 'green' : 'red';
@@ -32,8 +38,9 @@ export default function HistoryChart() {
                     dataKey="timestamp"
                     tickFormatter={(tick) => new Date(tick).toLocaleDateString()}
                     minTickGap={20}
+                    label={{ value: 'Date', position: 'insideBottomRight', offset: -10 }}
                 />
-                <YAxis />
+                <YAxis label={{ value: 'Profit ($)', angle: -90, position: 'insideLeft' }} />
                 <Tooltip
                     labelFormatter={(label) => new Date(label).toLocaleString()}
                     formatter={(value) => [`$${value.toFixed(2)}`, 'Profit']}
@@ -43,9 +50,9 @@ export default function HistoryChart() {
                     type="monotone"
                     dataKey="profit"
                     stroke={lineColor}
-                    strokeWidth={5}
-                    dot={{ r: 6 }}         // normal point radius
-                    activeDot={{ r: 10 }}
+                    strokeWidth={3}
+                    dot={{ r: 4 }}
+                    activeDot={{ r: 6 }}
                     name="Profit"
                 />
             </LineChart>

@@ -11,8 +11,8 @@ export default function AddToPortfolioModal({ coinData, livePrice, onExit }) {
         entry.symbol.toLowerCase() === coinData.symbol.toLowerCase()
     )?.quantity
 
-    // Initialize quantity as a number
-    const [quantity, setQuantity] = useState(0)
+    // Store quantity as a string to allow editing input freely
+    const [quantity, setQuantity] = useState("0")
     const [mode, setMode] = useState("buy")
     const [priceColor, setPriceColor] = useState('text-white')
     const [errMessage, setErrMessage] = useState(null)
@@ -33,10 +33,11 @@ export default function AddToPortfolioModal({ coinData, livePrice, onExit }) {
 
     const createTransactionData = () => {
         const type = mode.toUpperCase();
+        const parsedQuantity = Number(quantity);
         return {
             userId,
             symbol: coinData.symbol.toUpperCase(),
-            quantity,
+            quantity: parsedQuantity,
             price: livePrice,
             type,
         };
@@ -75,10 +76,10 @@ export default function AddToPortfolioModal({ coinData, livePrice, onExit }) {
         previousPrice.current = livePrice
     }, [livePrice])
 
-    // --- FIX: Define parsedPrice before use ---
     const parsedPrice = Number(livePrice);
+    const parsedQuantity = Number(quantity);
     const displayPrice = !isNaN(parsedPrice) ? parsedPrice.toFixed(4) : "N/A";
-    const totalCost = !isNaN(parsedPrice * quantity) ? (parsedPrice * quantity).toFixed(4) : "N/A";
+    const totalCost = !isNaN(parsedPrice * parsedQuantity) ? (parsedPrice * parsedQuantity).toFixed(4) : "N/A";
 
     return (
         <div className="fixed inset-0 z-50 flex justify-center items-center" onClick={onExit}>
@@ -117,7 +118,7 @@ export default function AddToPortfolioModal({ coinData, livePrice, onExit }) {
                         min="0"
                         step="1"
                         value={quantity}
-                        onChange={(e) => setQuantity(Number(e.target.value))}
+                        onChange={(e) => setQuantity(e.target.value)}
                         className="w-full p-2 mb-6 border border-gray-300 rounded"
                     />
                     <p className="text-2xl mb-6">Total: {totalCost}</p>

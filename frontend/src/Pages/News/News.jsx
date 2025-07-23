@@ -6,7 +6,7 @@ export default function News() {
 
     return (
         <div>
-            <NewsView />
+            <NewsView/>
             <RelatedNews/>
         </div>
     );

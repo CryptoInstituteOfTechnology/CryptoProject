@@ -30,17 +30,25 @@ export default function TickerBox({ coinData, livePrice }) {
             <TableCell className="p-4">
                 <img src={coinData.image} alt={coinData.symbol} className="w-12 h-auto" />
             </TableCell>
-            <TableCell className="text-lg font-bold text-white">{coinData.symbol.toUpperCase()}</TableCell>
-            <TableCell className={`${priceColor} text-lg font-bold`}>Price: ${Number(livePrice).toFixed(2)}</TableCell>
-            <TableCell className="text-sm">Volume: {coinData.total_volume}</TableCell>
-            <TableCell className="text-sm">High: {coinData.high_24h}</TableCell>
-            <TableCell className="text-sm">Low: {coinData.low_24h}</TableCell>
-            <TableCell>
-                <AddToWatchList
-                    coinData={coinData}
-                />
+            <TableCell className="text-lg font-bold text-white">
+                {coinData.symbol.toUpperCase()}
             </TableCell>
-            <TableCell className="text-right">
+            <TableCell className={`${priceColor} text-lg font-bold`}>
+                Price: ${Number(livePrice).toFixed(2)}
+            </TableCell>
+            <TableCell className="text-sm text-white">
+                Volume: {coinData.total_volume}
+            </TableCell>
+            <TableCell className="text-sm text-white">
+                High: {coinData.high_24h}
+            </TableCell>
+            <TableCell className="text-sm text-white">
+                Low: {coinData.low_24h}
+            </TableCell>
+            <TableCell>
+                <AddToWatchList coinData={coinData} />
+            </TableCell>
+            <TableCell className="text-right text-white">
                 <AddToPortfolio coinData={coinData} livePrice={livePrice} />
             </TableCell>
         </>

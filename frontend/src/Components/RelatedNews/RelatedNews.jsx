@@ -1,31 +1,26 @@
 import { useBackendAttributes } from "../../context/BackEndContext";
-import { Table, TableBody } from "../ui/table"
-import RelatedNewsCard from "./RelatedNewsCard"
-// use search by Id for this https://site.financialmodelingprep.com/developer/docs/stable/search-crypto-news to search and load news based on it, use api caching
+import { Table, TableBody } from "../ui/table";
+import RelatedNewsCard from "./RelatedNewsCard";
 
 export default function RelatedNews() {
-    const { relatedNews } = useBackendAttributes()
+    const { relatedNews } = useBackendAttributes();
+
     if (!relatedNews || relatedNews.length === 0) {
-        return null
+        return null;
     }
 
     return (
-        <div className={` h-[500px] w-full overflow-x-auto rounded-md border p-4 overflow-y-scroll mt-2`}>
-            <h1 className="text-xl font-semibold mb-2">Important News For Your Portfolio</h1>
-            <Table className="border-4 border-black">
+        <div
+            className="w-full rounded-md border border-gray-300 p-4 bg-black text-gray-900 h-[400px] overflow-y-auto overflow-x-auto mt-2"
+        >
+            <h1 className="text-xl  text-white font-semibold mb-4">Important News For Your Portfolio</h1>
+            <Table>
                 <TableBody>
-                    {relatedNews?.map((news) => {
-                        console.log(news)
-                        return (
-                            <RelatedNewsCard
-                                key={news.id}
-                                news={news}
-                            />
-                        )
-                    })
-                    }
+                    {relatedNews.map((news) => (
+                        <RelatedNewsCard key={news.id} news={news} />
+                    ))}
                 </TableBody>
             </Table>
         </div>
-    )
+    );
 }

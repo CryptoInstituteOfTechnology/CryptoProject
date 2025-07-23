@@ -38,7 +38,7 @@ export default function AddToWatchList({ coinData }) {
             >
                 <span>{inList ? "Remove From Watchlist" : "Add To Watchlist"}</span>
                 <span className="text-yellow-600 text-2xl">
-                    {inList ? "\u2715" : "\u2605"}
+                    {inList ? "   \u2715" : "\u2605"}
                 </span>
             </button>
     )
