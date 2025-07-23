@@ -15,12 +15,34 @@ router.get('/historic-profit-points/:userId', async (req, res) => {
     res.json(points);
 });
 
-// get all users current historical Profit/Realized profit and their username from psima
+// get all users current historical Profit/Realized profit and their username from psima, sort by profit, top 20
 router.get('/historic-profit', async (req, res) => {
-    const profits = await prisma.historicProfit.findMany();
-    res.json(profits);
-});
+    try {
+        const profits = await prisma.historicProfit.findMany({
+            take: 20,
+            include: {
+                user: {
+                    select: {
+                        username: true,
+                    },
+                },
+            },
+            orderBy: {
+                profit: 'desc', 
+            },
+        });
+        const result = profits.map(p => ({
+            username: p.user.username,
+            profit: p.profit,
+            updatedAt: p.updatedAt,
+        }));
 
+        res.json(result);
+    } catch (err) {
+        console.error('Error fetching historic profits:', err);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
 
 // get one users historic profit
 router.get('/historic-profit/:userId', async (req, res) => {

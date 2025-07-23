@@ -5,7 +5,6 @@ import { Table, TableBody } from "../ui/table";
 
 const NewsView = () => {
     const { newsApiData } = useContext(webFetchedContext);
-
     return (
         <div
             className="w-full rounded-md border border-gray-5700 p-4 bg-black text-white mb-8"
