@@ -31,11 +31,28 @@ export default function NavBar() {
         }
     }
     return (
-        <nav className="bg-blue-500 text-white w-full px-4 py-3 flex items-center justify-between relative">
-            <h1 className=" flex gap-4">
-                <Link to="/dashboard">CryptoApp</Link>
-                <Link to= "/stats">Your All Time Statistics</Link>
+        <nav className="bg-blue-500 text-white text-lg w-full px-4 py-3 flex items-center justify-between relative">
+            <h1 className="flex gap-40">
+                <Link
+                    to="/dashboard"
+                    className="text-white hover:text-yellow-300 active:text-yellow-500 transition-colors duration-150"
+                >
+                    CryptoApp
+                </Link>
+                <Link
+                    to="/stats"
+                    className="text-white hover:text-yellow-300 active:text-yellow-500 transition-colors duration-150"
+                >
+                    Your All Time Statistics
+                </Link>
+                <Link
+                    to="/profile"
+                    className="text-white hover:text-yellow-300 active:text-yellow-500 transition-colors duration-150"
+                >
+                    Profile
+                </Link>
             </h1>
+
             <Button
                 onClick={handleSignOut}
                 className="bg-blue-500 hover:bg-blue-700 text-white text-sm font-medium py-2 px-4 rounded absolute top-3 right-40"

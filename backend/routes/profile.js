@@ -5,15 +5,12 @@ const router = express.Router();
 const prisma = new PrismaClient();
 
 // route to return user profile and attributes
-router.get('/:userId/:username', async (req, res) => {
-    const { userId, username } = req.params;
+router.get('/:userId', async (req, res) => {
+    const { userId } = req.params;
     try {
-        const profile = await prisma.profile.findUnique({
+        const profile = await prisma.profile.findFirst({
             where: {
-                userId_username: {
-                    userId,
-                    username,
-                },
+                userId
             },
         });
         if (!profile) {
@@ -46,7 +43,7 @@ router.post('/', async (req, res) => {
 //route to update profile on page if wanted - use patch to only update chnaged fields
 router.patch('/:userId/:username', async (req, res) => {
     const { userId, username } = req.params;
-    const data = req.body; // Only fields provided will be updated
+    const data = req.body;
     try {
         const updatedProfile = await prisma.profile.update({
             where: {
@@ -55,13 +52,10 @@ router.patch('/:userId/:username', async (req, res) => {
                     username,
                 },
             },
-            data, // This will only update the fields present in req.body
+            data,
         });
         res.json({ updated: true, profile: updatedProfile });
     } catch (error) {
-        if (error.code === 'P2025') { // Prisma not found error
-            return res.status(404).json({ error: 'Profile not found' });
-        }
         res.status(500).json({ error: 'Error updating profile' });
     }
 });
