@@ -6,11 +6,11 @@ const Modal = ({ isOpen, onClose, children }) => {
     return (
         <div
             className="fixed inset-0 bg-zinc-900 flex items-center justify-center z-50"
-            onClick={onClose} // Close modal on background click
+            onClick={onClose}
         >
             <div
-                className="bg-white rounded-lg p-6 w-full max-w-sm relative" // smaller max width (max-w-sm instead of max-w-md)
-                onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside modal box
+                className="bg-white rounded-lg p-6 w-full max-w-sm relative"
+                onClick={(e) => e.stopPropagation()}
             >
                 <button
                     onClick={onClose}
@@ -42,13 +42,12 @@ export default function ProfileEditModal() {
         setForm((prev) => ({ ...prev, [name]: value }));
     };
 
-    // Submit PATCH request with changed fields only
+    // Submit PATCH request with changed fields
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError("");
         setLoading(true);
 
-        // Prepare only changed fields
         const updatedFields = {};
         for (const key in form) {
             if (form[key] !== profile[key]) {

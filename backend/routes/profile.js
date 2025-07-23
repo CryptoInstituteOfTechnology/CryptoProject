@@ -56,10 +56,6 @@ router.patch('/:userId/:username', async (req, res) => {
         });
         res.json({ updated: true, profile: updatedProfile });
     } catch (error) {
-        console.error('Error updating profile:', error);
-        if (error.code === 'P2025') {
-            return res.status(404).json({ error: 'Profile not found' });
-        }
         res.status(500).json({ error: 'Error updating profile' });
     }
 });
