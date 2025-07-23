@@ -100,6 +100,7 @@ export const BackEndContextProvider = ({ children }) => {
                 fetchWatchlist,
                 fetchNews,
                 fetchRecommendations,
+                fetchProfile,
             }}
         >
             {children}

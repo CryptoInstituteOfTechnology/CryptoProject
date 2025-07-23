@@ -1,19 +1,16 @@
 import { useBackendAttributes } from "../../context/BackEndContext";
 import { Card, CardTitle, CardContent } from "../../Components/ui/card";
+import ProfileEditModal from "./ProfileEditModal";
 
 export default function ProfileView() {
     const { profile } = useBackendAttributes();
-
-    if (!profile) {
-        return <p className="text-xl">Loading profile...</p>;
-    }
 
     return (
         <div className="max-w-md mx-auto p-4 md:p-6 lg:p-8">
             <Card className="bg-white rounded-lg shadow-md">
                 <CardContent>
-                    <CardTitle className="text-5xl font-extrabold text-gray-900 mb-6">
-                        My Profile
+                    <CardTitle className="text-5xl font-extrabold text-gray-900 mb-6 flex justify-between justify-center gap-4 ">
+                        <ProfileEditModal />
                     </CardTitle>
                     {profile.imageUrl && (
                         <img
