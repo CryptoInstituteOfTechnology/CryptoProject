@@ -67,7 +67,4 @@ router.patch('/:userId/:username', async (req, res) => {
 });
 
 
-
-//route to return all usernames and add the ids for leaderboard
-
 module.exports = router;

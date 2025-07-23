@@ -15,7 +15,7 @@ router.get('/historic-profit-points/:userId', async (req, res) => {
     res.json(points);
 });
 
-// get all users current historical Profit/Realized profit
+// get all users current historical Profit/Realized profit and their username from psima
 router.get('/historic-profit', async (req, res) => {
     const profits = await prisma.historicProfit.findMany();
     res.json(profits);
