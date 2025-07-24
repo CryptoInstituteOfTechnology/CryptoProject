@@ -51,7 +51,7 @@ export default function ProfitLossbox() {
         >
             <div className="stat">
                 <h2 className='stat-title text-lg font-bold mb-2'>Profit and Loss</h2>
-                <p className={`font-bold text-4xl ${priceColor}`}>${Number(profit)?.toFixed(2)}</p>
+                <p className={`font-bold text-4xl ${priceColor}`}>{Number(profit)?.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</p>
             </div>
         </div>
     )

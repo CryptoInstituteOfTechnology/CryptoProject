@@ -34,7 +34,7 @@ export default function TickerBox({ coinData, livePrice }) {
                 {coinData.symbol.toUpperCase()}
             </TableCell>
             <TableCell className={`${priceColor} text-lg font-bold`}>
-                Price: ${Number(livePrice).toFixed(2)}
+                Price: {Number(livePrice).toLocaleString('en-US', { style: 'currency', currency: 'USD' })}
             </TableCell>
             <TableCell className="text-sm text-white">
                 Volume: {coinData.total_volume}

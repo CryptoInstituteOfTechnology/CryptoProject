@@ -89,7 +89,7 @@ export default function AddToPortfolioModal({ coinData, livePrice, onExit }) {
                     <img src={coinData.image} alt={coinData.symbol} className="w-12 h-auto" />
                     <h1 className="text-3xl font-bold">{coinData.symbol.toUpperCase()}</h1>
                     <p className={`text-2xl mt-2 ${priceColor}`}>
-                        Live: {displayPrice}
+                        Live: ${displayPrice.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}
                     </p>
                 </div>
                 {/* input form for buying and selling */}

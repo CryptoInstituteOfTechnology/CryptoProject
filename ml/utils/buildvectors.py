@@ -47,7 +47,7 @@ def build_vector(portfolio_entries):
         #all symbols in portoflio entries should be known
         if symbol not in symbol_indexes:
             continue
-          
+
         #get decay %
         updated_at = parser.parse(updated_at)
         if updated_at.tzinfo is not None:

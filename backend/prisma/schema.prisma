@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -13,65 +7,33 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
-model PortfolioEntry{
-  id Int @id @default(autoincrement())
-  userId String // supabase id
-  symbol String 
-  quantity Int // net amount
-  avgPrice Float 
+model PortfolioEntry {
+  id        Int      @id @default(autoincrement())
+  userId    String
+  symbol    String
+  quantity  Int
+  avgPrice  Float
   updatedAt DateTime @updatedAt
-  @@unique([userId,symbol]) // only should be one entry per coin - and you update that one
+
+  @@unique([userId, symbol])
   @@index([userId])
 }
-
 
 model Transaction {
-  id  Int  @id @default(autoincrement())
-  userId String // supabase id
-  symbol String // btc, eth, for frontend fetching
-  quantity Int // buy is positive , sell is negative
-  price Float // price of coin
-  type String // 'BUY' or 'SELL'
+  id        Int      @id @default(autoincrement())
+  userId    String
+  symbol    String
+  quantity  Int
+  price     Float
+  type      String
   createdAt DateTime @default(now())
 
   @@index([userId])
 }
 
-model WatchlistItem{
-  id Int @id @default(autoincrement())
-  userId String
-  symbol String
-  createdAt DateTime @default(now())
-
-  @@unique([userId,symbol]) // no duplicate entries
-  @@index([userId]) // creates list of where it is at in DB for easier lookup
-}
-
-
-model Article {
-  id        Int    @id @default(autoincrement())
-  guid      String
-  title     String
-  symbols String[]
-  image_url String
-  // SentimentScore breakdown
-  sentiment     String
-  mixedScore    Float
-  negativeScore Float
-  neutralScore  Float
-  positiveScore Float
-
-  sent        Boolean
-  createdAt   DateTime @default(now())
-  publishedOn DateTime @map("PUBLISHED_ON") // convert date frmo api in to JS date
-
-  @@unique([guid])
-}
-
-model Recommendation {
+model WatchlistItem {
   id        Int      @id @default(autoincrement())
-  userId    String   // or use UUID type if Prisma supports it for Postgres
+  userId    String
   symbol    String
   createdAt DateTime @default(now())
 
@@ -79,34 +41,59 @@ model Recommendation {
   @@index([userId])
 }
 
+model Article {
+  id            Int      @id @default(autoincrement())
+  guid          String   @unique
+  title         String
+  symbols       String[]
+  image_url     String
+  sentiment     String
+  mixedScore    Float
+  negativeScore Float
+  neutralScore  Float
+  positiveScore Float
+  sent          Boolean
+  createdAt     DateTime @default(now())
+  publishedOn   DateTime @map("PUBLISHED_ON")
+}
 
-model HistoricProfitPoint{
-  id  Int @id @default(autoincrement())
-  userId String
-  profit Float
+model Recommendation {
+  id        Int      @id @default(autoincrement())
+  userId    String
+  symbol    String
+  createdAt DateTime @default(now())
+
+  @@unique([userId, symbol])
+  @@index([userId])
+}
+
+model HistoricProfitPoint {
+  id        Int      @id @default(autoincrement())
+  userId    String
+  profit    Float
   timestamp DateTime @default(now())
+
   @@index([userId])
   @@index([timestamp])
 }
 
 model Profile {
-  id        Int    @id @default(autoincrement())
-  userId    String @unique
+  id        Int             @id @default(autoincrement())
+  userId    String          @unique
   username  String
   imageUrl  String
-  firstName String  
-  lastName  String  
+  firstName String
+  lastName  String
   phone     String
-
   profit    HistoricProfit?
 
   @@unique([userId, username])
 }
 
 model HistoricProfit {
-  id        Int     @id @default(autoincrement())
-  userId    String  @unique
+  id        Int      @id @default(autoincrement())
+  userId    String   @unique
   profit    Float
   updatedAt DateTime @updatedAt
-  user      Profile @relation(fields: [userId], references: [userId])
+  user      Profile  @relation(fields: [userId], references: [userId])
 }

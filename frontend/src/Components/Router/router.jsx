@@ -45,7 +45,7 @@ export const LoadingSpinner = ({ className }) => {
             height="400"
             viewBox="0 0 24 24"
             fill="none"
-            stroke="currentColor"
+            stroke="#FFD700"
             strokeWidth="2"
             strokeLinecap="round"
             strokeLinejoin="round"
