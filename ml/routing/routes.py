@@ -68,6 +68,18 @@ def get_recommendations(user_id):
         rows = cur.fetchall()
     return jsonify(rows)
 
+@app.route("/watchlist/<user_id>")
+def get_watchlist(user_id):
+    with conn.cursor(cursor_factory=RealDictCursor) as cur:
+        cur.execute(
+            """
+            SELECT * FROM "WatchlistItem" WHERE "userId" = %s
+            """,
+            (user_id,)
+        )
+        rows = cur.fetchall()
+    return jsonify(rows)
+
 #Post news recommendations for one user
 @app.route("/recommendations", methods=["POST"])
 def post_recommendations():
