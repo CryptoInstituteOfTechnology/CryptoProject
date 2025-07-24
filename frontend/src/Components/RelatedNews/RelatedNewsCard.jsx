@@ -3,7 +3,7 @@ import { TableCell, TableRow } from "../ui/table";
 
 const RelatedNewsCard = ({ news }) => {
     return (
-        <TableRow className="hover:shadow-lg transition-shadow hover:bg-gray-100 bg-gray-900 border border-gray-300 rounded-md mb-2">
+        <TableRow className="hover:shadow-lg transition-shadow hover:bg-blue-800 bg-gray-900 border border-gray-300 rounded-md mb-2">
             <TableCell className="p-4">
                 <a
                     href={news.guid}

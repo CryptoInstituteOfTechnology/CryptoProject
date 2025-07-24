@@ -7,8 +7,6 @@ export default function TickerBox({ coinData, livePrice }) {
     const [priceColor, setPriceColor] = useState('text-white')
     const previousPrice = useRef(null) // reference to price before new price
 
-
-
     // sets color of price to green if higher than prev, red if lower, white if equal
     useEffect(() => {
         if (previousPrice.current == null) {

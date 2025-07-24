@@ -4,7 +4,7 @@ import { useBackendAttributes } from "../../context/BackEndContext"
 const BACKEND_BASE_URL = import.meta.env.VITE_BACKEND_URL
 
 export default function AddToPortfolioModal({ coinData, livePrice, onExit }) {
-    const { userId, portfolio, fetchPortfolio, fetchTransactions } = useBackendAttributes()
+    const { userId, portfolio, fetchPortfolio, fetchTransactions, fetchHistoricProfits } = useBackendAttributes()
 
     // Find the current quantity of item in portfolio
     const currentQuantity = portfolio.find((entry) =>
@@ -25,6 +25,7 @@ export default function AddToPortfolioModal({ coinData, livePrice, onExit }) {
             await makeApiCall(transactionData);
             await fetchPortfolio();
             await fetchTransactions();
+            await fetchHistoricProfits();
             onExit();
         } catch (error) {
             displayErrorMessage(error.message);
@@ -133,7 +134,7 @@ export default function AddToPortfolioModal({ coinData, livePrice, onExit }) {
                         </button>
                         <button
                             type="submit"
-                            className="px-4 py-2 bg-green-500 rounded text-black"
+                            className="px-4 py-2 bg-white rounded text-black"
                         >
                             {mode === 'buy' ? 'Confirm Buy' : 'Confirm Sell'}
                         </button>

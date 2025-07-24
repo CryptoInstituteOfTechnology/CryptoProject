@@ -12,6 +12,8 @@ import CandlestickChart from '../../Components/CandleStickChart/CandleStickChart
 export default function AssetView() {
     const { coinApiData, websocketData } = useContext(webFetchedContext)
     const { symbol } = useParams()
+    
+
     const coin = coinApiData.find(coin => coin.id.toLowerCase() === symbol.toLowerCase()) // find matching symbol in data
     const livePrice = websocketData[symbol.toLowerCase()]
     const [priceColor, setPriceColor] = useState('text-white')
