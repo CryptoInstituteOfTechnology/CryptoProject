@@ -22,7 +22,7 @@ export default function LeaderBoard() {
                         >
                             <td className="p-4 text-yellow-600">{index + 1}</td>
                             <td className="p-4 text-gray-100 font-medium">{user.username}</td>
-                            <td className="p-4 text-green-400 font-mono">
+                            <td className={`p-4 font-mono ${user.profit < 0 ? 'text-red-400' : 'text-green-400'}`}>
                                 {user.profit.toLocaleString(undefined, {
                                     style: "currency",
                                     currency: "USD",

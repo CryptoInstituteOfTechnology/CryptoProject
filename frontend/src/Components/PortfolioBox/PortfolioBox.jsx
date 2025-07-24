@@ -42,14 +42,14 @@ export default function PortfolioBox({ coinData, livePrice, avgPrice, quantity }
             </TableCell>
             <TableCell className="text-lg font-bold text-white">{coinData.symbol.toUpperCase()}</TableCell>
             <TableCell className={`${priceColor} text-lg font-bold`}>
-                Price: ${Number(livePrice).toFixed(4)}
+                Price: {Number(livePrice).toLocaleString('en-US', { style: 'currency', currency: 'USD' })}
             </TableCell>
             <TableCell className="text-sm text-white font-semibold">Current Quantity: {quantity}</TableCell>
             <TableCell className="text-sm text-white font-semibold">
-                Your Average Price: ${avgPrice?.toFixed(4)}
+                Your Average Price: {avgPrice?.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}
             </TableCell>
             <TableCell className={`${profitColor} text-lg font-bold`}>
-                P&L: ${profit?.toFixed(2)}
+                P&L: {profit?.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}
             </TableCell>
             <TableCell>
                 <AddToWatchList coinData={coinData} />

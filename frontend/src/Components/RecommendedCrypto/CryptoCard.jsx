@@ -27,12 +27,7 @@ export default function CryptoCard({ coinData, livePrice }) {
     }
 
     // Format price with commas and 2 decimals
-    const formattedPrice = new Intl.NumberFormat('en-US', {
-        style: 'currency',
-        currency: 'USD',
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2,
-    }).format(livePrice || 0)
+    
 
     return (
         <Card
@@ -43,7 +38,7 @@ export default function CryptoCard({ coinData, livePrice }) {
                 <img src={coinData.image} alt={coinData.symbol} className="w-10 h-auto rounded-full" />
                 <div>
                     <p className="text-white font-bold text-lg">{coinData.symbol.toUpperCase()}</p>
-                    <p className={`${priceColor} font-semibold`}>{formattedPrice}</p>
+                    <p className={`${priceColor} font-semibold`}>{livePrice.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</p>
                 </div>
             </div>
             <div className="flex gap-3 items-center">
