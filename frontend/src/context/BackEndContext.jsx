@@ -100,6 +100,7 @@ export const BackEndContextProvider = ({ children }) => {
                 historicProfitPoints,
                 profile,
                 leaderBoard,
+                fetchHistoricProfits,
                 fetchLeaderboard,
                 fetchTransactions,
                 fetchPortfolio,
