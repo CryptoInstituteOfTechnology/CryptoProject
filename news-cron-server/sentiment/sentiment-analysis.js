@@ -30,6 +30,10 @@ const config = {
 };
 const client = new ComprehendClient(config);
 
+/**
+ * this function fetches news articles and sends them to AWS comprehend and then returns the articles wiht a high positive or negative sentiment
+ * @returns articleswithextreme senitment - articles with positive or negative news that is important
+ */
 async function sentimentalArticles() {
     try {
         // Fetch news
