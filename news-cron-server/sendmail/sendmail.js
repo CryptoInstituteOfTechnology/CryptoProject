@@ -1,9 +1,9 @@
-const nodemailer = require('nodemailer')
+const nodemailer = require('nodemailer');
 const { PrismaClient } = require('../generated/prisma');
 const prisma = new PrismaClient();
 const path = require('path');
 const supabase = require('../supabaseClient');
-const buildEmail = require('./buildEmail')
+const buildEmail = require('./buildEmail');
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 
 let transporter = nodemailer.createTransport({
@@ -13,108 +13,130 @@ let transporter = nodemailer.createTransport({
         user: process.env.MAIL_USERNAME,
         clientId: process.env.OAUTH_CLIENTID,
         clientSecret: process.env.OAUTH_CLIENT_SECRET,
-        refreshToken: process.env.OAUTH_REFRESH_TOKEN
-    }
+        refreshToken: process.env.OAUTH_REFRESH_TOKEN,
+    },
 });
 
-// gets user email for sending
+// Function to sort by most positive, most negative, lowest negative, lowest positive
+function sortbySeverity(articles, key = "positiveScore", dir = "desc") {
+    const direction = dir === 'asc' ? 1 : -1;
+    return [...articles].sort((a, b) => (a[key] - b[key]) * direction);
+}
+
+// Gets user email for sending
 async function getUserEmail(userId) {
-    console.log('🔍 Fetching email for user ID:', userId);
-    const { data, error } = await supabase.auth.admin.getUserById(userId);
-    if (error) {
-        console.log(` Failed to get user`, error)
-        return null
+    try {
+        console.log('Fetching email for user ID:', userId);
+        const { data, error } = await supabase.auth.admin.getUserById(userId);
+        if (error) {
+            console.error(`Failed to get user email for userId ${userId}:`, error);
+            return null;
+        }
+        const email = data?.user?.email;
+        console.log(`Found email for ${userId}:`, email);
+        return email;
+    } catch (err) {
+        console.error(`Unexpected error fetching email for userId ${userId}:`, err);
+        return null;
     }
-    const email = data?.user?.email
-    console.log(` Found email for ${userId}:`, email);
-    return email;
 }
+
 async function sendEmails() {
+    try {
+        // Get users with portfolio entries, distinct userIds
+        const users = await prisma.portfolioEntry.findMany({
+            select: { userId: true },
+            distinct: ['userId'],
+        });
 
-    // get users with portfolio entries, get all distinct Ids
-    const users = await prisma.portfolioEntry.findMany({
-        select: {
-            userId: true
-        },
-        distinct: ['userId']
-    })
+        // Get all unsent articles
+        const articles = await prisma.article.findMany({
+            where: { sent: false },
+        });
 
-    // get all unsent articles
-    const articles = await prisma.article.findMany({
-        where: {
-            sent: false
+        if (!articles.length) {
+            console.log("No unsent articles found");
+            return;
         }
-    })
 
-    /** 
-     * ## map symbols to articles - create table
-    * - ex BTC ;[article1,article2] -> then you can loop by user and add all articles to one email
-    * - multple tickers can have same articles
-    */
-    const symbolArticleMap = new Map()
-    for (const article of articles) {
-        for (const symbol of article.symbols) {
-            if (!symbolArticleMap.has(symbol)) {
-                //create a new key map pairing
-                symbolArticleMap.set(
-                    symbol, []
-                )
-            }
-            symbolArticleMap.get(symbol).push(article)
-        }
-    }
-    //send users emails 
-    for (const { userId } of users) {
-        // get user portfolio
-        const portfolio = await prisma.portfolioEntry.findMany(
-            {
-                where: { userId }
-            }
-        )
-        const userSymbols = portfolio.map(entry => entry.symbol)
-        /**
-         * create set for articles that will be sent, 
-         * set bc symbols can have same articles
-         */
-        const matchedArticles = new Set()
-        //find matching symbols in portfolio with articles associated, then add them to set
-        for (const symbol of userSymbols) {
-            if (symbolArticleMap.has(symbol)) {
-                symbolArticleMap.get(symbol).forEach((article) => {
-                    matchedArticles.add(article)
-                })
+        // Map symbols to articles
+        const symbolArticleMap = new Map();
+        for (const article of articles) {
+            for (const symbol of article.symbols) {
+                if (!symbolArticleMap.has(symbol)) {
+                    symbolArticleMap.set(symbol, []);
+                }
+                symbolArticleMap.get(symbol).push(article);
             }
         }
-        //sends email in one batch, one email per person
-        if (matchedArticles.size > 0) {
-            // get email address from supabase
-            const email = await getUserEmail(userId)
-            const html = buildEmail(Array.from(matchedArticles))
-            const mailOptions = {
-                from: `Crypto Alerts <${process.env.MAIL_USERNAME}>`,
-                to: email,
-                subject: "Your Crypto News Update",
-                html: html
-            }
 
+        // Send emails to users
+        for (const { userId } of users) {
             try {
-                await transporter.sendMail(mailOptions)
-                console.log("email sent to", email)
-            } catch (error) {
-                console.error(error)
+                // Get user portfolio symbols
+                const portfolio = await prisma.portfolioEntry.findMany({
+                    where: { userId },
+                });
+                const userSymbols = portfolio.map(entry => entry.symbol);
+
+                // Collect matched articles for user
+                const matchedArticlesSet = new Set();
+                for (const symbol of userSymbols) {
+                    if (symbolArticleMap.has(symbol)) {
+                        symbolArticleMap.get(symbol).forEach(article => matchedArticlesSet.add(article));
+                    }
+                }
+
+                if (matchedArticlesSet.size === 0) {
+                    console.log(`No matching articles for user ${userId}. Skipping email.`);
+                    continue;
+                }
+
+                // Sort articles by positiveScore descending by default
+                const matchedArticles = Array.from(matchedArticlesSet);
+                const sortedArticles = sortbySeverity(matchedArticles, "positiveScore", "desc");
+
+                // Get user email
+                const email = await getUserEmail(userId);
+                if (!email) {
+                    console.warn(`No email found for user ${userId}.`);
+                    continue;
+                }
+
+                // Build email content
+                const html = buildEmail(sortedArticles);
+                const mailOptions = {
+                    from: `Crypto Alerts <${process.env.MAIL_USERNAME}>`,
+                    to: email,
+                    subject: "Your Crypto News Update",
+                    html,
+                };
+
+                try {
+                    await transporter.sendMail(mailOptions);
+                    console.log(`Email sent to ${email}`);
+                } catch (sendError) {
+                    console.error(`Failed to send email to ${email}:`, sendError);
+                }
+            } catch (userError) {
+                console.error(`Error processing user ${userId}:`, userError);
             }
         }
-    }
-    //mark articles as sent
-    const articleId = articles.map(article => article.id)
-    await prisma.article.updateMany({
-        where: {
-            id: { in: articleId }
-        },
-        data: {
-            sent: true
+
+        // Mark articles as sent
+        const articleIds = articles.map(article => article.id);
+        try {
+            await prisma.article.updateMany({
+                where: { id: { in: articleIds } },
+                data: { sent: true },
+            });
+            console.log("Marked articles as sent.");
+        } catch (updateError) {
+            console.error("Failed to mark articles as sent:", updateError);
         }
-    })
+    } catch (err) {
+        console.error("Unexpected error in sendEmails:", err);
+    }
 }
 
-module.exports = sendEmails
+module.exports = sendEmails;

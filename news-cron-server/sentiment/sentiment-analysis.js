@@ -1,7 +1,7 @@
-const { ComprehendClient, BatchDetectSentimentCommand, LanguageCode } = require("@aws-sdk/client-comprehend");
+const { ComprehendClient, BatchDetectSentimentCommand } = require("@aws-sdk/client-comprehend");
 const path = require('path');
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
-//url setup, take all known tickers for url string
+
 const baseUrl = 'https://data-api.coindesk.com/news/v1/article/list';
 const tickers = [
     "BTC", "ETH", "BNB", "LTC", "XRP", "EOS", "TRX", "ADA", "XMR",
@@ -11,7 +11,7 @@ const tickers = [
 const params = {
     lang: "EN",
     limit: "20",
-    categories: tickers.join(","),  // join array to comma-separated string ex BTC,ETH
+    categories: tickers.join(","),
     api_key: process.env.COINDESK_NEWS_API_KEY
 };
 const url = new URL(baseUrl);
@@ -20,8 +20,7 @@ const options = {
     method: 'GET',
     headers: { 'Content-Type': 'application/json; charset=UTF-8' }
 };
-//configurations for accessing aws
-// aws only support us-west-2(oregon) for comphrehend
+
 const config = {
     region: process.env.AWS_REGION,
     credentials: {
@@ -31,57 +30,91 @@ const config = {
 };
 const client = new ComprehendClient(config);
 
-/**
- * ## This function fetches news and then filters out the benchmark scores equal to 0.
- * - Makes a call to Amazon Comprehend to get the sentiment.
- * - Returns objects with a sentiment score (positive or negative) of 0.10 or higher.
- * - Filters out articles without a positive to negative ratio of 3 or 1/3.
- */
 async function sentimentalArticles() {
-    /**
-     * - Only fetch 25 at a time: AWS Comprehend BatchDetect can only process 25 at a time without a job.
-     * - Use normal fetch when calling from API, but use a special method to process fake data.
-     * - URL will have all categories with tickers in regular production.
-     */
-
-    const responses = await fetch(url, options);
-    const json = await responses.json()
-    const news = json.Data || []
-    const filteredNews = news.filter(
-        article => article.SOURCE_DATA.BENCHMARK_SCORE > 0
-    );
-    const input = {
-        LanguageCode: "en",
-        TextList: filteredNews.map(article => article.TITLE)
-    }
-    const command = new BatchDetectSentimentCommand(input) // sets up command
-    const response = await client.send(command); // get sentiment
-    // map response back to original data
-    const mapped = response.ResultList.map((result, index) => {
+    try {
+        // Fetch news
+        let responses;
         try {
-            const article = filteredNews[index]
-            if (!article) {
-                throw new Error(`Article not found at index ${index}`)
+            responses = await fetch(url, options);
+            if (!responses.ok) {
+                throw new Error(`HTTP error: ${responses.status} ${responses.statusText}`);
             }
-            return {
-                ...article,
-                Sentiment: result.Sentiment,
-                SentimentScore: result.SentimentScore
-            }
-        } catch (error) {
-            console.error(`Error mapping article at index ${index}:`, error)
-            return null // or some other default value
+        } catch (fetchErr) {
+            console.error("Fetch error:", fetchErr);
+            throw fetchErr;
         }
-    })
-    //for each aritcle, if its negative or pos score ratio is more than 3:1 or 1:3 keep
-    function checkSentimentRatio(article) {
-        const positive = article.SentimentScore.Positive
-        const negative = article.SentimentScore.Negative
-        const ratio = positive / negative
-        return ratio >= 3 || ratio <= 1 / 3
+
+        let json;
+        try {
+            json = await responses.json();
+        } catch (jsonErr) {
+            console.error("Error parsing JSON:", jsonErr);
+            throw jsonErr;
+        }
+
+        const news = json.Data || [];
+        const filteredNews = news.filter(
+            article => article.SOURCE_DATA && article.SOURCE_DATA.BENCHMARK_SCORE > 0
+        );
+        if (filteredNews.length === 0) {
+            throw new Error('No articles with benchmark score > 0');
+        }
+
+        // Prepare input for AWS Comprehend
+        const input = {
+            LanguageCode: "en",
+            TextList: filteredNews.map(article => article.TITLE)
+        };
+
+        let response;
+        try {
+            const command = new BatchDetectSentimentCommand(input);
+            response = await client.send(command);
+        } catch (awsErr) {
+            console.error("AWS Comprehend error:", awsErr);
+            throw awsErr;
+        }
+
+        if (!response.ResultList) {
+            throw new Error('No results returned from Comprehend');
+        }
+
+        // Map sentiment results back to articles
+        const mapped = response.ResultList.map((result, index) => {
+            try {
+                const article = filteredNews[index];
+                if (!article) {
+                    throw new Error(`Article not found at index ${index}`);
+                }
+                return {
+                    ...article,
+                    Sentiment: result.Sentiment,
+                    SentimentScore: result.SentimentScore
+                };
+            } catch (error) {
+                console.error(`Error mapping article at index ${index}:`, error);
+                return null;
+            }
+        }).filter(Boolean); // Remove nulls
+
+        // Filter for extreme sentiment
+        function checkSentimentRatio(article) {
+            const positive = article.SentimentScore.Positive;
+            const negative = article.SentimentScore.Negative;
+            const ratio = positive / (negative || 1e-6); // avoid division by zero
+            return ratio >= 3 || ratio <= 1 / 3;
+        }
+        const articlesExtremeSentiment = mapped.filter(checkSentimentRatio);
+
+        if (articlesExtremeSentiment.length === 0) {
+            console.warn('No articles with extreme sentiment');
+        }
+
+        return articlesExtremeSentiment;
+    } catch (error) {
+        console.error('Error in sentimentalArticles:', error);
+        throw error; // propagate error to caller
     }
-    const articlesExtremeSentiment = mapped.filter(checkSentimentRatio)
-    return articlesExtremeSentiment
 }
 
 module.exports = sentimentalArticles;
