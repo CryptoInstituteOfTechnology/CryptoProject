@@ -58,7 +58,7 @@ async function parseArticles(articles) {
                 });
                 success.push(newArticle);
             } catch (error) {
-                // Handle expected errors, e.g., duplicate GUID (unique constraint)
+                // Handle expected errors
                 console.error(`Error adding article with GUID ${article.GUID}:`, error.message || error);
                 failed.push({ article, error: error.message || error });
             }
