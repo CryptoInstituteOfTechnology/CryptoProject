@@ -17,8 +17,10 @@ let transporter = nodemailer.createTransport({
     }
 });
 
-function sortbySeverity (articles) {
-    
+//function to sort by most positive, most negative, lowest negative, lowest positive
+function sortbySeverity (articles, key = "positiveScore", dir = "desc") {
+    const direction = dir === 'asc' ? 1 : -1
+    return [...articles].sort((a,b) => (a[key]- b[key]) * direction)
 }
 
 // gets user email for sending
@@ -95,10 +97,10 @@ async function sendEmails() {
 
         // add something to sort by score and then positive news and negative news!
         //sends email in one batch, one email per person
-        if (matchedArticles.size > 0) {
+        if (sortedArticles.size > 0) {
             // get email address from supabase
             const email = await getUserEmail(userId)
-            const html = buildEmail(Array.from(matchedArticles))
+            const html = buildEmail(Array.from(sortedArticles))
             const mailOptions = {
                 from: `Crypto Alerts <${process.env.MAIL_USERNAME}>`,
                 to: email,
