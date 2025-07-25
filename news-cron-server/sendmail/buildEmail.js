@@ -3,6 +3,7 @@ function buildEmail(articles) {
     const articleHTML = articles.map((article) => {
         return `
         <div style="margin-bottom: 20px; border-bottom: 1px solid #ccc; padding-bottom: 10px;">
+            <img src =${article.image_url} alt = ${article.title} styl = "height: auto;"> </img>
             <h2>${article.title}</h2>
             <p><strong>Symbols:</strong> ${article.symbols.join(', ')}</p>
             <a href="${article.guid}" target="_blank">Read Full Article</a>

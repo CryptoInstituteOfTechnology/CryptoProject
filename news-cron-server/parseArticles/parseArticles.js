@@ -66,13 +66,11 @@ async function parseArticles(articles) {
     } catch (fatalError) {
         // Unexpected errors in the main parseArticles loop
         console.error('Fatal error in parsing articles:', fatalError);
-        throw fatalError; // Optionally, rethrow or handle as needed
+        throw fatalError; 
     } finally {
-        // Ensure DB connection is cleaned up
         await prisma.$disconnect();
     }
 
-    // Log summary
     console.log(`Parsing complete:`, {
         successCount: success.length,
         failedCount: failed.length,
@@ -81,7 +79,6 @@ async function parseArticles(articles) {
         console.warn('Some articles failed to be added:', failed.map(f => f.article.GUID));
     }
 
-    // Optionally: throw error if ALL failed
     if (success.length === 0 && failed.length > 0) {
         throw new Error('All articles failed to be added to the database.');
     }
