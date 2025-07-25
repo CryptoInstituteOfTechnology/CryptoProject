@@ -101,7 +101,7 @@ async function sentimentalArticles() {
         function checkSentimentRatio(article) {
             const positive = article.SentimentScore.Positive;
             const negative = article.SentimentScore.Negative;
-            const ratio = positive / (negative || 1e-6); // avoid division by zero
+            const ratio = (positive / negative )
             return ratio >= 3 || ratio <= 1 / 3;
         }
         const articlesExtremeSentiment = mapped.filter(checkSentimentRatio);
