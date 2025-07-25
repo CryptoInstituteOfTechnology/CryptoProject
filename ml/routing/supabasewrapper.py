@@ -39,7 +39,12 @@ class SupabaseAPIWrapper:
         url = f"{self.base_url}/recommendations/{user_id}"
         response = requests.get(url, headers=self.headers)
         return self._handle_response(response)
-    
+    def get_watchlist(self,user_id):
+        """Fetch watchlist for given userid"""
+        url = f"{self.base_url}/watchlist/{user_id}"
+        response = requests.get(url, headers=self.headers)
+        return self._handle_response(response)
+
     def post_recommendations(self, recommendation_list):
         url = f"{self.base_url}/recommendations"
         payload = json.dumps(recommendation_list)
