@@ -1,7 +1,14 @@
 import datetime
 from dateutil import parser
 from .timedecay import time_decay_weight
-def score_transactions_k(transactions, top_k=4):
+def score_transactions_k(*
+                        transactions, 
+                        target_user,
+                        watchlist_symbols: set[str] | None,
+                        watchlist_boost = 1.75,
+                        similarity_boost = 1.0,
+                        top_k=4
+):
     """
     given a list of transactions from multiple users return the highest rated transactions, ignores sell transaction
     """

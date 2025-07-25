@@ -1,7 +1,6 @@
 from routing.supabasewrapper import SupabaseAPIWrapper
 from utils.buildvectors import build_vector
 from recommend.knn import knn
-from utils.cosinesimilarity import cosine_similarity
 from utils.scoretransactions import score_transactions_k
 
 def generate_recommendations_for_users(api):
@@ -33,13 +32,24 @@ def generate_recommendations_for_users(api):
             continue
         #merge all the transactions from top 3 and then get the top 4 and post them for a user
         all_transactions = []
+        
         for similar_id, score in top_similar:
             transactions = api.get_latest_transactions(similar_id)
             if transactions:
                 #extend turns a list and adds it to end of curr list
                 all_transactions.extend(transactions)
                 
-        recommendations = score_transactions_k(all_transactions,top_k=4)
+        watchlist = api.get_watchlist(user_id) or []
+        watchlist_symbols = {w["symbol"] for w in watchlist if "symbol" in w}
+        
+        recommendations = score_transactions_k(
+            all_transactions,
+            target_user = user_id,
+            top_k=4 ,
+            watchlist_symbols = watchlist_symbols,
+            watchlist_boost = 1.75, #boost to watchlist
+            similarity_boost = 1.0,
+        ) #boosts similarity more
         if recommendations:
             print(f" generated this many recs: {len(recommendations)}")
             api.post_recommendations(recommendations)
