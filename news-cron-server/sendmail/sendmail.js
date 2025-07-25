@@ -17,6 +17,10 @@ let transporter = nodemailer.createTransport({
     }
 });
 
+function sortbySeverity (articles) {
+    
+}
+
 // gets user email for sending
 async function getUserEmail(userId) {
     console.log('🔍 Fetching email for user ID:', userId);
@@ -85,6 +89,11 @@ async function sendEmails() {
                 })
             }
         }
+
+        const sortedArticles = sortbySeverity(matchedArticles)
+
+
+        // add something to sort by score and then positive news and negative news!
         //sends email in one batch, one email per person
         if (matchedArticles.size > 0) {
             // get email address from supabase
