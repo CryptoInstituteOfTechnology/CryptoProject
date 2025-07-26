@@ -6,7 +6,6 @@ export default function fetchPrices(dataCallback) {
 
     //socket is already open, don't open again, fixes unmounting
     if (socket && socket.readyState !== WebSocket.CLOSED) {
-        console.log("WebSocket already open or connecting");
         return () => { }; // return empty cleanup function
     }
 

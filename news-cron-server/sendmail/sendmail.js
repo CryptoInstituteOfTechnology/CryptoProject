@@ -26,17 +26,13 @@ function sortbySeverity(articles, key = "positiveScore", dir = "desc") {
 // Gets user email for sending
 async function getUserEmail(userId) {
     try {
-        console.log('Fetching email for user ID:', userId);
         const { data, error } = await supabase.auth.admin.getUserById(userId);
         if (error) {
-            console.error(`Failed to get user email for userId ${userId}:`, error);
             return null;
         }
         const email = data?.user?.email;
-        console.log(`Found email for ${userId}:`, email);
         return email;
     } catch (err) {
-        console.error(`Unexpected error fetching email for userId ${userId}:`, err);
         return null;
     }
 }
@@ -55,7 +51,6 @@ async function sendEmails() {
         });
 
         if (!articles.length) {
-            console.log("No unsent articles found");
             return;
         }
 
@@ -88,7 +83,6 @@ async function sendEmails() {
                 }
 
                 if (matchedArticlesSet.size === 0) {
-                    console.log(`No matching articles for user ${userId}. Skipping email.`);
                     continue;
                 }
 
@@ -99,7 +93,6 @@ async function sendEmails() {
                 // Get user email
                 const email = await getUserEmail(userId);
                 if (!email) {
-                    console.warn(`No email found for user ${userId}.`);
                     continue;
                 }
 
@@ -114,12 +107,11 @@ async function sendEmails() {
 
                 try {
                     await transporter.sendMail(mailOptions);
-                    console.log(`Email sent to ${email}`);
                 } catch (sendError) {
-                    console.error(`Failed to send email to ${email}:`, sendError);
+                    throw new Error(`Failed to send email to ${email}: ${sendError.message || sendError}`);
                 }
             } catch (userError) {
-                console.error(`Error processing user ${userId}:`, userError);
+                throw new Error(`Error processing user ${userId}: ${userError.message || userError}`);
             }
         }
 
@@ -130,12 +122,11 @@ async function sendEmails() {
                 where: { id: { in: articleIds } },
                 data: { sent: true },
             });
-            console.log("Marked articles as sent.");
         } catch (updateError) {
-            console.error("Failed to mark articles as sent:", updateError);
+            throw new Error(`Failed to mark articles as sent: ${updateError.message || updateError}`);
         }
     } catch (err) {
-        console.error("Unexpected error in sendEmails:", err);
+        throw new Error(`Unexpected error in sendEmails: ${err.message || err}`);
     }
 }
 

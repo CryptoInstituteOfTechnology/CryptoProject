@@ -11,9 +11,6 @@ export async function apiCaching({ url, timeBeforeNextFetch, cachingKey, methodT
     // if first time fetching or time set has passed
     try {
         const response = await fetch(url, methodToFetch)
-        if (!response.ok){
-            console.log(`error fetching data${response.status}`) // throw error
-        }
         const data = await response.json()
         localStorage.setItem(cachingKey,JSON.stringify(data))// save the key and the data
         localStorage.setItem(`${cachingKey}_timestamp`, timeNow.toString()) // save timestamp

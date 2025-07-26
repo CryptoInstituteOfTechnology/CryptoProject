@@ -39,7 +39,6 @@ router.get('/historic-profit', async (req, res) => {
 
         res.json(result);
     } catch (err) {
-        console.error('Error fetching historic profits:', err);
         res.status(500).json({ error: 'Internal server error' });
     }
 });

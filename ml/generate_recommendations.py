@@ -9,7 +9,6 @@ def generate_recommendations_for_users(api):
     """
     all_users = api.get_all_users()
     if not isinstance(all_users, list):
-        print("Expected a list of users but got:", all_users)
         return
     users_vectors_map = {}
     # Build user vectors from portfolios
@@ -48,5 +47,4 @@ def generate_recommendations_for_users(api):
             similarity_boost=1.0,
         )
         if recommendations:
-            print(f"Generated {len(recommendations)} recommendation")
             api.post_recommendations(recommendations)

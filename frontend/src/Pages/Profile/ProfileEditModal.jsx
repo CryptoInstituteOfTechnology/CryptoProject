@@ -87,7 +87,6 @@ export default function ProfileEditModal() {
                 setError(data.error || "Failed to update profiles");
             }
         } catch (err) {
-            console.error("Fetch or parsing error:", err);
             setError("Failed to update profile");
         } finally {
             setLoading(false);

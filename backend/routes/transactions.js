@@ -98,7 +98,6 @@ router.post('/', async (req, res) => {
         });
         res.json({ success: true, message: `${type.toUpperCase()} ${symbol.toUpperCase()}` });
     } catch (error) {
-        console.error(error);
         return res.status(500).json({ error: 'Failed transaction' });
     }
 });

@@ -20,7 +20,6 @@ router.get('/:userId', async (req, res) => {
 
         res.json(watchlist);
     } catch (error) {
-        console.error(error);
         res.status(500).json({ error: 'Error fetching watchlist' });
     }
 });

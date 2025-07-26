@@ -33,7 +33,6 @@ def get_users():
         user_dicts = [user.__dict__ for user in users]
         return jsonify(user_dicts)
     except Exception as e:
-        print("Error fetching users:", e)
         return jsonify({"error": str(e)}), 500
 
 #Fetch portfolio entries for a user, given userid

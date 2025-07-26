@@ -30,7 +30,6 @@ def score_transactions_k(
             if created_at_dt.tzinfo is None:
                 created_at_dt = created_at_dt.replace(tzinfo=datetime.timezone.utc)
         except (ValueError, KeyError, TypeError) as error:
-            print(f"Skipping invalid transaction due to error: {error}")
             continue
         # Calculate decay weight based on transaction age
         decay = time_decay_weight((now - created_at_dt).days)

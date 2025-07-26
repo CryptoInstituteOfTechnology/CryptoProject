@@ -44,7 +44,6 @@ async function sentimentalArticles() {
                 throw new Error(`HTTP error: ${responses.status} ${responses.statusText}`);
             }
         } catch (fetchErr) {
-            console.error("Fetch error:", fetchErr);
             throw fetchErr;
         }
 
@@ -52,7 +51,6 @@ async function sentimentalArticles() {
         try {
             json = await responses.json();
         } catch (jsonErr) {
-            console.error("Error parsing JSON:", jsonErr);
             throw jsonErr;
         }
 
@@ -75,7 +73,6 @@ async function sentimentalArticles() {
             const command = new BatchDetectSentimentCommand(input);
             response = await client.send(command);
         } catch (awsErr) {
-            console.error("AWS Comprehend error:", awsErr);
             throw awsErr;
         }
 
@@ -96,7 +93,6 @@ async function sentimentalArticles() {
                     SentimentScore: result.SentimentScore
                 };
             } catch (error) {
-                console.error(`Error mapping article at index ${index}:`, error);
                 return null;
             }
         }).filter(Boolean); // Remove nulls
@@ -111,12 +107,11 @@ async function sentimentalArticles() {
         const articlesExtremeSentiment = mapped.filter(checkSentimentRatio);
 
         if (articlesExtremeSentiment.length === 0) {
-            console.warn('No articles with extreme sentiment');
+            return
         }
 
         return articlesExtremeSentiment;
     } catch (error) {
-        console.error('Error in sentimentalArticles:', error);
         throw error; // propagate error to caller
     }
 }
