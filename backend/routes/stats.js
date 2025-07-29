@@ -8,16 +8,23 @@ const prisma = new PrismaClient();
 // for recharts, get every single profit point
 router.get('/historic-profit-points/:userId', async (req, res) => {
     const { userId } = req.params;
-    const points = await prisma.historicProfitPoint.findMany({
-        where: { userId },
-        orderBy: { timestamp: 'asc' }, // or 'desc' if you want latest first
-    });
+    try {
+        const points = await prisma.historicProfitPoint.findMany({
+            where: { userId },
+            orderBy: { timestamp: 'asc' }, // or 'desc' if you want latest first
+        });
 
-    if (!profitPoints || profitPoints.length === 0) {
-        // Return an empty array or a meaningful message
-        return res.json({ profitPoints: [], message: "No profit points found for this user." });
+        if (!points || points.length === 0) {
+            // Return an empty array with a message
+            return res.json({ profitPoints: [], message: "No profit points found for this user." });
+        }
+
+        // Return the points array
+        return res.json({ profitPoints: points });
+    } catch (error) {
+        console.error('Error fetching historic profit points:', error);
+        return res.status(500).json({ error: 'Internal server error' });
     }
-    res.json(points);
 });
 
 // get all users current historical Profit/Realized profit and their username from psima, sort by profit, top 20
