@@ -12,6 +12,11 @@ router.get('/historic-profit-points/:userId', async (req, res) => {
         where: { userId },
         orderBy: { timestamp: 'asc' }, // or 'desc' if you want latest first
     });
+
+    if (!profitPoints || profitPoints.length === 0) {
+        // Return an empty array or a meaningful message
+        return res.json({ profitPoints: [], message: "No profit points found for this user." });
+    }
     res.json(points);
 });
 
@@ -28,7 +33,7 @@ router.get('/historic-profit', async (req, res) => {
                 },
             },
             orderBy: {
-                profit: 'desc', 
+                profit: 'desc',
             },
         });
         const result = profits.map(p => ({
