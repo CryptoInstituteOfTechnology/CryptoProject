@@ -3,27 +3,41 @@ import { useNavigate } from "react-router-dom";
 import symbolToName from "./symbolToName.json";
 // find percentage makeups of portfolio, and assign random color
 function findWeights(data) {
-    let total = 0
-    for (const coin of data) {
-        total += (coin.quantity * coin.avgPrice)
+    // Convert object to array if needed
+    if (data && !Array.isArray(data) && typeof data === 'object') {
+        data = Object.entries(data).map(([symbol, item]) => ({
+            symbol,
+            quantity: item.quantity,
+            avgPrice: item.avgPrice,
+        }));
     }
+
+    if (!Array.isArray(data)) {
+        console.error('Expected an array or object but got:', data);
+        return [];
+    }
+
+    let total = 0;
+    for (const coin of data) {
+        total += coin.quantity * coin.avgPrice;
+    }
+
     const mapofWeights = data.map((coin) => {
-        const percent = (coin.avgPrice * coin.quantity) / total
+        const percent = (coin.avgPrice * coin.quantity) / total;
         let sum = 0;
-        //get consistent, non changing color
         for (let i = 0; i < coin.symbol.length; i++) {
             sum += coin.symbol.charCodeAt(i);
         }
-        // use modulus to get hue between 0-359
         const hue = sum % 360;
         const color = `hsl(${hue}, 70%, 50%)`;
         return {
             symbol: coin.symbol,
             percent,
-            color
-        }
-    })
-    return mapofWeights
+            color,
+        };
+    });
+
+    return mapofWeights;
 }
 
 function getCoordinatesForPercent(percent) {
@@ -90,7 +104,7 @@ export default function Piechart() {
             viewBox="-1 -1 2 2"
             width="250"
             height="250"
-            style = {{overflow: "visible"}}
+            style={{ overflow: "visible" }}
         >
             {paths}
         </svg>
