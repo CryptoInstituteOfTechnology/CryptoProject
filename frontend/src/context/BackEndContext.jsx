@@ -33,7 +33,7 @@ export const BackEndContextProvider = ({ children }) => {
     const fetchHistoricProfits = async () => {
         const res = await fetch(`${BACKEND_BASE_URL}/api/stats/historic-profit-points/${userId}`);
         const data = await res.json();
-        setHistoricProfitPoints(data);
+        setHistoricProfitPoints(data.profitPoints);
     }
 
     const fetchHistoricalProfit = async () => {

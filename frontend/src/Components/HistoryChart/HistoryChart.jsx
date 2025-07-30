@@ -11,9 +11,11 @@ import {
 } from 'recharts';
 
 export default function HistoryChart() {
+    // Default to empty array if not an array
     const { historicProfitPoints } = useBackendAttributes();
+    const safeProfitPoints = Array.isArray(historicProfitPoints) ? historicProfitPoints : [];
 
-    if (!historicProfitPoints || historicProfitPoints.length === 0) {
+    if (safeProfitPoints.length === 0) {
         return (
             <div className="flex justify-center items-center h-72 text-gray-500 italic">
                 No profit data yet. Make your first trade to see your profit history.
@@ -22,7 +24,7 @@ export default function HistoryChart() {
     }
 
     // Sort data by timestamp ascending
-    const sortedData = [...historicProfitPoints].sort(
+    const sortedData = [...safeProfitPoints].sort(
         (a, b) => new Date(a.timestamp) - new Date(b.timestamp)
     );
 
