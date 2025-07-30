@@ -85,6 +85,7 @@ model Profile {
   firstName String
   lastName  String
   phone     String
+  buyingPower    Float  @default(1000000)
   profit    HistoricProfit?
 
   @@unique([userId, username])

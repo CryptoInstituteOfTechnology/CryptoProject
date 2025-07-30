@@ -32,7 +32,7 @@ router.post('/', async (req, res) => {
 
     try {
         const newProfile = await prisma.profile.create({
-            data: { userId, username, imageUrl, firstName, lastName, phone },
+            data: { userId, username, imageUrl, firstName, lastName, phone},
         });
         return res.json({ added: true, profile: newProfile });
     } catch (error) {

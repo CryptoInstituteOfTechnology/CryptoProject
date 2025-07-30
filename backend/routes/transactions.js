@@ -15,11 +15,37 @@ router.post('/', async (req, res) => {
         return res.status(400).json({ error: 'Invalid data' });
     }
 
+
     try {
+
+        const profile = await prisma.profile.findUnique({
+            where: { userId },
+            select: { buyingPower: true },
+        });
+
+        if (!profile) {
+            return res.status(404).json({ error: 'User profile not found' });
+        }
         const existingEntry = await prisma.portfolioEntry.findUnique({
             where: { userId_symbol: { userId, symbol } },
         });
+
         if (isBuy) {
+
+            // check for if user has enough purchasing power
+            const totalCost = quant * p;
+            if (profile.buyingPower < totalCost) {
+                return res.status(400).json({ error: 'Insufficient buying power for this transaction' });
+            }
+
+            //decrement buying power
+            await prisma.profile.update({
+                where: { userId },
+                data: {
+                    buyingPower: { decrement: totalCost },
+                },
+            });
+
             const newQuant = existingEntry ? existingEntry.quantity + quant : quant;
             const newAvg = existingEntry
                 ? ((existingEntry.avgPrice * existingEntry.quantity + quant * price) / newQuant)
@@ -35,6 +61,8 @@ router.post('/', async (req, res) => {
                     data: { userId, symbol, quantity: newQuant, avgPrice: newAvg },
                 });
             }
+
+
         } else {
             if (!existingEntry || existingEntry.quantity < quant) {
                 return res.status(400).json({ error: 'Insufficient quantity in portfolio' });
@@ -60,6 +88,7 @@ router.post('/', async (req, res) => {
                 where: { userId },
             })
 
+
             let newProfit;
 
             if (existingProfit) {
@@ -82,7 +111,16 @@ router.post('/', async (req, res) => {
             await prisma.historicProfitPoint.create({
                 data: {
                     userId,
-                    profit: newProfit, 
+                    profit: newProfit,
+                },
+            });
+
+            await prisma.profile.update({
+                where: { userId },
+                data: {
+                    buyingPower: {
+                        increment: profit, // profit can be negative, so this works for both profit and loss
+                    },
                 },
             });
         }

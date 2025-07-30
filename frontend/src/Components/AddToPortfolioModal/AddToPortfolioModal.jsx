@@ -4,7 +4,7 @@ import { useBackendAttributes } from "../../context/BackEndContext"
 const BACKEND_BASE_URL = import.meta.env.VITE_BACKEND_URL
 
 export default function AddToPortfolioModal({ coinData, livePrice, onExit }) {
-    const { userId, portfolio, fetchPortfolio, fetchTransactions, fetchHistoricProfits } = useBackendAttributes()
+    const { userId, portfolio, fetchPortfolio, fetchTransactions, fetchHistoricProfits, profile } = useBackendAttributes()
 
     // Find the current quantity of item in portfolio
     const currentQuantity = portfolio.find((entry) =>
@@ -52,9 +52,22 @@ export default function AddToPortfolioModal({ coinData, livePrice, onExit }) {
             },
             body: JSON.stringify(transactionData),
         });
+
         if (!res.ok) {
-            throw new Error(await res.text());
+            // Try to parse JSON error response
+            let errorMessage = 'Unknown error';
+            try {
+                const errorData = await res.json();
+                if (errorData.error) {
+                    errorMessage = errorData.error;
+                }
+            } catch {
+                // If parsing fails, fallback to text
+                errorMessage = await res.text();
+            }
+            throw new Error(errorMessage);
         }
+
         return res.json();
     };
 
@@ -80,11 +93,12 @@ export default function AddToPortfolioModal({ coinData, livePrice, onExit }) {
     const parsedPrice = Number(livePrice);
     const parsedQuantity = Number(quantity);
     const displayPrice = !isNaN(parsedPrice) ? parsedPrice.toFixed(4) : "N/A";
-    const totalCost = !isNaN(parsedPrice * parsedQuantity) ? (parsedPrice * parsedQuantity).toFixed(4) : "N/A";
+    const totalCost = !isNaN(parsedPrice * parsedQuantity) ? (parsedPrice * parsedQuantity) : "N/A";
+    const buyingPower = profile.buyingPower
 
     return (
         <div className="fixed inset-0 z-50 flex justify-center items-center" onClick={onExit}>
-            <div className="bg-zinc-900 text-white w-full max-w-md p-6 rounded-lg" onClick={(e) => e.stopPropagation()}>
+            <div className="bg-zinc-600 text-white w-full max-w-md p-6 rounded-lg" onClick={(e) => e.stopPropagation()}>
                 {/* Crypto Info Div */}
                 <div className="flex flex-col items-center mb-6">
                     <img src={coinData.image} alt={coinData.symbol} className="w-12 h-auto" />
@@ -122,7 +136,8 @@ export default function AddToPortfolioModal({ coinData, livePrice, onExit }) {
                         onChange={(e) => setQuantity(e.target.value)}
                         className="w-full p-2 mb-6 border border-gray-300 rounded"
                     />
-                    <p className="text-2xl mb-6">Total: {totalCost}</p>
+                    <p className="text-2xl mb-6">Total: {totalCost?.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</p>
+                    <p className="text-2xl mb-6">Buying Power {buyingPower?.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</p>
                     {/* Submit Button and Cancel Button */}
                     <div className="flex gap-4">
                         <button

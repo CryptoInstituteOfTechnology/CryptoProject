@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "public"."Profile" ADD COLUMN     "buyingPower" DOUBLE PRECISION NOT NULL DEFAULT 1000000;
