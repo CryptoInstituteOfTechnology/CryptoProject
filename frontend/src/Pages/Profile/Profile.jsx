@@ -4,6 +4,7 @@ import ProfileEditModal from "./ProfileEditModal";
 
 export default function ProfileView() {
     const { profile } = useBackendAttributes();
+    console.log(profile)
 
     return (
         <div className="max-w-md mx-auto p-4 md:p-6 lg:p-8">
