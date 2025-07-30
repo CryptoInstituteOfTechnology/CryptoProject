@@ -33,7 +33,7 @@ export default function ProfileView() {
                             <strong>Phone:</strong> {profile.phone || "-"}
                         </p>
                         <p> 
-                            <strong>Buying Power</strong> {profile.buyingPower?.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}
+                            <strong>Buying Power:</strong> {profile.buyingPower?.toLocaleString('en-US', { style: 'currency', currency: 'USD' }) || "-"}
                         </p>
                     </div>
                 </CardContent>
