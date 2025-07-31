@@ -1,1 +1,1 @@
-web: gunicorn ml.routing.routes:app
+web: gunicorn routing.routes:app
