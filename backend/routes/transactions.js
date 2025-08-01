@@ -119,7 +119,7 @@ router.post('/', async (req, res) => {
                 where: { userId },
                 data: {
                     buyingPower: {
-                        increment: profit, // profit can be negative, so this works for both profit and loss
+                        increment: p * quant, // profit can be negative, so this works for both profit and loss
                     },
                 },
             });
